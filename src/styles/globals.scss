@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply mx-auto grid min-h-screen max-w-6xl grid-rows-[auto,1fr,auto] bg-black px-4 text-white;
+  }
+
+  main {
+    @apply layout md:pt-12;
+  }
+
+  ::selection {
+    @apply bg-accent-main text-white;
+  }
+}
+
+@layer components {
+  .layout {
+    @apply mx-auto w-11/12 max-w-6xl;
+  }
+
+  .card-layout {
+    @apply grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4;
+  }
+}
