@@ -4,15 +4,11 @@
 
 @layer base {
   body {
-    @apply mx-auto grid min-h-screen max-w-6xl grid-rows-[auto,1fr,auto] bg-black px-4 text-white;
-  }
-
-  main {
-    @apply layout md:pt-12;
+    @apply bg-white text-black;
   }
 
   ::selection {
-    @apply bg-accent-main text-white;
+    @apply bg-primary-blue-300 text-white;
   }
 }
 
@@ -23,5 +19,13 @@
 
   .card-layout {
     @apply grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4;
+  }
+
+  .smooth-tab {
+    @apply rounded-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue-300;
+  }
+
+  .clickable {
+    @apply smooth-tab cursor-pointer transition hover:scale-105 active:scale-95;
   }
 }

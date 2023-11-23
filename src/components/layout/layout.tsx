@@ -1,5 +1,4 @@
 import { Header } from './header';
-import { Footer } from './footer';
 import type { ReactNode } from 'react';
 
 export function Layout({ children }: { children: ReactNode }): JSX.Element {
@@ -7,7 +6,6 @@ export function Layout({ children }: { children: ReactNode }): JSX.Element {
     <>
       <Header />
       {children}
-      <Footer />
     </>
   );
 }
