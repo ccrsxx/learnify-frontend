@@ -1,6 +1,7 @@
 import '@/styles/globals.scss';
 
 import { Poppins } from 'next/font/google';
+import { AuthContextProvider } from '@/lib/context/auth-context';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
@@ -49,7 +50,9 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang='en'>
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        <AuthContextProvider>{children}</AuthContextProvider>
+      </body>
     </html>
   );
 }
