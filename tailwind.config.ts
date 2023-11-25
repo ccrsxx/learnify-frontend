@@ -10,7 +10,13 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
+          alert: {
+            error: '#FF0000',
+            warning: '#F9CC00',
+            success: '#73CA5C'
+          },
           blue: {
+            50: '#EBF3FC',
             100: '#E2D4F0',
             200: '#D0B7E6',
             300: '#489CFF',
@@ -25,7 +31,7 @@ const config: Config = {
             500: '#AA9B87'
           },
           neutral: {
-            100: '#FFFFFF',
+            100: '#FhFFFFF',
             200: '#D0D0D0',
             300: '#8A8A8A',
             400: '#3C3C3C',
@@ -34,8 +40,8 @@ const config: Config = {
         }
       },
       boxShadow: {
-        low: '0 0 4px',
-        high: '0 0 10px'
+        low: '0 0 4px rgba(0, 0, 0, 0.15)',
+        high: '0 0 10px rgba(0, 0, 0, 0.15)'
       }
     }
   },
