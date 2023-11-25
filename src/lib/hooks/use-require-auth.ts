@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/context/auth-context';
-import type { User } from '@/lib/types/schema/user';
+import type { User } from '@/lib/types/schema';
 
 export function useRequireAuth(
   { redirect } = { redirect: '/login' }

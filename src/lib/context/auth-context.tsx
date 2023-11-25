@@ -3,7 +3,7 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { useLocalStorage } from '../hooks/use-local-storage';
 import type { ReactNode } from 'react';
-import type { User } from '../types/schema/user';
+import type { User } from '../types/schema';
 
 type AuthContextType = {
   user: User | null;

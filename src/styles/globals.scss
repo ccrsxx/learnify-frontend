@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-white text-black;
+    @apply bg-white text-white;
   }
 
   ::selection {
@@ -14,10 +14,14 @@
 
 @layer components {
   .layout {
-    @apply mx-auto w-11/12 max-w-6xl;
+    @apply mx-auto max-w-6xl px-4;
   }
 
-  .card-layout {
+  .category-card-layout {
+    @apply grid grid-cols-[repeat(auto-fill,minmax(144px,1fr))] gap-4;
+  }
+
+  .course-card-layout {
     @apply grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4;
   }
 
@@ -26,6 +30,6 @@
   }
 
   .clickable {
-    @apply smooth-tab cursor-pointer transition hover:scale-105 active:scale-95;
+    @apply smooth-tab cursor-pointer transition hover:scale-[1.03] active:scale-[0.97];
   }
 }
