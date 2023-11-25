@@ -9,7 +9,7 @@ export function SearchBar(): JSX.Element {
       >
         <input
           type='text'
-          className='w-full bg-transparent focus-visible:outline-none'
+          className='w-full bg-transparent text-black focus-visible:outline-none'
           placeholder='Cari kursus terbaik...'
         />
         <button className='clickable cursor-pointer rounded-xl bg-primary-blue-500 p-2 transition hover:brightness-75'>
