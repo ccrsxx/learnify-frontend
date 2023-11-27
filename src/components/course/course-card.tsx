@@ -35,8 +35,8 @@ export function CourseCard({ course }: { course?: Course }): JSX.Element {
   } = course;
 
   return (
-    <Link className='clickable' href={`/course/${id}`}>
-      <article className='rounded-xl shadow-low'>
+    <article className='grid'>
+      <Link className='clickable rounded-xl shadow-low' href={`/courses/${id}`}>
         <LazyImage
           className='h-24 w-full rounded-t-md object-cover'
           width={320}
@@ -82,7 +82,7 @@ export function CourseCard({ course }: { course?: Course }): JSX.Element {
             <p>{formatCurrency(price * 1000)}</p>
           </Button>
         </section>
-      </article>
-    </Link>
+      </Link>
+    </article>
   );
 }

@@ -18,8 +18,8 @@ export function CategoryCard({
   const { id, name, image } = category;
 
   return (
-    <Link className='clickable' href={`/category/${id}`}>
-      <article className='grid gap-2'>
+    <article className='grid'>
+      <Link className='clickable grid gap-2' href={`/category/${id}`}>
         <LazyImage
           className='h-24 w-full rounded-3xl'
           width={144}
@@ -28,7 +28,7 @@ export function CategoryCard({
           alt={name}
         />
         <h3 className='text-center'>{name}</h3>
-      </article>
-    </Link>
+      </Link>
+    </article>
   );
 }
