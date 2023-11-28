@@ -1,129 +1,157 @@
 'use client';
 
+import { z } from 'zod';
+import { toast } from 'react-hot-toast';
+import Link from 'next/link';
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  nameSchema,
+  emailSchema,
+  passwordSchema,
+  phoneNumberSchema
+} from '@/lib/validation';
+import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/env';
+import { sleep } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Alert } from '@/components/ui/alert';
-import type { ChangeEvent, FormEvent } from 'react';
-import type { InputProps } from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
+import type { User } from '@/lib/types/schema';
+import type { SubmitHandler } from 'react-hook-form';
+import type { APIResponse } from '@/lib/types/api';
 
-type RegisterForm = {
-  name: string;
-  email: string;
-  username: string;
-  password: string;
-};
+const registerSchema = z.object({
+  name: nameSchema,
+  email: emailSchema,
+  password: passwordSchema,
+  phone_number: phoneNumberSchema
+});
 
-const initialRegisterForm: RegisterForm = {
-  name: '',
-  email: '',
-  username: '',
-  password: ''
-};
+type RegisterSchema = z.infer<typeof registerSchema>;
 
 export default function Login(): JSX.Element {
-  const [registerForm, setRegisterForm] =
-    useState<RegisterForm>(initialRegisterForm);
+  const {
+    formState: { errors },
+    register,
+    handleSubmit
+  } = useForm<RegisterSchema>({ resolver: zodResolver(registerSchema) });
 
-  const [submitted, setSubmitted] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorServer, setErrorServer] = useState<string | null>(null);
+  const [formLoading, setFormLoading] = useState(false);
 
-  const handleChange = ({
-    target: { id, value }
-  }: ChangeEvent<HTMLInputElement>): void =>
-    setRegisterForm((prev) => ({ ...prev, [id]: value }));
+  const router = useRouter();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-
-    setSubmitted(false);
-    setErrorMessage('');
-
-    const parsedRegisterForm = {
-      ...registerForm,
-      image: 'https://static.productionready.io/images/smiley-cyrus.jpg'
-    };
+  const onSubmit: SubmitHandler<RegisterSchema> = async (
+    data
+  ): Promise<void> => {
+    setFormLoading(true);
+    setErrorServer(null);
 
     try {
-      const response = await fetch('http://localhost:3000/auth/register', {
+      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(parsedRegisterForm)
+        body: JSON.stringify(data)
       });
 
-      const data = (await response.json()) as { message: string };
+      const { message } = (await response.json()) as APIResponse<User>;
 
-      if (!response.ok) throw new Error(data.message);
+      if (!response.ok) {
+        const errorMessage = message.includes('Email')
+          ? 'Maaf, email sudah digunakan'
+          : message.includes('Phone')
+          ? 'Maaf, nomor telepon sudah digunakan'
+          : message;
 
-      setRegisterForm(initialRegisterForm);
-    } catch (err) {
-      if (err instanceof Error) {
-        setErrorMessage(err.message);
+        setFormLoading(false);
+        setErrorServer(errorMessage);
+
+        toast.error(errorMessage);
+
         return;
       }
 
-      setErrorMessage('Internal Server Error');
-    } finally {
-      setSubmitted(true);
+      setFormLoading(false);
+
+      await toast.promise(sleep(2000), {
+        loading: 'Registrasi berhasil, kamu akan dialihkan ke halaman login',
+        success: 'Sedang mengalihkan',
+        error: 'Terjadi kesalahan. Silahkan coba lagi'
+      });
+
+      await sleep(1000);
+
+      toast.dismiss();
+
+      void router.replace('/login');
+    } catch {
+      setFormLoading(false);
+      toast.error('Terjadi kesalahan. Silahkan coba lagi');
     }
   };
 
-  const inputs: InputProps[] = [
-    {
-      id: 'name',
-      type: 'text',
-      label: 'Name',
-      value: registerForm.name,
-      required: false,
-      errorMessage: '',
-      handleChange: handleChange
-    },
-    {
-      id: 'email',
-      type: 'text',
-      label: 'Email',
-      value: registerForm.email,
-      required: false,
-      errorMessage: '',
-      handleChange: handleChange
-    },
-    {
-      id: 'username',
-      type: 'text',
-      label: 'Username',
-      value: registerForm.username,
-      required: false,
-      errorMessage: '',
-      handleChange: handleChange
-    },
-    {
-      id: 'password',
-      type: 'text',
-      label: 'Password',
-      value: registerForm.password,
-      required: false,
-      errorMessage: '',
-      handleChange: handleChange
-    }
-  ];
+  const serverEmailError = errorServer?.includes('email');
+  const serverPhoneNumberError = errorServer?.includes('nomor');
 
   return (
-    <main className='layout mt-4 grid max-w-md gap-4'>
-      <h1>Register</h1>
-      <section>
-        <form className='grid gap-4' onSubmit={handleSubmit}>
-          {inputs.map((input) => (
-            <Input {...input} key={input.id} />
-          ))}
-          <Button type='submit'>Register</Button>
-        </form>
-      </section>
-      {submitted && (
-        <Alert
-          variant={errorMessage ? 'error' : 'success'}
-          message={errorMessage ? errorMessage : 'Registration successful'}
-        />
-      )}
-    </main>
+    <div className='mx-auto grid w-full max-w-md gap-6'>
+      <h1 className='text-2xl font-bold text-primary-blue-500'>Daftar</h1>
+      <form className='grid gap-6' onSubmit={handleSubmit(onSubmit)}>
+        <section className='grid gap-4'>
+          <Input
+            id='name'
+            type='text'
+            label='Nama'
+            error={errors.name}
+            register={register('name')}
+            placeholder='Masukkan nama'
+          />
+          <Input
+            id='phone_number'
+            type='text'
+            label='Nomor Telepon'
+            error={errors.phone_number}
+            register={register('phone_number')}
+            placeholder='Masukkan Nomor Telepon'
+            overrideError={serverPhoneNumberError}
+          />
+          <Input
+            id='email'
+            type='text'
+            label='Email'
+            error={errors.email}
+            register={register('email')}
+            placeholder='Masukkan email'
+            overrideError={serverEmailError}
+          />
+          <Input
+            id='password'
+            type='password'
+            label='Password'
+            error={errors.password}
+            register={register('password')}
+            placeholder='Masukkan password'
+          />
+        </section>
+        <Button
+          className='rounded-2xl bg-primary-blue-500 p-4 font-medium
+                     text-white transition hover:brightness-90'
+          type='submit'
+          loading={formLoading}
+        >
+          Daftar
+        </Button>
+      </form>
+      <p className='mt-2 text-center'>
+        Sudah punya akun?{' '}
+        <Link
+          href='/login'
+          className='custom-underline font-bold text-primary-blue-500'
+        >
+          Masuk disini
+        </Link>
+      </p>
+    </div>
   );
 }

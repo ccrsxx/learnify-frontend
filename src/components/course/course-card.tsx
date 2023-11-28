@@ -79,7 +79,7 @@ export function CourseCard({ course }: { course?: Course }): JSX.Element {
               <MdDiamond />
               <p>Beli</p>
             </div>
-            <p>{formatCurrency(price * 1000)}</p>
+            <p>{formatCurrency(price)}</p>
           </Button>
         </section>
       </Link>

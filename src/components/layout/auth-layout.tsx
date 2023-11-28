@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/context/auth-context';
 import { sleep } from '@/lib/utils';
-import { Loading } from '../ui/loading';
+import { Placeholder } from '../common/placeholder';
 import type { ReactNode } from 'react';
 
 export function AuthLayout({ children }: { children: ReactNode }): JSX.Element {
@@ -21,7 +21,7 @@ export function AuthLayout({ children }: { children: ReactNode }): JSX.Element {
 
       if (user) {
         await sleep(500);
-        void replace('/home');
+        void replace('/');
       } else if (!loading) {
         await sleep(500);
         setPending(false);
@@ -32,7 +32,7 @@ export function AuthLayout({ children }: { children: ReactNode }): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loading]);
 
-  if (loading || pending) return <Loading />;
+  if (loading || pending) return <Placeholder />;
 
   return <>{children}</>;
 }

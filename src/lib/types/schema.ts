@@ -26,6 +26,7 @@ export type Course = Timestamp & {
   name: string;
   code: string;
   user: User;
+  image: string;
   price: number;
   author: string;
   rating: number;

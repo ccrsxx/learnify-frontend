@@ -1,63 +1,53 @@
 import { clsx } from 'clsx';
-import type { ChangeEvent } from 'react';
+import { Alert } from './alert';
+import type { PropsWithChildren } from 'react';
+import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
-export type InputProps = {
+export type InputProps = PropsWithChildren<{
   id: string;
-  type: 'text' | 'number';
+  type: 'text' | 'tel' | 'password';
   label: string;
-  value: string | number;
-  required?: boolean;
-  errorMessage?: string;
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-};
+  error: FieldError | undefined;
+  register: UseFormRegisterReturn;
+  placeholder: string;
+  overrideError?: boolean;
+}>;
 
 export function Input({
   id,
   type,
   label,
-  value,
-  required,
-  errorMessage,
-  handleChange
+  error,
+  children,
+  register,
+  placeholder,
+  overrideError
 }: InputProps): JSX.Element {
   return (
     <div className='grid gap-2'>
-      <div
-        className={clsx(
-          'relative rounded ring-1 ring-gray-600 transition-shadow duration-200',
-          errorMessage
-            ? 'ring-red-400'
-            : `ring-light-line-reply dark:ring-dark-border 
-                 focus-within:ring-2 focus-within:!ring-gray-600`
-        )}
-      >
-        <input
-          className='peer mt-6 w-full bg-inherit px-3 pb-1
-                     placeholder-transparent outline-none transition'
-          id={id}
-          name={id}
-          type={type}
-          value={value}
-          required={required}
-          placeholder={id}
-          onChange={handleChange}
-        />
-        <label
-          className={clsx(
-            `group-peer bg-main-background text-light-secondary dark:text-dark-secondary absolute left-3
-             translate-y-1 text-sm transition-all
-             peer-placeholder-shown:translate-y-3 peer-placeholder-shown:text-lg peer-focus:translate-y-1
-             peer-focus:text-sm`,
-            errorMessage
-              ? '!text-red-400 peer-focus:text-red-400'
-              : 'peer-focus:text-accent-main'
-          )}
-          htmlFor={id}
-        >
-          {label}
-        </label>
+      <div className='flex justify-between'>
+        <label htmlFor={id}>{label}</label>
+        {children}
       </div>
-      {errorMessage && <p className='text-sm text-red-400'>{errorMessage}</p>}
+      <input
+        className={clsx(
+          'custom-input',
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+          (overrideError || error) &&
+            'border-primary-alert-error focus:border-primary-alert-error'
+        )}
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        {...register}
+      />
+      {error && (
+        <Alert
+          className='mt-1'
+          variant='error'
+          message={error?.message as string}
+        />
+      )}
     </div>
   );
 }

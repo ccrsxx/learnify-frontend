@@ -1,89 +1,127 @@
 'use client';
 
+import { z } from 'zod';
+import { toast } from 'react-hot-toast';
+import Link from 'next/link';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/lib/context/auth-context';
-import { Input } from '@/components/ui/input';
+import { sleep } from '@/lib/utils';
+import { passwordSchema, emailOrPhoneNumberSchema } from '@/lib/validation';
 import { Button } from '@/components/ui/button';
-import { Alert } from '@/components/ui/alert';
-import type { ChangeEvent, FormEvent } from 'react';
-import type { InputProps } from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
+import type { SubmitHandler } from 'react-hook-form';
 
-type LoginForm = {
-  email: string;
-  password: string;
-};
+const loginSchema = z.object({
+  password: passwordSchema,
+  emailOrPhoneNumber: emailOrPhoneNumberSchema
+});
 
-const initialLoginForm: LoginForm = {
-  email: 'emilia@rezero.com',
-  password: 'emilia'
-};
+export type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function Login(): JSX.Element {
-  const [loginForm, setLoginForm] = useState<LoginForm>(initialLoginForm);
+  const {
+    formState: { errors },
+    register,
+    handleSubmit
+  } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
 
-  const [submitted, setSubmitted] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorServer, setErrorServer] = useState<string | null>(null);
+  const [formLoading, setFormLoading] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const { login } = useAuth();
 
-  const handleChange = ({
-    target: { id, value }
-  }: ChangeEvent<HTMLInputElement>): void =>
-    setLoginForm((prev) => ({ ...prev, [id]: value }));
+  const onSubmit: SubmitHandler<LoginSchema> = async (data): Promise<void> => {
+    if (loggedIn) return;
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
+    setFormLoading(true);
+    setErrorServer(null);
 
-    setSubmitted(false);
-    setErrorMessage('');
+    try {
+      const errorMessage = await login(data);
 
-    const { email, password } = loginForm;
+      if (errorMessage) {
+        setFormLoading(false);
+        setErrorServer(errorMessage);
 
-    const message = await login(email, password);
+        toast.error(errorMessage);
 
-    if (message) setErrorMessage(message);
+        return;
+      }
 
-    setSubmitted(true);
+      setLoggedIn(true);
+      setFormLoading(false);
+
+      void toast.promise(sleep(2000), {
+        loading: 'Login berhasil, kamu akan dialihkan ke beranda',
+        success: 'Sedang mengalihkan',
+        error: 'Terjadi kesalahan. Silahkan coba lagi'
+      });
+
+      await sleep(3000);
+
+      toast.dismiss();
+    } catch {
+      setFormLoading(false);
+      toast.error('Terjadi kesalahan. Silahkan coba lagi');
+    }
   };
 
-  const inputs: InputProps[] = [
-    {
-      id: 'email',
-      type: 'text',
-      label: 'Email',
-      value: loginForm.email,
-      required: false,
-      errorMessage: '',
-      handleChange: handleChange
-    },
-    {
-      id: 'password',
-      type: 'text',
-      label: 'Password',
-      value: loginForm.password,
-      required: false,
-      errorMessage: '',
-      handleChange: handleChange
-    }
-  ];
+  const serverEmailError = errorServer?.includes('akun');
+  const serverPasswordError = errorServer?.includes('password');
 
   return (
-    <main className='layout mt-4 grid max-w-md gap-4'>
-      <h1>Login</h1>
-      <section>
-        <form className='grid gap-4' onSubmit={handleSubmit}>
-          {inputs.map((input) => (
-            <Input {...input} key={input.id} />
-          ))}
-          <Button type='submit'>Login</Button>
-        </form>
-      </section>
-      {submitted && (
-        <Alert
-          variant={errorMessage ? 'error' : 'success'}
-          message={errorMessage ? errorMessage : 'Login successful'}
-        />
-      )}
-    </main>
+    <div className='mx-auto grid w-full max-w-md gap-6'>
+      <h1 className='text-2xl font-bold text-primary-blue-500'>Masuk</h1>
+      <form className='grid gap-6' onSubmit={handleSubmit(onSubmit)}>
+        <section className='grid gap-4'>
+          <Input
+            id='email'
+            type='text'
+            label='Email'
+            error={errors.emailOrPhoneNumber}
+            register={register('emailOrPhoneNumber')}
+            placeholder='Masukkan email'
+            overrideError={serverEmailError}
+          />
+          <Input
+            id='password'
+            type='password'
+            label='Password'
+            error={errors.password}
+            register={register('password')}
+            placeholder='Masukkan password'
+            overrideError={serverPasswordError}
+          >
+            <Link
+              href='/forgot-password'
+              className='custom-underline ml-auto text-sm font-medium text-primary-blue-500'
+            >
+              Lupa password?
+            </Link>
+          </Input>
+        </section>
+        <Button
+          className='rounded-2xl bg-primary-blue-500 p-4 font-medium
+                     text-white transition hover:brightness-90'
+          type='submit'
+          loading={formLoading}
+          disabled={loggedIn}
+        >
+          Login
+        </Button>
+      </form>
+      <p className='mt-2 text-center'>
+        Belum punya akun?{' '}
+        <Link
+          href='/register'
+          className='custom-underline font-bold text-primary-blue-500'
+        >
+          Daftar disini
+        </Link>
+      </p>
+    </div>
   );
 }

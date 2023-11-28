@@ -69,7 +69,7 @@ export default function Home(): JSX.Element {
     <main>
       <section className='bg-primary-blue-500'>
         <div className='grid grid-cols-12 gap-4'>
-          <div
+          <section
             className='relative col-span-8 before:absolute before:h-full before:w-full
                        before:bg-gradient-to-r before:from-transparent before:to-primary-blue-500'
           >
@@ -79,8 +79,8 @@ export default function Home(): JSX.Element {
               alt='CTA'
               placeholder='blur'
             />
-          </div>
-          <div
+          </section>
+          <section
             className='col-span-4 grid w-full content-center justify-center 
                        gap-2 bg-primary-blue-500 px-12'
           >
@@ -96,7 +96,7 @@ export default function Home(): JSX.Element {
                 Ikuti kelas
               </Link>
             </div>
-          </div>
+          </section>
         </div>
       </section>
       <section className='bg-primary-blue-50 py-8'>
@@ -104,7 +104,7 @@ export default function Home(): JSX.Element {
           <section className='flex justify-between'>
             <h2 className='text-xl font-bold text-black'>Kategori Belajar</h2>
             <Link
-              className='clickable smooth-tab font-bold text-primary-blue-500'
+              className='custom-underline font-bold text-primary-blue-500'
               href='/categories'
             >
               Lihat Semua
@@ -128,7 +128,7 @@ export default function Home(): JSX.Element {
           <section className='flex justify-between'>
             <h2 className='text-xl font-bold text-black'>Kursus Populer</h2>
             <Link
-              className='clickable smooth-tab font-bold text-primary-blue-500'
+              className='custom-underline font-bold text-primary-blue-500'
               href='/courses'
             >
               Lihat Semua
@@ -150,7 +150,7 @@ export default function Home(): JSX.Element {
           </section>
           <section className='course-card-layout text-black'>
             {coursesLoading
-              ? Array.from({ length: 12 }).map((_, i) => <CourseCard key={i} />)
+              ? Array.from({ length: 6 }).map((_, i) => <CourseCard key={i} />)
               : courses?.length
               ? courses.map((course) => (
                   <CourseCard course={course} key={course.id} />

@@ -1,10 +1,15 @@
+import { clsx } from 'clsx';
 import { FaBrain } from 'react-icons/fa';
 
-export function Logo(): JSX.Element {
+type LogoProps = {
+  className?: string;
+};
+
+export function Logo({ className }: LogoProps): JSX.Element {
   return (
-    <div className='flex items-center gap-4'>
-      <FaBrain className='text-4xl' />
-      <h1 className='text-4xl'>Belajar</h1>
+    <div className={clsx('flex items-center gap-4 text-4xl', className)}>
+      <FaBrain />
+      <h1>Belajar</h1>
     </div>
   );
 }

@@ -2,14 +2,17 @@
 
 import { useState, useEffect, createContext, useContext } from 'react';
 import { useLocalStorage } from '../hooks/use-local-storage';
+import { NEXT_PUBLIC_BACKEND_URL } from '../env';
 import type { ReactNode } from 'react';
+import type { LoginSchema } from '@/app/(auth)/login/page';
+import type { APIResponse } from '../types/api';
 import type { User } from '../types/schema';
 
 type AuthContextType = {
   user: User | null;
   token: string | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<string | null>;
+  login: (data: LoginSchema) => Promise<string | null>;
   logout: () => void;
 };
 
@@ -35,17 +38,15 @@ export function AuthContextProvider({
       }
 
       try {
-        const response = await fetch('http://localhost:3000/users/me', {
+        const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/users/me`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
-        const data = (await response.json()) as
-          | { data: User }
-          | { message: string };
+        const data = (await response.json()) as APIResponse<User>;
 
-        if ('message' in data) throw new Error(data.message);
+        if (!response.ok) throw new Error(data.message);
 
-        setUser(data.data);
+        setUser(data.data as User);
         setLoading(false);
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -59,25 +60,39 @@ export function AuthContextProvider({
     void manageAuth();
   }, [token]);
 
-  const handleLogin = async (
-    email: string,
-    password: string
-  ): Promise<string | null> => {
+  const handleLogin = async ({
+    emailOrPhoneNumber,
+    password
+  }: LoginSchema): Promise<string | null> => {
     try {
-      const response = await fetch('http://localhost:3000/auth/login', {
+      const isUsingEmail = emailOrPhoneNumber.includes('@');
+
+      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({
+          [isUsingEmail ? 'email' : 'phone_number']: emailOrPhoneNumber,
+          password
+        })
       });
 
-      const data = (await response.json()) as {
-        message: string;
-        data: User;
-      };
+      const data = (await response.json()) as APIResponse<User>;
 
-      if (!response.ok) throw new Error(data.message);
+      if (!response.ok) {
+        const errorMessage =
+          response.status === 401
+            ? 'Maaf, password salah'
+            : response.status === 404
+            ? 'Maaf, akun tidak ditemukan'
+            : data.message;
 
-      setToken(data.data.token);
+        throw new Error(errorMessage);
+      }
+
+      setTimeout(() => {
+        setUser(data.data as User);
+        setToken(data?.data?.token as string);
+      }, 3000);
 
       return null;
     } catch (err) {
@@ -87,9 +102,7 @@ export function AuthContextProvider({
     }
   };
 
-  const handleLogout = (): void => {
-    setToken(null);
-  };
+  const handleLogout = (): void => setToken(null);
 
   const contextValue: AuthContextType = {
     user,
