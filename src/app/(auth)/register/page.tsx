@@ -97,7 +97,11 @@ export default function Login(): JSX.Element {
   return (
     <div className='mx-auto grid w-full max-w-md gap-6'>
       <h1 className='text-2xl font-bold text-primary-blue-500'>Daftar</h1>
-      <form className='grid gap-6' onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className='grid gap-6'
+        autoComplete='off'
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <section className='grid gap-4'>
           <Input
             id='name'

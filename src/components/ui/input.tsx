@@ -9,6 +9,7 @@ export type InputProps = PropsWithChildren<{
   label: string;
   error: FieldError | undefined;
   register: UseFormRegisterReturn;
+  tabIndex?: number;
   placeholder: string;
   overrideError?: boolean;
 }>;
@@ -18,6 +19,7 @@ export function Input({
   type,
   label,
   error,
+  tabIndex,
   children,
   register,
   placeholder,
@@ -38,6 +40,7 @@ export function Input({
         )}
         id={id}
         type={type}
+        tabIndex={tabIndex}
         placeholder={placeholder}
         {...register}
       />

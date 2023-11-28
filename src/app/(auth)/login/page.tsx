@@ -78,12 +78,13 @@ export default function Login(): JSX.Element {
       <form className='grid gap-6' onSubmit={handleSubmit(onSubmit)}>
         <section className='grid gap-4'>
           <Input
-            id='email'
+            id='emailOrPhoneNumber'
             type='text'
-            label='Email'
+            label='Email atau Nomor Telepon'
             error={errors.emailOrPhoneNumber}
             register={register('emailOrPhoneNumber')}
             placeholder='Masukkan email'
+            tabIndex={1}
             overrideError={serverEmailError}
           />
           <Input
@@ -93,11 +94,13 @@ export default function Login(): JSX.Element {
             error={errors.password}
             register={register('password')}
             placeholder='Masukkan password'
+            tabIndex={2}
             overrideError={serverPasswordError}
           >
             <Link
               href='/forgot-password'
               className='custom-underline ml-auto text-sm font-medium text-primary-blue-500'
+              tabIndex={4}
             >
               Lupa password?
             </Link>
@@ -108,6 +111,7 @@ export default function Login(): JSX.Element {
                      text-white transition hover:brightness-90'
           type='submit'
           loading={formLoading}
+          tabIndex={3}
           disabled={loggedIn}
         >
           Login
