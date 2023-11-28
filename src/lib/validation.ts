@@ -38,4 +38,5 @@ export const emailOrPhoneNumberSchema = z
 export const passwordSchema = z
   .string()
   .trim()
-  .min(1, { message: 'Password tidak boleh kosong' });
+  .min(1, { message: 'Password tidak boleh kosong' })
+  .min(8, { message: 'Password minimal 8 karakter' });
