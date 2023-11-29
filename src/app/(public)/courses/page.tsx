@@ -104,6 +104,8 @@ export default function Courses(): JSX.Element {
   const handleResetFilters = (): void => {
     setSelectedCourseType('all');
     setCourseFilters(initialCourseFilters);
+
+    router.replace('/courses', { scroll: false });
   };
 
   const categories = categoriesData?.data;
