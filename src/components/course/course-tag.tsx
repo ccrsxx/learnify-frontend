@@ -19,7 +19,8 @@ export function CourseTag({
   return (
     <Button
       className={clsx(
-        'rounded-xl bg-white px-2 py-3 font-medium transition-colors',
+        `clickable rounded-xl bg-white px-2 py-3 font-medium 
+         transition hover:brightness-95`,
         index === 1 ? 'col-span-6' : 'col-span-3',
         selected && '!bg-primary-blue-500 text-white'
       )}
