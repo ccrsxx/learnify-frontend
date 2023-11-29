@@ -4,14 +4,14 @@ export function CourseFilterSkeleton(): JSX.Element {
   return (
     <div className='grid animate-pulse gap-4'>
       <div className='h-5 w-1/3 rounded-3xl bg-gray-200' />
-      {Array.from({ length: 3 }).map((_, j) => (
-        <div className='flex gap-2' key={j}>
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div className='flex gap-2' key={i}>
           <div className='h-5 w-5 rounded bg-gray-200' />
           <div
             className={clsx('h-5 rounded-3xl bg-gray-200', {
-              'w-2/4': j === 0,
-              'w-3/4': j === 1,
-              'w-1/3': j === 2
+              'w-2/4': i === 0,
+              'w-3/4': i === 1,
+              'w-1/3': i === 2
             })}
           />
         </div>
