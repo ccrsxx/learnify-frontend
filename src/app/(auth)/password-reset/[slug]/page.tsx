@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { SubmitHandler } from 'react-hook-form';
 
-const validationPassword = z
+const passwordResetValidation = z
   .object({
     password: passwordSchema,
     confirmPassword: passwordSchema
@@ -22,15 +22,15 @@ const validationPassword = z
     path: ['confirmPassword']
   });
 
-type ValidationPasswordSchema = z.infer<typeof validationPassword>;
+type PasswordResetValidationSchema = z.infer<typeof passwordResetValidation>;
 
 export default function Login(): JSX.Element {
   const {
     formState: { errors },
     register,
     handleSubmit
-  } = useForm<ValidationPasswordSchema>({
-    resolver: zodResolver(validationPassword)
+  } = useForm<PasswordResetValidationSchema>({
+    resolver: zodResolver(passwordResetValidation)
   });
 
   const [errorServer, setErrorServer] = useState<string | null>(null);
@@ -38,7 +38,7 @@ export default function Login(): JSX.Element {
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<ValidationPasswordSchema> = async (
+  const onSubmit: SubmitHandler<PasswordResetValidationSchema> = async (
     _data
   ): Promise<void> => {
     setFormLoading(true);
