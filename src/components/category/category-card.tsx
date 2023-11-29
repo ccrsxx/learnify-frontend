@@ -5,16 +5,8 @@ import type { Category } from '@/lib/types/schema';
 export function CategoryCard({
   category
 }: {
-  category?: Category;
+  category: Category;
 }): JSX.Element {
-  if (!category)
-    return (
-      <article className='grid gap-2'>
-        <div className='h-24 w-full animate-pulse rounded-3xl bg-gray-200' />
-        <div className='mx-auto h-4 w-1/2 animate-pulse rounded-3xl bg-gray-200' />
-      </article>
-    );
-
   const { id, name, image } = category;
 
   return (

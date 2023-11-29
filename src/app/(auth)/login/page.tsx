@@ -54,13 +54,13 @@ export default function Login(): JSX.Element {
       setLoggedIn(true);
       setFormLoading(false);
 
-      void toast.promise(sleep(2000), {
+      await toast.promise(sleep(2000), {
         loading: 'Login berhasil, kamu akan dialihkan ke beranda',
         success: 'Sedang mengalihkan',
         error: 'Terjadi kesalahan. Silahkan coba lagi'
       });
 
-      await sleep(3000);
+      await sleep(1000);
 
       toast.dismiss();
     } catch {

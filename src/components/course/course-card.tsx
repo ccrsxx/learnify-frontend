@@ -11,19 +11,7 @@ import { LazyImage } from '../ui/lazy-image';
 import { Button } from '../ui/button';
 import type { Course } from '@/lib/types/schema';
 
-export function CourseCard({ course }: { course?: Course }): JSX.Element {
-  if (!course)
-    return (
-      <article className='rounded-xl shadow-low'>
-        <div className='h-24 w-full animate-pulse rounded-t-md bg-gray-200' />
-        <section className='grid justify-items-start gap-2 p-3'>
-          <div className='h-4 w-1/3 animate-pulse rounded-3xl bg-gray-200' />
-          <div className='h-4 w-1/2 animate-pulse rounded-3xl bg-gray-200' />
-          <div className='h-4 w-1/4 animate-pulse rounded-3xl bg-gray-200' />
-        </section>
-      </article>
-    );
-
+export function CourseCard({ course }: { course: Course }): JSX.Element {
   const {
     id,
     name,
@@ -36,7 +24,10 @@ export function CourseCard({ course }: { course?: Course }): JSX.Element {
 
   return (
     <article className='grid'>
-      <Link className='clickable rounded-xl shadow-low' href={`/courses/${id}`}>
+      <Link
+        className='clickable rounded-xl bg-white shadow-low'
+        href={`/courses/${id}`}
+      >
         <LazyImage
           className='h-24 w-full rounded-t-md object-cover'
           width={320}
@@ -44,7 +35,7 @@ export function CourseCard({ course }: { course?: Course }): JSX.Element {
           src={categoryImage}
           alt={categoryImage}
         />
-        <section className='grid justify-items-start gap-3 p-3'>
+        <section className='grid justify-items-start gap-3 p-3 text-black'>
           <div className='w-full'>
             <div className='flex justify-between'>
               <p className='text-lg font-bold text-primary-blue-500'>

@@ -14,7 +14,7 @@ export function Header(): JSX.Element {
   return (
     <header className='bg-primary-blue-500'>
       <div className='layout flex w-full items-center gap-8 p-4'>
-        <Logo />
+        <Logo clickable />
         <SearchBar />
         <div
           className={clsx(

@@ -3,9 +3,9 @@ import { Button } from '../ui/button';
 import type { Category } from '@/lib/types/schema';
 
 type CategoryTagProps = {
-  category?: Category;
-  selected?: boolean;
-  onClick?: () => void;
+  category: Category;
+  selected: boolean;
+  onClick: () => void;
 };
 
 export function CategoryTag({
@@ -13,9 +13,6 @@ export function CategoryTag({
   selected,
   onClick
 }: CategoryTagProps): JSX.Element {
-  if (!category)
-    return <div className='h-8 w-24 animate-pulse rounded-xl bg-gray-200' />;
-
   const { name } = category;
 
   return (

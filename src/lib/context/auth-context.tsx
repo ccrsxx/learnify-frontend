@@ -102,7 +102,10 @@ export function AuthContextProvider({
     }
   };
 
-  const handleLogout = (): void => setToken(null);
+  const handleLogout = (): void => {
+    setUser(null);
+    setToken(null);
+  };
 
   const contextValue: AuthContextType = {
     user,

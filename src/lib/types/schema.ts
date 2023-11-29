@@ -1,6 +1,4 @@
-export const difficulty = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED'] as const;
-
-export type Difficulty = (typeof difficulty)[number];
+import type { CourseDifficulty } from './enum';
 
 export type Timestamp = {
   created_at: string;
@@ -33,7 +31,7 @@ export type Course = Timestamp & {
   premium: boolean;
   user_id: string;
   telegram: string;
-  difficulty: Difficulty;
+  difficulty: CourseDifficulty;
   description: string;
   intro_video: string;
   course_category: Category;

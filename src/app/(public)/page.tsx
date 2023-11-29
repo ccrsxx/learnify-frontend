@@ -10,15 +10,16 @@ import { fetcher } from '@/lib/fetcher';
 import { CategoryCard } from '@/components/category/category-card';
 import { CourseCard } from '@/components/course/course-card';
 import { CategoryTag } from '@/components/category/category-tag';
+import {
+  CourseCardSkeleton,
+  CategoryTagSkeleton,
+  CategoryCardSkeleton
+} from '@/components/common/skeleton';
 import type { Category, Course } from '@/lib/types/schema';
 
 export default function Home(): JSX.Element {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(() =>
-    searchParams.get('category')
-  );
 
   const { data: categoriesData, isLoading: categoriesLoading } = useQuery<{
     data: Category[];
@@ -33,6 +34,10 @@ export default function Home(): JSX.Element {
     queryKey: ['courses'],
     queryFn: () => fetcher('/courses')
   });
+
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(() =>
+    searchParams.get('category')
+  );
 
   useEffect(() => {
     if (!categoriesData?.data?.length) return;
@@ -113,13 +118,11 @@ export default function Home(): JSX.Element {
           <section className='category-card-layout text-black'>
             {categoriesLoading
               ? Array.from({ length: 6 }).map((_, i) => (
-                  <CategoryCard key={i} />
+                  <CategoryCardSkeleton key={i} />
                 ))
-              : categories?.length
-              ? categories.map((category) => (
+              : categories?.map((category) => (
                   <CategoryCard category={category} key={category.id} />
-                ))
-              : null}
+                ))}
           </section>
         </div>
       </section>
@@ -136,26 +139,26 @@ export default function Home(): JSX.Element {
           </section>
           <section className='item-center flex gap-4'>
             {categoriesLoading
-              ? Array.from({ length: 6 }).map((_, i) => <CategoryTag key={i} />)
-              : categories?.length
-              ? categories.map((category) => (
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <CategoryTagSkeleton key={i} />
+                ))
+              : categories?.map((category) => (
                   <CategoryTag
                     category={category}
                     selected={selectedCategory === category.id}
                     onClick={handleCategoryClick(category.id, category.name)}
                     key={category.id}
                   />
-                ))
-              : null}
+                ))}
           </section>
           <section className='course-card-layout text-black'>
             {coursesLoading
-              ? Array.from({ length: 6 }).map((_, i) => <CourseCard key={i} />)
-              : courses?.length
-              ? courses.map((course) => (
-                  <CourseCard course={course} key={course.id} />
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <CourseCardSkeleton key={i} />
                 ))
-              : null}
+              : courses?.map((course) => (
+                  <CourseCard course={course} key={course.id} />
+                ))}
           </section>
         </div>
       </section>
