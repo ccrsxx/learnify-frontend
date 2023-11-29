@@ -83,7 +83,7 @@ export default function Login(): JSX.Element {
             label='Email atau Nomor Telepon'
             error={errors.emailOrPhoneNumber}
             register={register('emailOrPhoneNumber')}
-            placeholder='Masukkan email'
+            placeholder='Masukkan email atau nomor telepon'
             tabIndex={1}
             overrideError={serverEmailError}
           />
@@ -98,7 +98,7 @@ export default function Login(): JSX.Element {
             overrideError={serverPasswordError}
           >
             <Link
-              href='/forgot-password'
+              href='/password-reset'
               className='custom-underline ml-auto text-sm font-medium text-primary-blue-500'
               tabIndex={4}
             >
