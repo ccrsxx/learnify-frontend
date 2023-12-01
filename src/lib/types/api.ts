@@ -1,9 +1,11 @@
 type SlugEndPoints = 'courses';
+type SlugEndPointsWithParams = 'courses';
 
 type ApiEndpoints =
   | 'courses'
   | 'course-categories'
-  | `${SlugEndPoints}/${string}`;
+  | `${SlugEndPoints}/${string}`
+  | `${SlugEndPointsWithParams}?${string}`;
 
 export type ValidApiEndpoints = `/${ApiEndpoints}`;
 

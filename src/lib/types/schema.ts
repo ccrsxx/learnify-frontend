@@ -34,6 +34,8 @@ export type Course = Timestamp & {
   difficulty: CourseDifficulty;
   description: string;
   intro_video: string;
+  total_duration: number;
+  total_materials: number;
   course_category: Category;
   onboarding_text: string;
   target_audience: string[];

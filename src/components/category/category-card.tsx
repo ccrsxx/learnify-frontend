@@ -2,13 +2,7 @@ import Link from 'next/link';
 import { LazyImage } from '../ui/lazy-image';
 import type { Category } from '@/lib/types/schema';
 
-export function CategoryCard({
-  category
-}: {
-  category: Category;
-}): JSX.Element {
-  const { id, name, image } = category;
-
+export function CategoryCard({ id, name, image }: Category): JSX.Element {
   return (
     <article className='grid'>
       <Link className='clickable grid gap-2' href={`/categories/${id}`}>

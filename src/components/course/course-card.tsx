@@ -11,17 +11,17 @@ import { LazyImage } from '../ui/lazy-image';
 import { Button } from '../ui/button';
 import type { Course } from '@/lib/types/schema';
 
-export function CourseCard({ course }: { course: Course }): JSX.Element {
-  const {
-    id,
-    name,
-    price,
-    author,
-    rating,
-    difficulty,
-    course_category: { name: categoryName, image: categoryImage }
-  } = course;
-
+export function CourseCard({
+  id,
+  name,
+  price,
+  author,
+  rating,
+  difficulty,
+  total_duration,
+  total_materials,
+  course_category: { name: categoryName, image: categoryImage }
+}: Course): JSX.Element {
   return (
     <article className='grid'>
       <Link
@@ -58,11 +58,11 @@ export function CourseCard({ course }: { course: Course }): JSX.Element {
             </div>
             <div className='flex items-center gap-1'>
               <MdLibraryBooks className='text-primary-alert-success' />
-              <p>10 modul</p>
+              <p>{total_materials} modul</p>
             </div>
             <div className='flex items-center gap-1'>
               <MdAccessTime className='text-primary-alert-success' />
-              <p>120 menit</p>
+              <p>{total_duration} menit</p>
             </div>
           </div>
           <Button className='clickable flex gap-4 bg-primary-blue-300 px-2 py-1 text-white'>

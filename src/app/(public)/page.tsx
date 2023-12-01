@@ -121,7 +121,7 @@ export default function Home(): JSX.Element {
                   <CategoryCardSkeleton key={i} />
                 ))
               : categories?.map((category) => (
-                  <CategoryCard category={category} key={category.id} />
+                  <CategoryCard {...category} key={category.id} />
                 ))}
           </section>
         </div>
@@ -157,7 +157,7 @@ export default function Home(): JSX.Element {
                   <CourseCardSkeleton key={i} />
                 ))
               : courses?.map((course) => (
-                  <CourseCard course={course} key={course.id} />
+                  <CourseCard {...course} key={course.id} />
                 ))}
           </section>
         </div>

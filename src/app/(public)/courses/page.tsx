@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetcher } from '@/lib/fetcher';
@@ -27,11 +27,13 @@ export default function Courses(): JSX.Element {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const queryParamsString = searchParams.toString();
+
   const { data: coursesData, isLoading: coursesLoading } = useQuery<{
     data: Course[];
   }>({
-    queryKey: ['courses'],
-    queryFn: () => fetcher('/courses')
+    queryKey: ['courses', queryParamsString],
+    queryFn: () => fetcher(`/courses?${queryParamsString}`)
   });
 
   const { data: categoriesData, isLoading: categoriesLoading } = useQuery<{
@@ -50,6 +52,44 @@ export default function Courses(): JSX.Element {
   const [courseFilters, setCourseFilters] = useState<CourseFilters>(
     setInitialCourseFilter(searchParams)
   );
+
+  useEffect(() => {
+    const applyFilters = (): void => {
+      const selectedFilters = Object.entries(courseFilters).reduce(
+        (acc, [filterKey, selectedFilter]) => {
+          const selected = Object.entries(selectedFilter).flatMap(
+            ([key, selected]) => (selected ? key : [])
+          );
+
+          return {
+            ...acc,
+            [filterKey]: selected
+          };
+        },
+        {} as { [key in CourseFiltersKey]: (keyof CourseFilters[key])[] }
+      );
+
+      const url = new URL(window.location.href);
+
+      url.searchParams.set('type', selectedCourseType);
+      url.searchParams.set('search', search.trim());
+
+      Object.entries(selectedFilters).forEach(([filterKey, selectedFilter]) => {
+        if (!selectedFilter.length) {
+          url.searchParams.delete(filterKey);
+          return;
+        }
+
+        url.searchParams.set(filterKey, selectedFilter.join(','));
+      });
+
+      router.replace(url.toString(), { scroll: false });
+    };
+
+    const timeoutId = setTimeout(applyFilters, 200);
+
+    return () => clearTimeout(timeoutId);
+  }, [search, selectedCourseType, courseFilters, router]);
 
   const handleSearchChange = ({
     target: { value }
@@ -73,35 +113,8 @@ export default function Courses(): JSX.Element {
       });
     };
 
-  const handleApplyFilters = (): void => {
-    const selectedFilters = Object.entries(courseFilters).reduce(
-      (acc, [filterKey, selectedFilter]) => {
-        const selected = Object.entries(selectedFilter).flatMap(
-          ([key, selected]) => (selected ? key : [])
-        );
-
-        return {
-          ...acc,
-          [filterKey]: selected
-        };
-      },
-      {} as { [key in CourseFiltersKey]: (keyof CourseFilters[key])[] }
-    );
-
-    const url = new URL(window.location.href);
-
-    url.searchParams.set('type', selectedCourseType);
-    url.searchParams.set('search', search.trim());
-
-    Object.entries(selectedFilters).forEach(([filterKey, selectedFilter]) => {
-      if (!selectedFilter.length) return;
-      url.searchParams.set(filterKey, selectedFilter.join(','));
-    });
-
-    router.replace(url.toString(), { scroll: false });
-  };
-
   const handleResetFilters = (): void => {
+    setSearch('');
     setSelectedCourseType('all');
     setCourseFilters(initialCourseFilters);
 
@@ -109,7 +122,7 @@ export default function Courses(): JSX.Element {
   };
 
   const categories = categoriesData?.data;
-  const loading = coursesLoading || categoriesLoading;
+  const courses = coursesData?.data;
 
   return (
     <main className='min-h-screen bg-primary-blue-50'>
@@ -128,7 +141,7 @@ export default function Courses(): JSX.Element {
         <section className='grid grid-cols-12 gap-8'>
           <section className='col-span-3'>
             <div className='grid gap-8 rounded-xl bg-white p-6 text-black'>
-              {loading ? (
+              {categoriesLoading ? (
                 Array.from({ length: 3 }).map((_, i) => (
                   <CourseFilterSkeleton key={i} />
                 ))
@@ -146,31 +159,32 @@ export default function Courses(): JSX.Element {
                     >
                       Hapus Filter
                     </Button>
-                    <Button
-                      className='clickable bg-primary-alert-success px-1 py-2'
-                      onClick={handleApplyFilters}
-                    >
-                      Terapkan Filter
-                    </Button>
                   </section>
                 </>
               )}
             </div>
           </section>
-          <section className='col-span-9 grid gap-6'>
+          <section className='col-span-9 grid content-start gap-6'>
             <CourseTypes
-              disabled={loading}
+              disabled={coursesLoading}
               selectedCourseType={selectedCourseType}
               handleCourseTypeClick={handleCourseTypeClick}
             />
             <section className='course-card-layout'>
-              {coursesLoading
-                ? Array.from({ length: 6 }).map((_, i) => (
-                    <CourseCardSkeleton key={i} />
-                  ))
-                : coursesData?.data.map((course) => (
-                    <CourseCard course={course} key={course.id} />
-                  ))}
+              {coursesLoading ? (
+                Array.from({ length: 6 }).map((_, i) => (
+                  <CourseCardSkeleton key={i} />
+                ))
+              ) : courses?.length ? (
+                courses.map((course) => (
+                  <CourseCard {...course} key={course.id} />
+                ))
+              ) : (
+                <p className='col-span-full text-center font-medium text-black'>
+                  Tidak ada kelas yang ditemukan. Silahkan coba kembali dengan
+                  kata kunci yang berbeda.
+                </p>
+              )}
             </section>
           </section>
         </section>
