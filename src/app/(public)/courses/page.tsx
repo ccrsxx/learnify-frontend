@@ -71,8 +71,14 @@ export default function Courses(): JSX.Element {
 
       const url = new URL(window.location.href);
 
-      url.searchParams.set('type', selectedCourseType);
-      url.searchParams.set('search', search.trim());
+      const trimmedCourseType = selectedCourseType.trim();
+      const trimmedSearchType = search.trim();
+
+      if (trimmedCourseType) url.searchParams.set('type', trimmedCourseType);
+      else url.searchParams.delete('type');
+
+      if (trimmedSearchType) url.searchParams.set('search', trimmedSearchType);
+      else url.searchParams.delete('search');
 
       Object.entries(selectedFilters).forEach(([filterKey, selectedFilter]) => {
         if (!selectedFilter.length) {
