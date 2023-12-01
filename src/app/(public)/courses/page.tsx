@@ -27,13 +27,13 @@ export default function Courses(): JSX.Element {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const queryParamsString = searchParams.toString();
+  const searchParamsString = searchParams.toString();
 
   const { data: coursesData, isLoading: coursesLoading } = useQuery<{
     data: Course[];
   }>({
-    queryKey: ['courses', queryParamsString],
-    queryFn: () => fetcher(`/courses?${queryParamsString}`)
+    queryKey: ['courses', searchParamsString],
+    queryFn: () => fetcher(`/courses?${searchParamsString}`)
   });
 
   const { data: categoriesData, isLoading: categoriesLoading } = useQuery<{
@@ -121,8 +121,8 @@ export default function Courses(): JSX.Element {
 
   const handleResetFilters = (): void => {
     setSearch('');
-    setSelectedCourseType('all');
     setCourseFilters(initialCourseFilters);
+    setSelectedCourseType('all');
 
     router.replace('/courses', { scroll: false });
   };
