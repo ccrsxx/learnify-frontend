@@ -21,6 +21,8 @@ export default function Home(): JSX.Element {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const searchParamsString = searchParams.toString();
+
   const { data: categoriesData, isLoading: categoriesLoading } = useQuery<{
     data: Category[];
   }>({
@@ -31,8 +33,8 @@ export default function Home(): JSX.Element {
   const { data: coursesData, isLoading: coursesLoading } = useQuery<{
     data: Course[];
   }>({
-    queryKey: ['courses'],
-    queryFn: () => fetcher('/courses')
+    queryKey: ['courses', searchParamsString],
+    queryFn: () => fetcher(`/courses?${searchParamsString}`)
   });
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(() =>
