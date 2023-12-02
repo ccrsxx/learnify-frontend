@@ -80,7 +80,6 @@ const courseFilterCheckboxes: CheckboxProps<CourseFilter>[] = [
 ];
 
 const difficultyCheckboxes: CheckboxProps<CourseDifficulty>[] = [
-  { id: 'all', label: 'Semua Level' },
   { id: 'beginner', label: 'Beginner Level' },
   { id: 'intermediate', label: 'Intermediate Level' },
   { id: 'advanced', label: 'Advanced Level' }

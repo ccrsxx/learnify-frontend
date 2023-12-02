@@ -1,7 +1,6 @@
 export const COURSE_TYPES = ['all', 'premium', 'free'] as const;
 export const COURSE_FILTERS = ['new', 'popular', 'promo'] as const;
 export const COURSE_DIFFICULTIES = [
-  'all',
   'beginner',
   'intermediate',
   'advanced'

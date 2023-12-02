@@ -57,6 +57,7 @@ export default function Home(): JSX.Element {
   const handleCategoryClick = (id: string, name: string) => (): void => {
     if (selectedCategory === id) {
       setSelectedCategory(null);
+      router.replace('/', { scroll: false });
       return;
     }
 
@@ -128,41 +129,39 @@ export default function Home(): JSX.Element {
           </section>
         </div>
       </section>
-      <section className='py-8'>
-        <div className='layout grid gap-6'>
-          <section className='flex justify-between'>
-            <h2 className='text-xl font-bold text-black'>Kursus Populer</h2>
-            <Link
-              className='custom-underline font-bold text-primary-blue-500'
-              href='/courses'
-            >
-              Lihat Semua
-            </Link>
-          </section>
-          <section className='item-center flex gap-4'>
-            {categoriesLoading
-              ? Array.from({ length: 6 }).map((_, i) => (
-                  <CategoryTagSkeleton key={i} />
-                ))
-              : categories?.map((category) => (
-                  <CategoryTag
-                    category={category}
-                    selected={selectedCategory === category.id}
-                    onClick={handleCategoryClick(category.id, category.name)}
-                    key={category.id}
-                  />
-                ))}
-          </section>
-          <section className='course-card-layout text-black'>
-            {coursesLoading
-              ? Array.from({ length: 6 }).map((_, i) => (
-                  <CourseCardSkeleton key={i} />
-                ))
-              : courses?.map((course) => (
-                  <CourseCard {...course} key={course.id} />
-                ))}
-          </section>
-        </div>
+      <section className='layout grid gap-6 py-8'>
+        <section className='flex justify-between'>
+          <h2 className='text-xl font-bold text-black'>Kursus Populer</h2>
+          <Link
+            className='custom-underline font-bold text-primary-blue-500'
+            href='/courses'
+          >
+            Lihat Semua
+          </Link>
+        </section>
+        <section className='item-center flex gap-4'>
+          {categoriesLoading
+            ? Array.from({ length: 6 }).map((_, i) => (
+                <CategoryTagSkeleton key={i} />
+              ))
+            : categories?.map((category) => (
+                <CategoryTag
+                  category={category}
+                  selected={selectedCategory === category.id}
+                  onClick={handleCategoryClick(category.id, category.name)}
+                  key={category.id}
+                />
+              ))}
+        </section>
+        <section className='course-card-layout text-black'>
+          {coursesLoading
+            ? Array.from({ length: 6 }).map((_, i) => (
+                <CourseCardSkeleton key={i} />
+              ))
+            : courses?.map((course) => (
+                <CourseCard {...course} key={course.id} />
+              ))}
+        </section>
       </section>
     </main>
   );

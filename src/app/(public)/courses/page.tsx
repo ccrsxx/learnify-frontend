@@ -91,11 +91,6 @@ export default function Courses(): JSX.Element {
           continue;
         }
 
-        if (filterKey === 'difficulty' && selectedFilter.includes('all')) {
-          url.searchParams.delete(filterKey);
-          continue;
-        }
-
         url.searchParams.set(filterKey, selectedFilter.join(','));
       }
 
@@ -258,7 +253,6 @@ const initialCourseFilters: CourseFilters = {
   },
   category: {},
   difficulty: {
-    all: false,
     beginner: false,
     intermediate: false,
     advanced: false
