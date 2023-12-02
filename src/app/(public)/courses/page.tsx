@@ -72,22 +72,34 @@ export default function Courses(): JSX.Element {
       const url = new URL(window.location.href);
 
       const trimmedCourseType = selectedCourseType.trim();
-      const trimmedSearchType = search.trim();
+      const trimmedCourseSearch = search.trim();
 
-      if (trimmedCourseType) url.searchParams.set('type', trimmedCourseType);
+      if (trimmedCourseType && trimmedCourseType !== 'all')
+        url.searchParams.set('type', trimmedCourseType);
       else url.searchParams.delete('type');
 
-      if (trimmedSearchType) url.searchParams.set('search', trimmedSearchType);
+      if (trimmedCourseSearch)
+        url.searchParams.set('search', trimmedCourseSearch);
       else url.searchParams.delete('search');
 
-      Object.entries(selectedFilters).forEach(([filterKey, selectedFilter]) => {
+      for (const [filterKey, selectedFilter] of Object.entries(
+        selectedFilters
+      ) as [CourseFiltersKey, (keyof CourseFilters[CourseFiltersKey])[]][]) {
         if (!selectedFilter.length) {
           url.searchParams.delete(filterKey);
-          return;
+          continue;
         }
 
+        // if (
+        //   filterKey === 'difficulty' &&
+        //   selectedFilter.includes('all' as never)
+        // ) {
+        //   url.searchParams.delete(filterKey);
+        //   continue;
+        // }
+
         url.searchParams.set(filterKey, selectedFilter.join(','));
-      });
+      }
 
       router.replace(url.toString(), { scroll: false });
     };
@@ -186,7 +198,7 @@ export default function Courses(): JSX.Element {
                   <CourseCard {...course} key={course.id} />
                 ))
               ) : (
-                <p className='col-span-full text-center font-medium text-black'>
+                <p className='col-span-full mx-auto max-w-md text-center font-medium text-black'>
                   Tidak ada kelas yang ditemukan. Silahkan coba kembali dengan
                   kata kunci yang berbeda.
                 </p>
