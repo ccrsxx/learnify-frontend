@@ -15,6 +15,7 @@ import {
   CourseFilterSkeleton
 } from '@/components/common/skeleton';
 import type { ChangeEvent } from 'react';
+import type { Entries } from '@/lib/types/helper';
 import type { Category, Course } from '@/lib/types/schema';
 import type {
   CourseType,
@@ -84,19 +85,16 @@ export default function Courses(): JSX.Element {
 
       for (const [filterKey, selectedFilter] of Object.entries(
         selectedFilters
-      ) as [CourseFiltersKey, (keyof CourseFilters[CourseFiltersKey])[]][]) {
+      ) as Entries<typeof selectedFilters>) {
         if (!selectedFilter.length) {
           url.searchParams.delete(filterKey);
           continue;
         }
 
-        // if (
-        //   filterKey === 'difficulty' &&
-        //   selectedFilter.includes('all' as never)
-        // ) {
-        //   url.searchParams.delete(filterKey);
-        //   continue;
-        // }
+        if (filterKey === 'difficulty' && selectedFilter.includes('all')) {
+          url.searchParams.delete(filterKey);
+          continue;
+        }
 
         url.searchParams.set(filterKey, selectedFilter.join(','));
       }
