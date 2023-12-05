@@ -19,7 +19,7 @@ export function Logo({ clickable, className }: LogoProps): JSX.Element {
       tabIndex={-1}
     >
       <FaBrain />
-      <h1>Belajar</h1>
+      Learnify
     </Link>
   );
 }
