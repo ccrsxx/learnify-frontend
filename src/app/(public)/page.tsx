@@ -5,8 +5,8 @@ import CTA from '/public/assets/cta.png';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { fetcher } from '@/lib/fetcher';
+import { useCategories } from '@/lib/hooks/use-categories';
+import { useCourses } from '@/lib/hooks/use-courses';
 import { CategoryCard } from '@/components/category/category-card';
 import { CourseCard } from '@/components/course/course-card';
 import { CategoryTag } from '@/components/category/category-tag';
@@ -15,7 +15,6 @@ import {
   CategoryTagSkeleton,
   CategoryCardSkeleton
 } from '@/components/common/skeleton';
-import type { CourseCategory, Course } from '@/lib/types/schema';
 
 export default function Home(): JSX.Element {
   const router = useRouter();
@@ -23,19 +22,11 @@ export default function Home(): JSX.Element {
 
   const searchParamsString = searchParams.toString();
 
-  const { data: categoriesData, isLoading: categoriesLoading } = useQuery<{
-    data: CourseCategory[];
-  }>({
-    queryKey: ['course-categories'],
-    queryFn: () => fetcher('/course-categories')
-  });
+  const { data: categoriesData, isLoading: categoriesLoading } =
+    useCategories();
 
-  const { data: coursesData, isLoading: coursesLoading } = useQuery<{
-    data: Course[];
-  }>({
-    queryKey: ['courses', searchParamsString],
-    queryFn: () => fetcher(`/courses?${searchParamsString}`)
-  });
+  const { data: coursesData, isLoading: coursesLoading } =
+    useCourses(searchParamsString);
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(() =>
     searchParams.get('category')

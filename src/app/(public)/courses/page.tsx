@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { fetcher } from '@/lib/fetcher';
 import { COURSE_TYPES } from '@/lib/types/enum';
+import { useCategories } from '@/lib/hooks/use-categories';
+import { useCourses } from '@/lib/hooks/use-courses';
 import { SearchBar } from '@/components/common/search-bar';
 import { CourseCard } from '@/components/course/course-card';
 import { Button } from '@/components/ui/button';
@@ -15,7 +15,7 @@ import {
   CourseFilterSkeleton
 } from '@/components/common/skeleton';
 import type { Entries } from '@/lib/types/helper';
-import type { CourseCategory, Course } from '@/lib/types/schema';
+import type { CourseCategory } from '@/lib/types/schema';
 import type {
   CourseType,
   CourseFilter,
@@ -29,19 +29,11 @@ export default function Courses(): JSX.Element {
 
   const searchParamsString = searchParams.toString();
 
-  const { data: coursesData, isLoading: coursesLoading } = useQuery<{
-    data: Course[];
-  }>({
-    queryKey: ['courses', searchParamsString],
-    queryFn: () => fetcher(`/courses?${searchParamsString}`)
-  });
+  const { data: coursesData, isLoading: coursesLoading } =
+    useCourses(searchParamsString);
 
-  const { data: categoriesData, isLoading: categoriesLoading } = useQuery<{
-    data: CourseCategory[];
-  }>({
-    queryKey: ['course-categories'],
-    queryFn: () => fetcher('/course-categories')
-  });
+  const { data: categoriesData, isLoading: categoriesLoading } =
+    useCategories();
 
   const [search, setSearch] = useState(() => searchParams.get('search') ?? '');
 

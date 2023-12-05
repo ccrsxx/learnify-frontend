@@ -1,10 +1,9 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { SiTelegram } from 'react-icons/si';
 import { useRouter } from 'next/navigation';
-import { fetcher } from '@/lib/fetcher';
 import { useModal } from '@/lib/hooks/use-modal';
+import { useCourse } from '@/lib/hooks/use-course';
 import { CourseStats } from '@/components/course/course-stats';
 import { VideoPlayer } from '@/components/ui/video-player';
 import { CourseStudyCard } from '@/components/course/course-study-card';
@@ -22,12 +21,7 @@ export default function Course({
 
   const [courseId, materialId] = slug;
 
-  const { data: courseData, isLoading: courseLoading } = useQuery<{
-    data: Course;
-  }>({
-    queryKey: ['course', courseId],
-    queryFn: () => fetcher(`/courses/${courseId}`)
-  });
+  const { data: courseData, isLoading: courseLoading } = useCourse(courseId);
 
   const { open, openModal, closeModal } = useModal();
 

@@ -29,7 +29,7 @@ export function PurchaseCourseModal({
       </div>
       <CourseCard modal course={course} />
       <Link
-        href={`/courses/${course.id}/checkout`}
+        href={`/checkout/${course.id}`}
         className='clickable mx-auto flex items-center justify-center gap-2
                    bg-primary-blue-500 px-4 py-2 text-lg font-semibold'
       >
