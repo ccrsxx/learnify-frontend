@@ -11,7 +11,7 @@ const poppins = Poppins({
   weight: ['400', '500', '700']
 });
 
-export default function RootLayout({
+export default function Layout({
   children
 }: {
   children: ReactNode;

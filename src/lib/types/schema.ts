@@ -13,10 +13,29 @@ export type User = Timestamp & {
   phone_number: string;
 };
 
-export type Category = Timestamp & {
+export type CourseCategory = Timestamp & {
   id: string;
   name: string;
   image: string;
+};
+
+export type CourseMaterial = Timestamp & {
+  id: string;
+  name: string;
+  video: string;
+  order_index: number;
+  course_chapter_id: string;
+};
+
+export type CourseChapter = Timestamp & {
+  id: string;
+  name: string;
+  image: string;
+  duration: number;
+  course_id: string;
+  order_index: number;
+  course_material: CourseMaterial[];
+  course_material_id: string;
 };
 
 export type Course = Timestamp & {
@@ -35,8 +54,9 @@ export type Course = Timestamp & {
   description: string;
   intro_video: string;
   total_duration: number;
+  course_chapter: CourseChapter[];
   total_materials: number;
-  course_category: Category;
+  course_category: CourseCategory;
   onboarding_text: string;
   target_audience: string[];
   course_category_id: string;

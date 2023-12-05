@@ -16,7 +16,7 @@ import {
 } from '@/components/common/skeleton';
 import type { ChangeEvent } from 'react';
 import type { Entries } from '@/lib/types/helper';
-import type { Category, Course } from '@/lib/types/schema';
+import type { CourseCategory, Course } from '@/lib/types/schema';
 import type {
   CourseType,
   CourseFilter,
@@ -38,7 +38,7 @@ export default function Courses(): JSX.Element {
   });
 
   const { data: categoriesData, isLoading: categoriesLoading } = useQuery<{
-    data: Category[];
+    data: CourseCategory[];
   }>({
     queryKey: ['course-categories'],
     queryFn: () => fetcher('/course-categories')
@@ -159,7 +159,7 @@ export default function Courses(): JSX.Element {
               ) : (
                 <>
                   <CourseFilters
-                    categories={categories as Category[]}
+                    categories={categories as CourseCategory[]}
                     courseFilters={courseFilters}
                     handleCourseFiltersChange={handleCourseFiltersChange}
                   />
@@ -188,7 +188,7 @@ export default function Courses(): JSX.Element {
                 ))
               ) : courses?.length ? (
                 courses.map((course) => (
-                  <CourseCard {...course} key={course.id} />
+                  <CourseCard course={course} key={course.id} />
                 ))
               ) : (
                 <p className='col-span-full mx-auto max-w-md text-center font-medium text-black'>

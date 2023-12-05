@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
 import { Button } from '../ui/button';
-import type { Category } from '@/lib/types/schema';
+import type { CourseCategory } from '@/lib/types/schema';
 
 type CategoryTagProps = {
-  category: Category;
+  category: CourseCategory;
   selected: boolean;
   onClick: () => void;
 };

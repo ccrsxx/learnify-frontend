@@ -15,7 +15,7 @@ import {
   CategoryTagSkeleton,
   CategoryCardSkeleton
 } from '@/components/common/skeleton';
-import type { Category, Course } from '@/lib/types/schema';
+import type { CourseCategory, Course } from '@/lib/types/schema';
 
 export default function Home(): JSX.Element {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function Home(): JSX.Element {
   const searchParamsString = searchParams.toString();
 
   const { data: categoriesData, isLoading: categoriesLoading } = useQuery<{
-    data: Category[];
+    data: CourseCategory[];
   }>({
     queryKey: ['course-categories'],
     queryFn: () => fetcher('/course-categories')
@@ -124,7 +124,7 @@ export default function Home(): JSX.Element {
                   <CategoryCardSkeleton key={i} />
                 ))
               : categories?.map((category) => (
-                  <CategoryCard {...category} key={category.id} />
+                  <CategoryCard category={category} key={category.id} />
                 ))}
           </section>
         </div>
@@ -159,7 +159,7 @@ export default function Home(): JSX.Element {
                 <CourseCardSkeleton key={i} />
               ))
             : courses?.map((course) => (
-                <CourseCard {...course} key={course.id} />
+                <CourseCard homepage course={course} key={course.id} />
               ))}
         </section>
       </section>

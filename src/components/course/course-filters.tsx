@@ -1,12 +1,12 @@
 import { Checkbox } from '../ui/checkbox';
-import type { Category } from '@/lib/types/schema';
+import type { CourseCategory } from '@/lib/types/schema';
 import type { CourseFilter, CourseDifficulty } from '@/lib/types/enum';
 import type { CourseFilters } from '@/app/(public)/courses/page';
 
 export type CourseFiltersKey = 'filter' | 'category' | 'difficulty';
 
 type CourseFiltersProps = {
-  categories: Category[];
+  categories: CourseCategory[];
   courseFilters: CourseFilters;
   handleCourseFiltersChange: <T extends CourseFiltersKey>(
     filter: T,

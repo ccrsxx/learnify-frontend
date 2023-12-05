@@ -1,31 +1,39 @@
 import Link from 'next/link';
-import {
-  MdStar,
-  MdDiamond,
-  MdAccessTime,
-  MdLibraryBooks
-} from 'react-icons/md';
-import { RiShieldStarLine } from 'react-icons/ri';
+import { clsx } from 'clsx';
+import { MdDiamond, MdPlayArrow } from 'react-icons/md';
 import { formatCurrency } from '@/lib/format';
 import { LazyImage } from '../ui/lazy-image';
 import { Button } from '../ui/button';
+import { CourseStats } from './course-stats';
 import type { Course } from '@/lib/types/schema';
 
+type CourseCardProps = {
+  course: Course;
+  modal?: boolean;
+  details?: boolean;
+  homepage?: boolean;
+};
+
 export function CourseCard({
-  id,
-  name,
-  price,
-  author,
-  rating,
-  difficulty,
-  total_duration,
-  total_materials,
-  course_category: { name: categoryName, image: categoryImage }
-}: Course): JSX.Element {
+  modal,
+  course,
+  details,
+  homepage
+}: CourseCardProps): JSX.Element {
+  const {
+    id,
+    price,
+    premium,
+    course_category: { image: categoryImage }
+  } = course;
+
   return (
     <article className='grid'>
       <Link
-        className='clickable rounded-xl bg-white shadow-low'
+        className={clsx(
+          'rounded-xl bg-white shadow-low',
+          modal ? 'pointer-events-none' : 'clickable'
+        )}
         href={`/courses/${id}`}
       >
         <LazyImage
@@ -36,42 +44,32 @@ export function CourseCard({
           alt={categoryImage}
         />
         <section className='grid justify-items-start gap-3 p-3 text-black'>
-          <div className='w-full'>
-            <div className='flex justify-between'>
-              <p className='text-lg font-bold text-primary-blue-500'>
-                {categoryName}
-              </p>
+          <CourseStats course={course} details={details} />
+          {(homepage ?? modal) && premium ? (
+            <Button className='clickable flex gap-3 bg-primary-blue-300 px-2 py-1 text-white'>
               <div className='flex items-center gap-1'>
-                <MdStar className='text-lg text-yellow-400' />
-                <p className='font-medium'>{rating}</p>
+                <MdDiamond />
+                <p>Beli</p>
               </div>
-            </div>
-            <h3 className='text-lg font-bold'>{name}</h3>
-            <p className='text-sm'>By {author}</p>
-          </div>
-          <div className='flex flex-wrap gap-3 text-sm'>
-            <div className='flex items-center gap-1'>
-              <RiShieldStarLine className='text-primary-alert-success' />
-              <p className='lowercase text-primary-blue-500 first-letter:uppercase'>
-                {difficulty} level
-              </p>
-            </div>
-            <div className='flex items-center gap-1'>
-              <MdLibraryBooks className='text-primary-alert-success' />
-              <p>{total_materials} modul</p>
-            </div>
-            <div className='flex items-center gap-1'>
-              <MdAccessTime className='text-primary-alert-success' />
-              <p>{total_duration} menit</p>
-            </div>
-          </div>
-          <Button className='clickable flex gap-4 bg-primary-blue-300 px-2 py-1 text-white'>
-            <div className='flex items-center gap-1'>
+              <p>{formatCurrency(price)}</p>
+            </Button>
+          ) : premium ? (
+            <Button
+              className='clickable flex items-center gap-1 
+                        bg-primary-blue-300 px-2 py-1 text-white'
+            >
               <MdDiamond />
-              <p>Beli</p>
-            </div>
-            <p>{formatCurrency(price)}</p>
-          </Button>
+              Premium
+            </Button>
+          ) : (
+            <Button
+              className='clickable flex items-center gap-1 
+                        bg-primary-blue-300 px-2 py-1 text-white'
+            >
+              <MdPlayArrow />
+              Mulai Kelas
+            </Button>
+          )}
         </section>
       </Link>
     </article>

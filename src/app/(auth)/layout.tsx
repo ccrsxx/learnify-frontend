@@ -3,7 +3,7 @@ import { AuthLayout } from '@/components/layout/auth-layout';
 import { Logo } from '@/components/common/logo';
 import type { ReactNode } from 'react';
 
-export default function RootLayout({
+export default function Layout({
   children
 }: {
   children: ReactNode;
