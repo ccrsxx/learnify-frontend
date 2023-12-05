@@ -14,7 +14,6 @@ import {
   CourseCardSkeleton,
   CourseFilterSkeleton
 } from '@/components/common/skeleton';
-import type { ChangeEvent } from 'react';
 import type { Entries } from '@/lib/types/helper';
 import type { CourseCategory, Course } from '@/lib/types/schema';
 import type {
@@ -70,41 +69,36 @@ export default function Courses(): JSX.Element {
         {} as { [key in CourseFiltersKey]: (keyof CourseFilters[key])[] }
       );
 
-      const url = new URL(window.location.href);
+      const params = new URLSearchParams();
 
       const trimmedCourseType = selectedCourseType.trim();
       const trimmedCourseSearch = search.trim();
 
       if (trimmedCourseType && trimmedCourseType !== 'all')
-        url.searchParams.set('type', trimmedCourseType);
-      else url.searchParams.delete('type');
+        params.set('type', trimmedCourseType);
+      else params.delete('type');
 
-      if (trimmedCourseSearch)
-        url.searchParams.set('search', trimmedCourseSearch);
-      else url.searchParams.delete('search');
+      if (trimmedCourseSearch) params.set('search', trimmedCourseSearch);
+      else params.delete('search');
 
       for (const [filterKey, selectedFilter] of Object.entries(
         selectedFilters
       ) as Entries<typeof selectedFilters>) {
         if (!selectedFilter.length) {
-          url.searchParams.delete(filterKey);
+          params.delete(filterKey);
           continue;
         }
 
-        url.searchParams.set(filterKey, selectedFilter.join(','));
+        params.set(filterKey, selectedFilter.join(','));
       }
 
-      router.replace(url.toString(), { scroll: false });
+      router.replace(`/courses?${params.toString()}`, { scroll: false });
     };
 
     const timeoutId = setTimeout(applyFilters, 200);
 
     return () => clearTimeout(timeoutId);
   }, [search, selectedCourseType, courseFilters, router]);
-
-  const handleSearchChange = ({
-    target: { value }
-  }: ChangeEvent<HTMLInputElement>): void => setSearch(value);
 
   const handleCourseTypeClick = (type: CourseType) => (): void =>
     setSelectedCourseType(type);
@@ -146,7 +140,7 @@ export default function Courses(): JSX.Element {
             small
             placeholder='Cari kelas...'
             value={search}
-            onChange={handleSearchChange}
+            onSearchChange={setSearch}
           />
         </section>
         <section className='grid grid-cols-12 gap-8'>
