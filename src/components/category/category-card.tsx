@@ -3,13 +3,13 @@ import { LazyImage } from '../ui/lazy-image';
 import type { CourseCategory } from '@/lib/types/schema';
 
 export function CategoryCard({
-  category: { id, name, image }
+  category: { name, image }
 }: {
   category: CourseCategory;
 }): JSX.Element {
   return (
     <article className='grid'>
-      <Link className='clickable grid gap-2' href={`/categories/${id}`}>
+      <Link className='clickable grid gap-2' href={`/courses?category=${name}`}>
         <LazyImage
           className='h-24 w-full rounded-3xl'
           width={160}

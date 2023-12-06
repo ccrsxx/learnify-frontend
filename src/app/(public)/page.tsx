@@ -104,7 +104,7 @@ export default function Home(): JSX.Element {
             <h2 className='text-xl font-bold text-black'>Kategori Belajar</h2>
             <Link
               className='custom-underline font-bold text-primary-blue-500'
-              href='/categories'
+              href='/courses'
             >
               Lihat Semua
             </Link>
