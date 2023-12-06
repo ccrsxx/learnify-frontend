@@ -17,7 +17,7 @@ export function PurchaseCourseModal({
 }: PurchaseCourseModalProps): JSX.Element {
   return (
     <Modal
-      modalClassName='max-w-lg bg-white w-full p-8 rounded-xl grid gap-8'
+      modalClassName='max-w-lg bg-white w-full p-8 rounded-medium grid gap-8'
       open={open}
       closeModal={closeModal}
     >
@@ -30,7 +30,7 @@ export function PurchaseCourseModal({
       <CourseCard modal course={course} />
       <Link
         href={`/checkout/${course.id}`}
-        className='clickable mx-auto flex items-center justify-center gap-2 rounded-3xl
+        className='clickable mx-auto flex items-center justify-center gap-2 rounded-high
                    bg-primary-blue-500 px-6 py-3 text-lg font-semibold'
       >
         Beli Sekarang

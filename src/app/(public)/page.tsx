@@ -88,7 +88,7 @@ export default function Home(): JSX.Element {
                 Belajar dari Praktisi Terbaik!
               </h1>
               <Link
-                className='clickable rounded-xl bg-white px-2 py-3 text-center 
+                className='clickable rounded-medium bg-white px-2 py-3 text-center 
                            font-bold uppercase text-primary-blue-500'
                 href='/courses'
               >

@@ -18,10 +18,10 @@ export function SearchBar({
   return (
     <label
       className={clsx(
-        `flex w-full items-center justify-between gap-4 rounded-2xl bg-white
+        `flex w-full items-center justify-between gap-4 rounded-high bg-white
          ring-1 ring-primary-blue-500 transition focus-within:ring-2
          focus-within:ring-primary-blue-300`,
-        small ? 'max-w-xs px-3 py-1.5' : 'max-w-md px-6 py-3'
+        small ? 'max-w-xs px-4 py-1.5' : 'max-w-md px-6 py-3'
       )}
     >
       <input
@@ -32,7 +32,7 @@ export function SearchBar({
         onChange={({ target: { value } }) => onSearchChange(value)}
       />
       <button
-        className='clickable cursor-pointer rounded-xl bg-primary-blue-500 p-2 
+        className='clickable cursor-pointer rounded-medium bg-primary-blue-500 p-2 
                    transition hover:brightness-90'
       >
         <MdSearch

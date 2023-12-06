@@ -85,14 +85,14 @@ export default function Checkout({
         <BackButton label='Kembali' />
         <Alert
           variant='error'
-          className='mx-auto rounded-xl px-3 py-2 text-black shadow-low'
+          className='mx-auto rounded-medium px-3 py-2 text-black shadow-low'
           message={`Selesaikan pembayaran sebelum ${formatDate(
             new Date(Date.now() + 86400000)
           )}`}
         />
       </section>
       <section className='flex items-start gap-8'>
-        <section className='grid gap-4 rounded-md p-6 text-black shadow-low'>
+        <section className='grid gap-4 rounded-medium p-6 text-black shadow-low'>
           <PaymentMethod
             formRef={formRef}
             creditCardOpen={creditCardOpen}
@@ -125,7 +125,7 @@ export default function Checkout({
             </div>
           </div>
           <Button
-            className='clickable mx-auto mt-8 flex items-center gap-2 rounded-full
+            className='clickable mx-auto mt-8 flex items-center gap-2 rounded-high
                        bg-primary-alert-error px-6 py-3 text-white'
             loading={paymentLoading}
             disabled={alreadyPaid}

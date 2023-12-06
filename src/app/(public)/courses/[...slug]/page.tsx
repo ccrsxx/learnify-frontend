@@ -25,6 +25,30 @@ export default function Course({
 
   const { open, openModal, closeModal } = useModal();
 
+  const handleNextMaterial = (): void => {
+    const course_materials = course_chapter.reduce<CourseMaterial[]>(
+      (acc, { course_material }) => [...acc, ...course_material],
+      []
+    );
+
+    const currentMaterialIndex = course_materials.findIndex(
+      (material) => material.id === materialId
+    );
+
+    const nextMaterialId = course_materials[currentMaterialIndex + 1]?.id;
+
+    const isPurchaseRequired =
+      premium &&
+      course_chapter.some(
+        ({ course_material }, index) =>
+          index && course_material.some(({ id }) => id === nextMaterialId)
+      );
+
+    if (isPurchaseRequired) openModal();
+    else if (nextMaterialId)
+      router.push(`/courses/${courseId}/${nextMaterialId}`);
+  };
+
   const course = courseData?.data;
 
   if (courseLoading) return <CourseDetailsSkeleton />;
@@ -58,30 +82,6 @@ export default function Course({
     }
   }
 
-  const handleNextMaterial = (): void => {
-    const course_materials = course_chapter.reduce<CourseMaterial[]>(
-      (acc, { course_material }) => [...acc, ...course_material],
-      []
-    );
-
-    const currentMaterialIndex = course_materials.findIndex(
-      (material) => material.id === materialId
-    );
-
-    const nextMaterialId = course_materials[currentMaterialIndex + 1]?.id;
-
-    const isPurchaseRequired =
-      premium &&
-      course_chapter.some(
-        ({ course_material }, index) =>
-          index && course_material.some(({ id }) => id === nextMaterialId)
-      );
-
-    if (isPurchaseRequired) openModal();
-    else if (nextMaterialId)
-      router.push(`/courses/${courseId}/${nextMaterialId}`);
-  };
-
   const selectedVideo = selectedMaterialVideo ?? intro_video;
 
   return (
@@ -97,7 +97,7 @@ export default function Course({
           <div className='grid max-w-xl gap-2'>
             <CourseStats details course={course} />
             <a
-              className='clickable mr-auto flex items-center gap-4 rounded-3xl
+              className='clickable mr-auto flex items-center gap-4 rounded-high
                          bg-primary-alert-success px-6 py-2 text-white'
               href={telegram}
               target='_blank'

@@ -13,9 +13,9 @@ export function VideoPlayer({
   const youtubeId = src.split('/').pop();
 
   return (
-    <div className='group relative h-80 rounded-xl bg-black'>
+    <div className='group relative h-80 rounded-medium bg-black'>
       <iframe
-        className='h-full w-full rounded-xl'
+        className='h-full w-full rounded-medium'
         src={`https://www.youtube.com/embed/${youtubeId}`}
       />
       <div

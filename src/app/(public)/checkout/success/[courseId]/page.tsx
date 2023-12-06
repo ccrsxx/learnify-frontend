@@ -11,7 +11,7 @@ export default function Success({
     <main className='layout grid gap-8 py-8'>
       <section className='grid'>
         <Alert
-          className='mx-auto rounded-xl px-3 py-2 text-black shadow-low'
+          className='mx-auto rounded-medium px-3 py-2 text-black shadow-low'
           variant='success'
           message='Terimakasih atas pembayaran transaksi'
         />
@@ -21,8 +21,9 @@ export default function Success({
           <h1 className='text-4xl font-bold text-primary-blue-500'>Selamat!</h1>
           <Image
             src='/assets/congratulations.svg'
-            width={200}
-            height={200}
+            className='h-48 w-48'
+            width={192}
+            height={192}
             alt='Selamat'
           />
           <div className='grid gap-2 text-center'>
@@ -34,7 +35,7 @@ export default function Success({
         </section>
         <section className='mx-auto grid gap-4 text-center'>
           <Link
-            className='clickable rounded-3xl bg-primary-blue-500 px-24 py-3 font-bold text-white'
+            className='clickable rounded-high bg-primary-blue-500 px-24 py-3 font-bold text-white'
             href={`/courses/${courseId}`}
           >
             Mulai Belajar

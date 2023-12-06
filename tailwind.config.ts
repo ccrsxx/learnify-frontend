@@ -43,6 +43,11 @@ const config: Config = {
       boxShadow: {
         low: '0 0 4px rgba(0, 0, 0, 0.15)',
         high: '0 0 10px rgba(0, 0, 0, 0.15)'
+      },
+      borderRadius: {
+        low: '8px',
+        medium: '12px',
+        high: '24px'
       }
     }
   },

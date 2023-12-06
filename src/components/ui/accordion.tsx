@@ -21,7 +21,7 @@ export function Accordion({
     <Disclosure as='div'>
       <Disclosure.Button
         className={clsx(
-          `flex w-full justify-between rounded-lg bg-primary-blue-50 px-4 py-2 text-left 
+          `flex w-full justify-between rounded-medium bg-primary-blue-50 px-4 py-2 text-left 
            text-sm font-medium text-primary-blue-500 transition hover:brightness-90
            focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75`,
           open && 'bg-primary-blue-500 text-white'

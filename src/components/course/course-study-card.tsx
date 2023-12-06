@@ -27,16 +27,16 @@ export function CourseStudyCard({
     };
 
   return (
-    <div className='grid w-full content-start gap-4 rounded-2xl bg-white p-6 shadow-high'>
+    <div className='grid w-full content-start gap-4 rounded-medium bg-white p-6 shadow-high'>
       <div className='flex justify-between'>
         <h2 className='text-xl font-bold text-black'>Materi Belajar</h2>
         <div className='flex items-center gap-1'>
           <MdCheckCircle className='text-xl text-primary-alert-success' />
-          <div className='relative w-48 rounded-xl bg-gray-200'>
+          <div className='relative w-48 rounded-medium bg-gray-200'>
             <p className='relative z-10 px-2 py-0.5 text-xs text-white'>
               24% complete
             </p>
-            <div className='absolute left-0 top-0 z-0 h-full w-[24%] rounded-xl bg-primary-blue-500' />
+            <div className='absolute left-0 top-0 z-0 h-full w-[24%] rounded-medium bg-primary-blue-500' />
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@ export function CourseStudyCard({
                       <li key={materialId}>
                         <Link
                           className={clsx(
-                            `clickable flex justify-between gap-2 rounded-xl 
+                            `clickable flex justify-between gap-2 rounded-medium 
                              bg-gray-100 px-4 py-2`,
                             isMaterialSelected &&
                               'bg-primary-blue-50 text-primary-blue-500'
@@ -89,7 +89,7 @@ export function CourseStudyCard({
                           <div className='flex items-center gap-2'>
                             <p
                               className='grid h-8 w-8 place-items-center rounded-full bg-gray-200
-                                       p-1 text-center text-sm font-medium'
+                                         p-1 text-center text-sm font-medium'
                             >
                               {material_index}
                             </p>

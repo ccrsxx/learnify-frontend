@@ -107,7 +107,7 @@ export default function Login(): JSX.Element {
           </Input>
         </section>
         <Button
-          className='rounded-2xl bg-primary-blue-500 p-4 font-medium
+          className='rounded-medium bg-primary-blue-500 p-4 font-medium
                      text-white transition hover:brightness-90'
           type='submit'
           loading={formLoading}

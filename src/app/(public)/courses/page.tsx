@@ -137,7 +137,7 @@ export default function Courses(): JSX.Element {
         </section>
         <section className='grid grid-cols-12 gap-8'>
           <section className='col-span-3'>
-            <div className='grid gap-8 rounded-xl bg-white p-6 text-black'>
+            <div className='grid gap-8 rounded-medium bg-white p-6 text-black'>
               {categoriesLoading ? (
                 Array.from({ length: 3 }).map((_, i) => (
                   <CourseFilterSkeleton key={i} />

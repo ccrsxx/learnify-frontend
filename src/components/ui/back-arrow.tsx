@@ -14,7 +14,7 @@ export function BackButton({ href = '', label }: BackButtonProps): JSX.Element {
 
   return (
     <Tag
-      className='smooth-tab mr-auto flex items-center gap-4 rounded-md px-3 py-1 text-lg
+      className='smooth-tab mr-auto flex items-center gap-4 rounded-medium px-3 py-1 text-lg
                  font-semibold text-black transition hover:bg-gray-200'
       href={href}
       {...(!href && { onClick: () => router.back() })}

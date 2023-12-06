@@ -26,11 +26,11 @@
   }
 
   .custom-input {
-    @apply rounded-xl border border-primary-neutral-200 px-4 py-3 outline-none transition focus:border-primary-blue-500;
+    @apply rounded-medium border border-primary-neutral-200 px-4 py-3 outline-none transition focus:border-primary-blue-500;
   }
 
   .smooth-tab {
-    @apply rounded-xl transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue-300;
+    @apply rounded-medium transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue-300;
   }
 
   .custom-underline {

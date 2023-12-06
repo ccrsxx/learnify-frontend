@@ -33,14 +33,14 @@ export function CourseCard({
     <article className='grid'>
       <Link
         className={clsx(
-          'rounded-xl bg-white shadow-low',
+          'rounded-medium bg-white shadow-low',
           modal ? 'pointer-events-none' : 'clickable'
         )}
         href={`/courses/${id}`}
         tabIndex={modal ? -1 : undefined}
       >
         <LazyImage
-          className='h-24 w-full rounded-t-md object-cover'
+          className='h-24 w-full rounded-t-medium object-cover'
           width={320}
           height={96}
           src={categoryImage}
