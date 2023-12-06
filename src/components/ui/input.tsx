@@ -5,10 +5,11 @@ import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 export type InputProps = PropsWithChildren<{
   id: string;
-  type: 'text' | 'tel' | 'password';
+  type: 'text' | 'number' | 'tel' | 'password';
   label: string;
-  error: FieldError | undefined;
-  register: UseFormRegisterReturn;
+  error?: FieldError | undefined;
+  required?: boolean;
+  register?: UseFormRegisterReturn;
   tabIndex?: number;
   placeholder: string;
   overrideError?: boolean;
@@ -22,6 +23,7 @@ export function Input({
   tabIndex,
   children,
   register,
+  required,
   placeholder,
   overrideError
 }: InputProps): JSX.Element {
@@ -41,6 +43,7 @@ export function Input({
         id={id}
         type={type}
         tabIndex={tabIndex}
+        required={required}
         placeholder={placeholder}
         {...register}
       />

@@ -1,20 +1,26 @@
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { MdArrowBack } from 'react-icons/md';
 
 type BackButtonProps = {
-  href: string;
+  href?: string;
   label: string;
 };
 
-export function BackButton({ href, label }: BackButtonProps): JSX.Element {
+export function BackButton({ href = '', label }: BackButtonProps): JSX.Element {
+  const router = useRouter();
+
+  const Tag = href ? Link : 'button';
+
   return (
-    <Link
-      className='mr-auto flex items-center gap-4 rounded-md px-3 py-1 text-lg
-                 font-semibold transition-colors hover:bg-gray-200'
+    <Tag
+      className='smooth-tab mr-auto flex items-center gap-4 rounded-md px-3 py-1 text-lg
+                 font-semibold text-black transition hover:bg-gray-200'
       href={href}
+      {...(!href && { onClick: () => router.back() })}
     >
       <MdArrowBack className='text-lg' />
       {label}
-    </Link>
+    </Tag>
   );
 }

@@ -97,8 +97,8 @@ export default function Course({
           <div className='grid max-w-xl gap-2'>
             <CourseStats details course={course} />
             <a
-              className='clickable mr-auto flex items-center gap-4 rounded-lg
-                           bg-primary-alert-success px-4 py-2 text-white'
+              className='clickable mr-auto flex items-center gap-4 rounded-3xl
+                         bg-primary-alert-success px-6 py-2 text-white'
               href={telegram}
               target='_blank'
             >

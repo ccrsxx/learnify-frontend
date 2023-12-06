@@ -1,9 +1,18 @@
-const formatter = new Intl.NumberFormat('id-ID', {
+const NUMBER_FORMATTER = new Intl.NumberFormat('id-ID', {
   style: 'currency',
   currency: 'IDR',
   minimumFractionDigits: 0
 });
 
 export function formatCurrency(value: number): string {
-  return formatter.format(value);
+  return NUMBER_FORMATTER.format(value);
+}
+
+const DATE_FORMATTER = new Intl.DateTimeFormat('id-ID', {
+  dateStyle: 'long',
+  timeStyle: 'short'
+});
+
+export function formatDate(value: Date): string {
+  return DATE_FORMATTER.format(value);
 }

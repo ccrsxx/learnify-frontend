@@ -75,7 +75,7 @@ export function CourseStudyCard({
                         <Link
                           className={clsx(
                             `clickable flex justify-between gap-2 rounded-xl 
-                           bg-gray-100 px-4 py-2`,
+                             bg-gray-100 px-4 py-2`,
                             isMaterialSelected &&
                               'bg-primary-blue-50 text-primary-blue-500'
                           )}

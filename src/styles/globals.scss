@@ -30,7 +30,7 @@
   }
 
   .smooth-tab {
-    @apply rounded-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue-300;
+    @apply rounded-xl transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue-300;
   }
 
   .custom-underline {

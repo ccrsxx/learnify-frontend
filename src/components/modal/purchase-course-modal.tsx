@@ -30,8 +30,8 @@ export function PurchaseCourseModal({
       <CourseCard modal course={course} />
       <Link
         href={`/checkout/${course.id}`}
-        className='clickable mx-auto flex items-center justify-center gap-2
-                   bg-primary-blue-500 px-4 py-2 text-lg font-semibold'
+        className='clickable mx-auto flex items-center justify-center gap-2 rounded-3xl
+                   bg-primary-blue-500 px-6 py-3 text-lg font-semibold'
       >
         Beli Sekarang
         <MdArrowCircleRight className='text-2xl' />
