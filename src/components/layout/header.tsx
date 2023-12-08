@@ -36,7 +36,7 @@ export function Header(): JSX.Element {
         </form>
         <div
           className={clsx(
-            'ml-auto opacity-0 transition-opacity',
+            'ml-auto min-w-fit opacity-0 transition-opacity',
             !loading && 'opacity-100'
           )}
         >
