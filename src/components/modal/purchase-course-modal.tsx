@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { MdArrowCircleRight } from 'react-icons/md';
+import { useAuth } from '@/lib/context/auth-context';
 import { CourseCard } from '../course/course-card';
 import { Modal } from './modal';
 import type { Course } from '@/lib/types/schema';
@@ -15,6 +16,12 @@ export function PurchaseCourseModal({
   course,
   closeModal
 }: PurchaseCourseModalProps): JSX.Element {
+  const { user } = useAuth();
+
+  const checkoutLink = user
+    ? `/checkout/${course.id}`
+    : `/login?redirect=/courses/${course.id}`;
+
   return (
     <Modal
       modalClassName='max-w-lg bg-white w-full p-8 rounded-medium grid gap-8'
@@ -29,9 +36,9 @@ export function PurchaseCourseModal({
       </div>
       <CourseCard modal course={course} />
       <Link
-        href={`/checkout/${course.id}`}
+        href={checkoutLink}
         className='clickable mx-auto flex items-center justify-center gap-2 rounded-high
-                   bg-primary-blue-500 px-6 py-3 text-lg font-semibold'
+                   bg-primary-blue-500 px-4 py-2 text-lg font-semibold'
       >
         Beli Sekarang
         <MdArrowCircleRight className='text-2xl' />

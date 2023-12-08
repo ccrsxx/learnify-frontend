@@ -1,19 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/context/auth-context';
 import { sleep } from '@/lib/utils';
 import { Placeholder } from '../common/placeholder';
 import type { ReactNode } from 'react';
 
 export function AuthLayout({ children }: { children: ReactNode }): JSX.Element {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [pending, setPending] = useState(true);
 
   const { user, loading } = useAuth();
-
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { replace } = useRouter();
 
   useEffect(() => {
     const checkLogin = async (): Promise<void> => {
@@ -21,7 +21,8 @@ export function AuthLayout({ children }: { children: ReactNode }): JSX.Element {
 
       if (user) {
         await sleep(500);
-        void replace('/');
+        const redirect = searchParams.get('redirect');
+        router.replace(redirect ?? '/');
       } else if (!loading) {
         await sleep(500);
         setPending(false);

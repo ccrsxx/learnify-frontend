@@ -6,12 +6,14 @@ import type { User } from '@/lib/types/schema';
 export function useRequireAuth(
   { redirect } = { redirect: '/login' }
 ): User | null {
+  const router = useRouter();
+
   const { user, loading } = useAuth();
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { replace } = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) void replace(redirect);
+    if (loading || user) return;
+
+    router.replace(redirect);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loading]);
 
