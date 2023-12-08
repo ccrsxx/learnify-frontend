@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/context/auth-context';
 import { sleep } from '@/lib/utils';
 import { Placeholder } from '../common/placeholder';
@@ -9,6 +9,7 @@ import type { ReactNode } from 'react';
 
 export function AuthLayout({ children }: { children: ReactNode }): JSX.Element {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const [pending, setPending] = useState(true);
@@ -19,7 +20,11 @@ export function AuthLayout({ children }: { children: ReactNode }): JSX.Element {
     const checkLogin = async (): Promise<void> => {
       setPending(true);
 
-      if (user) {
+      const inAdminLogin = pathname === '/login/admin';
+
+      const checkAuth = inAdminLogin ? user?.admin : user;
+
+      if (user && checkAuth) {
         await sleep(500);
         const redirect = searchParams.get('redirect');
         router.replace(redirect ?? '/');

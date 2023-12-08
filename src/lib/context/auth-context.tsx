@@ -4,7 +4,7 @@ import { useState, useEffect, createContext, useContext } from 'react';
 import { useLocalStorage } from '../hooks/use-local-storage';
 import { NEXT_PUBLIC_BACKEND_URL } from '../env';
 import type { ReactNode } from 'react';
-import type { LoginSchema } from '@/app/(auth)/login/page';
+import type { LoginSchema } from '@/app/(auth)/login/login';
 import type { APIResponse } from '../types/api';
 import type { User } from '../types/schema';
 
@@ -12,7 +12,7 @@ type AuthContextType = {
   user: User | null;
   token: string | null;
   loading: boolean;
-  login: (data: LoginSchema) => Promise<string | null>;
+  login: (data: LoginSchema, admin?: boolean) => Promise<string | null>;
   logout: () => void;
 };
 
@@ -60,21 +60,27 @@ export function AuthContextProvider({
     void manageAuth();
   }, [token]);
 
-  const handleLogin = async ({
-    emailOrPhoneNumber,
-    password
-  }: LoginSchema): Promise<string | null> => {
+  const handleLogin = async (
+    { emailOrPhoneNumber, password }: LoginSchema,
+    admin?: boolean
+  ): Promise<string | null> => {
     try {
       const isUsingEmail = emailOrPhoneNumber.includes('@');
+      const credentialType = isUsingEmail ? 'email' : 'phone_number';
 
-      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          [isUsingEmail ? 'email' : 'phone_number']: emailOrPhoneNumber,
-          password
-        })
-      });
+      const loginEndpoint = admin ? '/auth/login/admin' : '/auth/login/';
+
+      const response = await fetch(
+        `${NEXT_PUBLIC_BACKEND_URL}${loginEndpoint}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            [credentialType]: emailOrPhoneNumber,
+            password
+          })
+        }
+      );
 
       const data = (await response.json()) as APIResponse<User>;
 

@@ -5,6 +5,7 @@ import type { Dispatch, SetStateAction } from 'react';
 type SearchBarProps = {
   value: string;
   small?: boolean;
+  className?: string;
   placeholder?: string;
   onSearchChange: Dispatch<SetStateAction<string>>;
 };
@@ -12,6 +13,7 @@ type SearchBarProps = {
 export function SearchBar({
   value,
   small,
+  className,
   placeholder,
   onSearchChange
 }: SearchBarProps): JSX.Element {
@@ -21,7 +23,8 @@ export function SearchBar({
         `flex w-full items-center justify-between gap-4 rounded-high bg-white
          ring-1 ring-primary-blue-500 transition focus-within:ring-2
          focus-within:ring-primary-blue-300`,
-        small ? 'max-w-xs px-4 py-1.5' : 'max-w-md px-6 py-3'
+        small ? 'max-w-xs px-4 py-1.5' : 'max-w-md px-6 py-3',
+        className
       )}
     >
       <input

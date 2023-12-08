@@ -1,21 +1,24 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/context/auth-context';
 import type { User } from '@/lib/types/schema';
 
 export function useRequireAuth(
-  { redirect } = { redirect: '/login' }
+  { redirect, admin } = { redirect: '/login', admin: false }
 ): User | null {
   const router = useRouter();
+  const pathname = usePathname();
 
   const { user, loading } = useAuth();
 
+  const needsToBeAdmin = admin ? user?.admin : user;
+
   useEffect(() => {
-    if (loading || user) return;
+    if (loading || needsToBeAdmin) return;
 
-    router.replace(redirect);
+    router.replace(`${redirect}?redirect=${pathname}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, loading]);
+  }, [user, needsToBeAdmin, loading]);
 
-  return user;
+  return needsToBeAdmin ? user : null;
 }

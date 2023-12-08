@@ -6,9 +6,10 @@ export type Timestamp = {
 };
 
 export type User = Timestamp & {
+  name: string;
   email: string;
   token: string;
-  username: string;
+  admin: boolean;
   password: string;
   phone_number: string;
 };

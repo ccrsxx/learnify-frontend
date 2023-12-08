@@ -2,14 +2,20 @@
 
 import { useRequireAuth } from '@/lib/hooks/use-require-auth';
 import { Placeholder } from '../common/placeholder';
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
+
+type ProtectedLayoutProps = PropsWithChildren<{
+  admin?: boolean;
+}>;
 
 export function ProtectedLayout({
+  admin,
   children
-}: {
-  children: ReactNode;
-}): JSX.Element {
-  const user = useRequireAuth();
+}: ProtectedLayoutProps): JSX.Element {
+  const user = useRequireAuth({
+    admin: !!admin,
+    redirect: admin ? '/login/admin' : '/login'
+  });
 
   if (!user) return <Placeholder />;
 
