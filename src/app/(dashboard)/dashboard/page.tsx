@@ -3,7 +3,7 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import { formatDate } from '@/lib/format';
 import { generateRandomUserPayment } from '@/lib/random';
-import { Table } from '@/components/dashboard/table';
+import { Table } from '@/components/table/table';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { UserPayment } from '@/lib/types/schema';
 

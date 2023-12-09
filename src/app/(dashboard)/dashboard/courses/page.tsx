@@ -5,8 +5,8 @@ import { MdAdd } from 'react-icons/md';
 import { generateRandomCourse } from '@/lib/random';
 import { formatCurrency } from '@/lib/format';
 import { Button } from '@/components/ui/button';
-import { Table } from '@/components/dashboard/table';
-import { RowAction } from '@/components/dashboard/row-action';
+import { Table } from '@/components/table/table';
+import { RowAction } from '@/components/table/row-action';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { Course } from '@/lib/types/schema';
 
