@@ -25,39 +25,44 @@ export function DashboardTab({
       onHoverEnd={() => setHoveredTab(null)}
     >
       <LayoutGroup id='tabs'>
-        {tabs.map(({ id, href, label }, i) => (
-          <MotionLink
-            className={clsx(
-              `text-md relative flex h-8 cursor-pointer select-none items-center 
+        {tabs.map(({ id, href, label }, i) => {
+          const isHoveredTab = i === hoveredTab;
+          const isSelectedTab = i === selectedTabIndex;
+
+          return (
+            <MotionLink
+              className={clsx(
+                `text-md relative flex h-8 cursor-pointer select-none items-center 
                rounded-md px-4 text-sm text-primary-neutral-300 transition-colors`,
-              (hoveredTab === i || selectedTabIndex === i) && '!text-black'
-            )}
-            href={href}
-            onFocus={() => setHoveredTab(i)}
-            onClick={() => setSelectedTab([i, i > selectedTabIndex ? 1 : -1])}
-            onHoverStart={() => setHoveredTab(i)}
-            key={id}
-          >
-            <span className='z-20'>{label}</span>
-            {i === selectedTabIndex && (
-              <motion.div
-                transition={tabTransition}
-                layoutId='underline'
-                className='absolute -bottom-2 left-2 right-2 z-10 h-0.5 bg-primary-blue-500'
-              />
-            )}
-            <AnimatePresence>
-              {i === hoveredTab && (
+                (isHoveredTab || isSelectedTab) && '!text-black'
+              )}
+              href={href}
+              onFocus={() => setHoveredTab(i)}
+              onClick={() => setSelectedTab([i, i > selectedTabIndex ? 1 : -1])}
+              onHoverStart={() => setHoveredTab(i)}
+              key={id}
+            >
+              <span className='z-20'>{label}</span>
+              {isSelectedTab && (
                 <motion.div
-                  className='absolute bottom-0 left-0 right-0 top-0 z-10 rounded-md bg-gray-200'
-                  {...tabVariants}
                   transition={tabTransition}
-                  layoutId='hover'
+                  layoutId='underline'
+                  className='absolute -bottom-2 left-2 right-2 z-10 h-0.5 bg-primary-blue-500'
                 />
               )}
-            </AnimatePresence>
-          </MotionLink>
-        ))}
+              <AnimatePresence>
+                {isHoveredTab && (
+                  <motion.div
+                    className='absolute bottom-0 left-0 right-0 top-0 z-10 rounded-md bg-gray-200'
+                    {...tabVariants}
+                    transition={tabTransition}
+                    layoutId='hover'
+                  />
+                )}
+              </AnimatePresence>
+            </MotionLink>
+          );
+        })}
       </LayoutGroup>
     </motion.nav>
   );

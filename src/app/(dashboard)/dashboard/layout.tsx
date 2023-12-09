@@ -7,6 +7,42 @@ import { DashboardTab } from '@/components/dashboard/dashboard-tab';
 import type { ReactNode } from 'react';
 import type { Tab } from '@/lib/hooks/use-tabs';
 
+export default function Layout({
+  children
+}: {
+  children: ReactNode;
+}): JSX.Element {
+  const { tabProps } = useTabs({ tabs: dashboardTabs });
+
+  return (
+    <main className='layout grid gap-4 py-8'>
+      <section className='course-card-layout'>
+        {dashboardWidgets.map(({ id, label, color, value }) => (
+          <article
+            className={clsx(
+              'flex items-center gap-4 rounded-medium p-6',
+              color
+            )}
+            key={id}
+          >
+            <div className='rounded-full bg-white p-3'>
+              <MdGroup className='text-3xl text-primary-blue-500' />
+            </div>
+            <div>
+              <p className='text-2xl font-semibold'>{value}</p>
+              <p className='text-base'>{label}</p>
+            </div>
+          </article>
+        ))}
+      </section>
+      <section className='justify-self-start'>
+        <DashboardTab {...tabProps} />
+      </section>
+      {children}
+    </main>
+  );
+}
+
 const dashboardTabs: Tab[] = [
   {
     id: 'dashboard',
@@ -47,37 +83,3 @@ const dashboardWidgets: Widget[] = [
     value: 20
   }
 ];
-
-export default function Layout({
-  children
-}: {
-  children: ReactNode;
-}): JSX.Element {
-  const { tabProps } = useTabs({ tabs: dashboardTabs });
-
-  return (
-    <main className='layout grid gap-4 py-8'>
-      <section className='course-card-layout '>
-        {dashboardWidgets.map(({ id, label, color, value }) => (
-          <article
-            className={clsx(
-              'flex items-center gap-4 rounded-medium p-6',
-              color
-            )}
-            key={id}
-          >
-            <div className='rounded-full bg-white p-3'>
-              <MdGroup className='text-3xl text-primary-blue-500' />
-            </div>
-            <div>
-              <p className='text-2xl font-semibold'>{value}</p>
-              <p className='text-base'>{label}</p>
-            </div>
-          </article>
-        ))}
-      </section>
-      <DashboardTab {...tabProps} />
-      {children}
-    </main>
-  );
-}
