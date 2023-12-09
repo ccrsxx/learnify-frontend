@@ -1,11 +1,12 @@
-import type { CourseDifficulty } from './enum';
+import type { Difficulty, PaymentMethod, PaymentStatus } from './enum';
 
-export type Timestamp = {
+export type BaseRecord = {
+  id: string;
   created_at: string;
   updated_at: string;
 };
 
-export type User = Timestamp & {
+export type User = BaseRecord & {
   name: string;
   email: string;
   token: string;
@@ -14,22 +15,29 @@ export type User = Timestamp & {
   phone_number: string;
 };
 
-export type CourseCategory = Timestamp & {
-  id: string;
+export type UserPayment = BaseRecord & {
+  user: User;
+  status: PaymentStatus;
+  course: Course;
+  user_id: string;
+  course_id: string;
+  expired_at: string;
+  payment_method: PaymentMethod;
+};
+
+export type CourseCategory = BaseRecord & {
   name: string;
   image: string;
 };
 
-export type CourseMaterial = Timestamp & {
-  id: string;
+export type CourseMaterial = BaseRecord & {
   name: string;
   video: string;
   order_index: number;
   course_chapter_id: string;
 };
 
-export type CourseChapter = Timestamp & {
-  id: string;
+export type CourseChapter = BaseRecord & {
   name: string;
   image: string;
   duration: number;
@@ -39,8 +47,7 @@ export type CourseChapter = Timestamp & {
   course_material_id: string;
 };
 
-export type Course = Timestamp & {
-  id: string;
+export type Course = BaseRecord & {
   name: string;
   code: string;
   user: User;
@@ -51,7 +58,7 @@ export type Course = Timestamp & {
   premium: boolean;
   user_id: string;
   telegram: string;
-  difficulty: CourseDifficulty;
+  difficulty: Difficulty;
   description: string;
   intro_video: string;
   total_duration: number;

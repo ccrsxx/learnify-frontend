@@ -9,3 +9,17 @@ export const COURSE_DIFFICULTIES = [
 export type CourseType = (typeof COURSE_TYPES)[number];
 export type CourseFilter = (typeof COURSE_FILTERS)[number];
 export type CourseDifficulty = (typeof COURSE_DIFFICULTIES)[number];
+
+export const DIFFICULTIES = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED'] as const;
+
+export type Difficulty = (typeof DIFFICULTIES)[number];
+
+export const PAYMENT_STATUS = [
+  'PENDING',
+  'WAITING_VERIFICATION',
+  'COMPLETED'
+] as const;
+export const PAYMENT_METHODS = ['BANK_TRANSFER', 'CREDIT_CARD'] as const;
+
+export type PaymentStatus = (typeof PAYMENT_STATUS)[number];
+export type PaymentMethod = (typeof PAYMENT_METHODS)[number];

@@ -1,0 +1,26 @@
+table {
+  @apply w-full table-auto border-collapse text-sm;
+
+  &,
+  tbody {
+    @apply divide-y divide-gray-300;
+  }
+
+  & > :is(thead, tbody, tfoot) > tr > :is(th, td) {
+    @apply p-4 font-medium;
+  }
+
+  & > :is(thead, tfoot) > tr > :is(th, td) {
+    @apply uppercase tracking-wider text-gray-500;
+  }
+
+  tbody > tr > td {
+    &:first-child {
+      @apply text-gray-900;
+    }
+
+    &:not(:first-child) {
+      @apply text-gray-500;
+    }
+  }
+}

@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import { MdGroup } from 'react-icons/md';
 import { useTabs } from '@/lib/hooks/use-tabs';
-import { DashboardTab } from '@/components/dashboard/dashboard-tab';
+import { DashboardTab } from '@/components/ui/tab';
 import type { ReactNode } from 'react';
 import type { Tab } from '@/lib/hooks/use-tabs';
 
@@ -35,9 +35,7 @@ export default function Layout({
           </article>
         ))}
       </section>
-      <section className='justify-self-start'>
-        <DashboardTab {...tabProps} />
-      </section>
+      <DashboardTab {...tabProps} />
       {children}
     </main>
   );
