@@ -15,28 +15,35 @@ export default function Layout({
   const { tabProps } = useTabs({ tabs: dashboardTabs });
 
   return (
-    <main className='layout grid gap-4 py-8'>
-      <section className='course-card-layout'>
-        {dashboardWidgets.map(({ id, label, color, value }) => (
-          <article
-            className={clsx(
-              'flex items-center gap-4 rounded-medium p-6',
-              color
-            )}
-            key={id}
-          >
-            <div className='rounded-full bg-white p-3'>
-              <MdGroup className='text-3xl text-primary-blue-500' />
-            </div>
-            <div>
-              <p className='text-2xl font-semibold'>{value}</p>
-              <p className='text-base'>{label}</p>
-            </div>
-          </article>
-        ))}
+    <main className='grid grid-rows-[auto,1fr]'>
+      <section className='pt-8'>
+        <div className='layout'>
+          <section className='course-card-layout'>
+            {dashboardWidgets.map(({ id, label, color, value }) => (
+              <article
+                className={clsx(
+                  'flex items-center gap-4 rounded-medium p-6',
+                  color
+                )}
+                key={id}
+              >
+                <div className='rounded-full bg-white p-3'>
+                  <MdGroup className='text-3xl text-primary-blue-500' />
+                </div>
+                <div>
+                  <p className='text-2xl font-semibold'>{value}</p>
+                  <p className='text-base'>{label}</p>
+                </div>
+              </article>
+            ))}
+          </section>
+          <DashboardTab {...tabProps} />
+        </div>
+        <hr />
       </section>
-      <DashboardTab {...tabProps} />
-      {children}
+      <section className='pt-8'>
+        <div className='layout'>{children}</div>
+      </section>
     </main>
   );
 }

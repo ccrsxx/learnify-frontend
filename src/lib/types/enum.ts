@@ -10,6 +10,10 @@ export type CourseType = (typeof COURSE_TYPES)[number];
 export type CourseFilter = (typeof COURSE_FILTERS)[number];
 export type CourseDifficulty = (typeof COURSE_DIFFICULTIES)[number];
 
+export const TYPES = ['FREE', 'PREMIUM'] as const;
+
+export type Type = (typeof TYPES)[number];
+
 export const DIFFICULTIES = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED'] as const;
 
 export type Difficulty = (typeof DIFFICULTIES)[number];

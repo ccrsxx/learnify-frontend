@@ -65,7 +65,7 @@ export function Table<T>({
         />
         {children}
       </div>
-      <div className='relative max-w-full overflow-x-auto rounded-medium shadow-low'>
+      <div className='relative max-w-full overflow-x-auto rounded-medium bg-white shadow-low'>
         <table>
           <thead>
             {getHeaderGroups().map(({ id, headers }) => (
