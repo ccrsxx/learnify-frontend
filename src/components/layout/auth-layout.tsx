@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/context/auth-context';
-import { sleep } from '@/lib/utils';
+import { sleep } from '@/lib/helper';
 import { Placeholder } from '../common/placeholder';
 import type { ReactNode } from 'react';
 

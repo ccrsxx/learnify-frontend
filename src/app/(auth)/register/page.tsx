@@ -14,7 +14,7 @@ import {
   phoneNumberSchema
 } from '@/lib/validation';
 import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/env';
-import { sleep } from '@/lib/utils';
+import { sleep } from '@/lib/helper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { User } from '@/lib/types/schema';

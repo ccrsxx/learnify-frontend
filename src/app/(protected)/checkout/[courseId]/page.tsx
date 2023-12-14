@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { MdArrowCircleRight } from 'react-icons/md';
 import { toast, Toaster } from 'react-hot-toast';
 import { useCourse } from '@/lib/hooks/use-course';
-import { sleep } from '@/lib/utils';
+import { sleep } from '@/lib/helper';
 import { formatCurrency, formatDate } from '@/lib/format';
 import { Alert } from '@/components/ui/alert';
 import { BackButton } from '@/components/ui/back-arrow';

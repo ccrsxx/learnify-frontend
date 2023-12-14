@@ -1,4 +1,5 @@
 import { Dialog } from '@headlessui/react';
+import { Toaster } from 'react-hot-toast';
 import { MdClose } from 'react-icons/md';
 import { Button } from '../ui/button';
 import { Modal } from './modal';
@@ -18,7 +19,7 @@ export function NewCourseModal({
 }: NewCourseModalProps): JSX.Element {
   return (
     <Modal
-      modalClassName='grid gap-4 max-w-lg w-full bg-white p-6 rounded-medium'
+      modalClassName='grid gap-4 max-w-4xl w-full bg-white p-6 rounded-medium'
       open={open}
       closeModal={closeModal}
     >
@@ -34,6 +35,7 @@ export function NewCourseModal({
         </Button>
       </div>
       {children}
+      <Toaster position='bottom-center' />
     </Modal>
   );
 }

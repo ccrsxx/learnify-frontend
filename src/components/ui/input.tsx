@@ -1,18 +1,19 @@
 import { clsx } from 'clsx';
 import { Alert } from './alert';
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 export type InputProps = PropsWithChildren<{
   id: string;
   type: 'text' | 'textarea' | 'number' | 'tel' | 'password';
-  label: string;
+  label?: string;
   error?: FieldError | undefined;
   required?: boolean;
   register?: UseFormRegisterReturn;
   tabIndex?: number;
   placeholder: string;
   overrideError?: boolean;
+  additionalLabel?: ReactNode;
 }>;
 
 export function Input({
@@ -25,7 +26,8 @@ export function Input({
   register,
   required,
   placeholder,
-  overrideError
+  overrideError,
+  additionalLabel
 }: InputProps): JSX.Element {
   const inputErrorStyle =
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -34,31 +36,34 @@ export function Input({
 
   return (
     <div className='grid gap-2'>
-      <div className='flex justify-between'>
+      <div className='flex justify-between gap-4'>
         <label htmlFor={id}>{label}</label>
+        {additionalLabel}
+      </div>
+      <div className='flex items-center gap-4 [&>:first-child]:flex-1'>
+        {type === 'textarea' ? (
+          <textarea
+            className={clsx('custom-input', inputErrorStyle)}
+            id={id}
+            rows={4}
+            tabIndex={tabIndex}
+            required={required}
+            placeholder={placeholder}
+            {...register}
+          />
+        ) : (
+          <input
+            className={clsx('custom-input', inputErrorStyle)}
+            id={id}
+            type={type}
+            tabIndex={tabIndex}
+            required={required}
+            placeholder={placeholder}
+            {...register}
+          />
+        )}
         {children}
       </div>
-      {type === 'textarea' ? (
-        <textarea
-          className={clsx('custom-input', inputErrorStyle)}
-          id={id}
-          rows={4}
-          tabIndex={tabIndex}
-          required={required}
-          placeholder={placeholder}
-          {...register}
-        />
-      ) : (
-        <input
-          className={clsx('custom-input', inputErrorStyle)}
-          id={id}
-          type={type}
-          tabIndex={tabIndex}
-          required={required}
-          placeholder={placeholder}
-          {...register}
-        />
-      )}
       {error && (
         <Alert
           className='mt-1'

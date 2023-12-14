@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/lib/context/auth-context';
-import { sleep } from '@/lib/utils';
+import { sleep } from '@/lib/helper';
 import { passwordSchema, emailOrPhoneNumberSchema } from '@/lib/validation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -100,15 +100,16 @@ export function Login({ admin }: LoginProps): JSX.Element {
             placeholder='Masukkan password'
             tabIndex={2}
             overrideError={serverPasswordError}
-          >
-            <Link
-              href='/password-reset'
-              className='custom-underline ml-auto text-sm font-medium text-primary-blue-500'
-              tabIndex={4}
-            >
-              Lupa password?
-            </Link>
-          </Input>
+            additionalLabel={
+              <Link
+                href='/password-reset'
+                className='custom-underline ml-auto text-sm font-medium text-primary-blue-500'
+                tabIndex={4}
+              >
+                Lupa password?
+              </Link>
+            }
+          />
         </section>
         <Button
           className='rounded-medium bg-primary-blue-500 p-4 font-medium

@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { Disclosure } from '@headlessui/react';
 import { MdExpandLess } from 'react-icons/md';
+import { Collapse } from './collapse';
 import type { PropsWithChildren, Dispatch, SetStateAction } from 'react';
 
 type AccordionProps = PropsWithChildren<{
@@ -33,22 +34,11 @@ export function Accordion({
           className={clsx('h-5 w-5 transition-transform', open && 'rotate-180')}
         />
       </Disclosure.Button>
-      <div
-        className={clsx(
-          'grid grid-rows-[0fr] overflow-hidden transition-[grid-template-rows] duration-300',
-          open && 'grid-rows-[1fr]'
-        )}
-      >
-        <Disclosure.Panel
-          className={clsx(
-            'invisible min-h-0 text-sm transition-[visibility] duration-300',
-            open && '!visible'
-          )}
-          static
-        >
-          <div className='px-2 pt-2'>{children}</div>
+      <Collapse open={open}>
+        <Disclosure.Panel className='px-2 pt-2' as='div' static>
+          {children}
         </Disclosure.Panel>
-      </div>
+      </Collapse>
     </Disclosure>
   );
 }

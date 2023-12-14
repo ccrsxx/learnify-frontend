@@ -17,7 +17,7 @@ export default function Layout({
   return (
     <main className='grid grid-rows-[auto,1fr]'>
       <section className='pt-8'>
-        <div className='layout'>
+        <div className='layout grid gap-4'>
           <section className='course-card-layout'>
             {dashboardWidgets.map(({ id, label, color, value }) => (
               <article
