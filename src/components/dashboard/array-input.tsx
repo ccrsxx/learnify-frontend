@@ -85,12 +85,8 @@ export function ArrayInput<T extends FieldValues>({
           </motion.div>
         ))}
       </AnimatePresence>
-      {errors && (
-        <Alert
-          className='mt-1'
-          variant='error'
-          message={errors.message as string}
-        />
+      {errors?.message && (
+        <Alert className='mt-1' variant='error' message={errors.message} />
       )}
     </>
   );
