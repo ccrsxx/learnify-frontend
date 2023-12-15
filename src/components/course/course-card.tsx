@@ -24,7 +24,9 @@ export function CourseCard({
 }: CourseCardProps): JSX.Element {
   const {
     id,
+    name,
     price,
+    image,
     premium,
     course_category: { image: categoryImage }
   } = course;
@@ -43,8 +45,8 @@ export function CourseCard({
           className='h-24 w-full rounded-t-medium object-cover'
           width={320}
           height={96}
-          src={categoryImage}
-          alt={categoryImage}
+          src={image ?? categoryImage}
+          alt={name}
         />
         <section className='grid justify-items-start gap-3 p-3 text-black'>
           <CourseStats course={course} details={details} payment={payment} />

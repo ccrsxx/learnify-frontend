@@ -2,89 +2,91 @@
 
 import { createColumnHelper } from '@tanstack/react-table';
 import { MdAdd } from 'react-icons/md';
-import { generateRandomCourse } from '@/lib/random';
+import { Toaster } from 'react-hot-toast';
 import { formatCurrency } from '@/lib/format';
 import { useModal } from '@/lib/hooks/use-modal';
 import { useCategories } from '@/lib/hooks/use-categories';
+import { useCourses } from '@/lib/hooks/use-courses';
 import { Button } from '@/components/ui/button';
 import { Table } from '@/components/table/table';
 import { RowAction } from '@/components/table/row-action';
 import { NewCourseModal } from '@/components/modal/new-course-modal';
-import { NewCourseForm } from '@/components/dashboard/new-course-form';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { Course } from '@/lib/types/schema';
 
 export default function DashboardCourses(): JSX.Element {
   const { open, openModal, closeModal } = useModal();
 
+  const { data, isLoading } = useCourses();
+
+  const courses = data?.data ?? [];
+
   const { data: categoriesData } = useCategories();
+
+  const columnsWithAction: ColumnDef<Course>[] = [
+    ...columns,
+    {
+      id: 'action',
+      size: 98,
+      header: 'Aksi',
+      enableSorting: false,
+      meta: { className: 'p-0 text-clip overflow-visible' },
+      cell: () => <RowAction />
+    }
+  ];
 
   const categories = categoriesData?.data;
 
   return (
-    <section>
-      <NewCourseModal open={open} closeModal={closeModal}>
-        <NewCourseForm categories={categories}>
-          <div className='col-span-full mt-2 grid grid-cols-2 gap-4 text-white'>
-            <Button
-              className='bg-primary-alert-error px-4 py-3 transition hover:brightness-90'
-              onClick={closeModal}
-            >
-              Kembali
-            </Button>
-            <Button
-              type='submit'
-              className='bg-primary-blue-500 px-4 py-3 transition hover:brightness-90'
-            >
-              Simpan
-            </Button>
-          </div>
-        </NewCourseForm>
-      </NewCourseModal>
-      <Table rows={courses} columns={columns}>
+    <>
+      <NewCourseModal
+        open={open}
+        categories={categories}
+        closeModal={closeModal}
+      />
+      <Table rows={courses} columns={columnsWithAction} loading={isLoading}>
         <Button
-          className='clickable flex min-w-fit items-center gap-1 bg-primary-blue-500 px-4 py-2'
+          className='clickable w overflow flex min-w-fit items-center gap-1 bg-primary-blue-500 px-4 py-2'
           onClick={openModal}
         >
           <MdAdd className='text-lg' />
           Tambah Kelas
         </Button>
       </Table>
-    </section>
+      <Toaster position='bottom-center' />
+    </>
   );
 }
 
 const { accessor } = createColumnHelper<Course>();
 
-const columns: ColumnDef<Course>[] = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const columns: ColumnDef<Course, any>[] = [
   accessor('code', {
-    header: 'ID'
+    header: 'ID',
+    size: 112
   }),
   accessor('course_category.name', {
-    header: 'Kategori'
+    header: 'Kategori',
+    size: 192
   }),
   accessor('name', {
-    header: 'Kelas'
+    header: 'Kelas',
+    size: 320
   }),
   accessor('premium', {
     header: 'Tipe',
+    size: 128,
     cell: ({ getValue }) => (getValue() ? 'PREMIUM' : 'GRATIS')
   }),
   accessor('difficulty', {
     header: 'Level',
+    size: 128,
     meta: { className: 'first-letter:uppercase lowercase' }
   }),
   accessor('price', {
     header: 'Harga',
-    cell: ({ getValue }) => formatCurrency(getValue())
-  }),
-  {
-    id: 'action',
-    header: 'Aksi',
-    enableSorting: false,
-    meta: { className: 'p-0' },
-    cell: () => <RowAction />
-  }
+    size: 128,
+    cell: ({ getValue }) => formatCurrency(getValue() as number)
+  })
 ];
-
-const courses: Course[] = Array.from({ length: 12 }, generateRandomCourse);

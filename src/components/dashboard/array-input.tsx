@@ -5,12 +5,13 @@ import { Button } from '../ui/button';
 import { Alert } from '../ui/alert';
 import type { MotionProps } from 'framer-motion';
 import type {
+  Path,
   Merge,
   FieldError,
   FieldValues,
   FieldErrorsImpl,
-  FieldArrayWithId,
-  UseFormRegisterReturn
+  UseFormRegister,
+  FieldArrayWithId
 } from 'react-hook-form';
 
 type CustomFieldErrors = Merge<
@@ -31,8 +32,8 @@ type ArrayInputProps<T extends FieldValues> = {
   label: string;
   fields: FieldArrayWithId<T>[];
   errors: CustomFieldErrors | undefined;
-  register: UseFormRegisterReturn;
   placeholder: string;
+  register: UseFormRegister<T>;
   onAppend: () => void;
   onRemove: (index: number) => () => void;
 };
@@ -42,8 +43,8 @@ export function ArrayInput<T extends FieldValues>({
   label,
   fields,
   errors,
-  register,
   placeholder,
+  register,
   onAppend,
   onRemove
 }: ArrayInputProps<T>): JSX.Element {
@@ -58,7 +59,7 @@ export function ArrayInput<T extends FieldValues>({
               label={index === 0 ? label : undefined}
               error={errors?.[index]?.name}
               placeholder={placeholder}
-              {...register}
+              register={register(`${String(id)}.${index}.name` as Path<T>)}
             >
               <div className='flex gap-2 text-white'>
                 {fields.length > 1 && (

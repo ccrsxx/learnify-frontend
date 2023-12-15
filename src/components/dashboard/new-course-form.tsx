@@ -243,7 +243,7 @@ export function NewCourseForm({
           placeholder='Masukkan target audience kelas'
           onAppend={() => append({ name: '' })}
           onRemove={(index) => () => remove(index)}
-          register={register('target_audience')}
+          register={register}
         />
       </div>
       <div className='col-span-full'>

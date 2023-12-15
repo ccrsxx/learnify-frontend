@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-table';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import { rankItem } from '@tanstack/match-sorter-utils';
+import { useTable } from '@/lib/hooks/use-table';
 import { SortIcon } from './sort-icon';
 import type { PropsWithChildren } from 'react';
 import type {
@@ -23,12 +24,14 @@ import type { IconType } from 'react-icons';
 
 type TableProps<T> = PropsWithChildren<{
   rows: T[];
+  loading: boolean;
   columns: ColumnDef<T>[];
 }>;
 
 export function Table<T>({
   rows,
   columns,
+  loading,
   children
 }: TableProps<T>): JSX.Element {
   const [globalFilter, setGlobalFilter] = useState('');
@@ -36,10 +39,12 @@ export function Table<T>({
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
+  const { tableColumns, tableRows } = useTable({ rows, columns, loading });
+
   const { getHeaderGroups, getRowModel } = useReactTable<T>({
-    data: rows,
+    data: tableRows,
     state: { globalFilter, columnFilters, sorting },
-    columns: columns,
+    columns: tableColumns,
     sortDescFirst: false,
     globalFilterFn: fuzzyFilter,
     onSortingChange: setSorting,
@@ -75,6 +80,7 @@ export function Table<T>({
                     id,
                     column: {
                       columnDef,
+                      getSize,
                       getCanSort,
                       getIsSorted,
                       getToggleSortingHandler
@@ -82,6 +88,7 @@ export function Table<T>({
                     getContext
                   }) => (
                     <th
+                      style={{ width: getSize() }}
                       className={clsx(
                         'group',
                         getCanSort() && 'cursor-pointer select-none'
@@ -120,6 +127,7 @@ export function Table<T>({
                     column: {
                       columnDef: { cell, meta }
                     },
+                    getValue,
                     getContext
                   }) => (
                     <td
@@ -127,6 +135,7 @@ export function Table<T>({
                         'whitespace-nowrap',
                         (meta as { className?: string } | undefined)?.className
                       )}
+                      title={getValue() as string}
                       key={id}
                     >
                       {flexRender(cell, getContext())}

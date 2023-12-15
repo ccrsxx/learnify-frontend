@@ -1,5 +1,5 @@
 table {
-  @apply w-full table-auto border-collapse text-sm;
+  @apply w-full table-fixed border-collapse text-sm;
 
   &,
   tbody {
@@ -14,7 +14,13 @@ table {
     @apply uppercase tracking-wider text-gray-500;
   }
 
+  & > thead > tr > th:last-child {
+    @apply lg:w-auto #{!important};
+  }
+
   tbody > tr > td {
+    @apply truncate;
+
     &:first-child {
       @apply text-gray-900;
     }

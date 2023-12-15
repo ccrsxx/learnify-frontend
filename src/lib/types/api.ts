@@ -3,7 +3,9 @@ type SlugEndPointsWithParams = 'courses';
 
 type ApiEndpoints =
   | 'courses'
+  | 'user-payments'
   | 'course-categories'
+  | 'dashboard/statistics'
   | `${SlugEndPoints}/${string}`
   | `${SlugEndPointsWithParams}?${string}`;
 

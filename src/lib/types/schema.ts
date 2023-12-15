@@ -20,6 +20,7 @@ export type UserPayment = BaseRecord & {
   status: PaymentStatus;
   course: Course;
   user_id: string;
+  paid_at: string;
   course_id: string;
   expired_at: string;
   payment_method: PaymentMethod;
@@ -50,11 +51,10 @@ export type CourseChapter = BaseRecord & {
 export type Course = BaseRecord & {
   name: string;
   code: string;
-  user: User;
-  image: string;
+  image: string | null;
   price: number;
   author: string;
-  rating: number;
+  rating?: number;
   premium: boolean;
   user_id: string;
   telegram: string;
@@ -69,3 +69,8 @@ export type Course = BaseRecord & {
   target_audience: string[];
   course_category_id: string;
 };
+
+export type Statistic = Record<
+  'total_users' | 'active_courses' | 'premium_courses',
+  number
+>;

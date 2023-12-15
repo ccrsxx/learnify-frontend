@@ -156,3 +156,15 @@ export function CourseDetailsSkeleton(): JSX.Element {
     </main>
   );
 }
+
+export function WidgetSkeleton(): JSX.Element {
+  return (
+    <article className='flex items-center gap-4 rounded-medium bg-gray-100 p-6'>
+      <div className='h-14 w-14 animate-pulse rounded-full bg-gray-200' />
+      <div className='grid gap-2'>
+        <div className='h-6 w-12 animate-pulse rounded-medium bg-gray-200' />
+        <div className='h-4 w-24 animate-pulse rounded-medium bg-gray-200' />
+      </div>
+    </article>
+  );
+}
