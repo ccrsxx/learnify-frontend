@@ -1,4 +1,5 @@
 import { Menu } from '@headlessui/react';
+import { toast } from 'react-hot-toast';
 import { clsx } from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MdMoreVert, MdEdit, MdDelete } from 'react-icons/md';
@@ -23,6 +24,8 @@ export function RowAction({ course }: RowActionProps): JSX.Element {
   const handleDeleteCourse = (): void =>
     deleteCourseMutation.mutate(id, {
       onSuccess: () => {
+        toast.success('Course deleted successfully!');
+
         closeModal();
 
         void queryClient.invalidateQueries({

@@ -12,7 +12,7 @@ export function useStatistics(): UseQueryResult<{
   const result = useQuery<{
     data: Statistic;
   }>({
-    queryKey: ['dashboard', 'statistics', token],
+    queryKey: ['courses', 'statistics', token],
     queryFn: () =>
       fetcher('/dashboard/statistics', {
         headers: { Authorization: `Bearer ${token}` }
