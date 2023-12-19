@@ -7,6 +7,7 @@ import { useCrudCourses } from '@/lib/hooks/use-crud-courses';
 import { useModal } from '@/lib/hooks/use-modal';
 import { Button } from '../ui/button';
 import { ActionModal } from '../modal/action-modal';
+import { NewCourseModal } from '../modal/new-course-modal';
 import type { Course } from '@/lib/types/schema';
 import type { MotionProps } from 'framer-motion';
 
@@ -15,7 +16,17 @@ type RowActionProps = {
 };
 
 export function RowAction({ course }: RowActionProps): JSX.Element {
-  const { open, openModal, closeModal } = useModal();
+  const {
+    open: deleteCourseModalOpen,
+    openModal: openDeleteCourseModal,
+    closeModal: closeDeleteCourseModal
+  } = useModal();
+
+  const {
+    open: editCourseModalOpen,
+    openModal: openEditCourseModal,
+    closeModal: closeEditCourseModal
+  } = useModal();
 
   const { queryClient, deleteCourseMutation } = useCrudCourses();
 
@@ -26,7 +37,7 @@ export function RowAction({ course }: RowActionProps): JSX.Element {
       onSuccess: () => {
         toast.success('Course deleted successfully!');
 
-        closeModal();
+        closeDeleteCourseModal();
 
         void queryClient.invalidateQueries({
           queryKey: ['courses']
@@ -40,10 +51,15 @@ export function RowAction({ course }: RowActionProps): JSX.Element {
         title='Delete course'
         description='Are you sure you want to delete this course?'
         mainBtnLabel='Delete'
-        open={open}
+        open={deleteCourseModalOpen}
         loading={deleteCourseMutation.isPending}
         action={handleDeleteCourse}
-        closeModal={closeModal}
+        closeModal={closeDeleteCourseModal}
+      />
+      <NewCourseModal
+        open={editCourseModalOpen}
+        course={course}
+        closeModal={closeEditCourseModal}
       />
       <Menu className='relative mx-auto inline-block' as='div'>
         {({ open }) => (
@@ -71,6 +87,7 @@ export function RowAction({ course }: RowActionProps): JSX.Element {
                            p-2 text-white transition`,
                           active && 'brightness-90'
                         )}
+                        onClick={openEditCourseModal}
                       >
                         <MdEdit className='text-lg' /> Edit
                       </Button>
@@ -84,7 +101,7 @@ export function RowAction({ course }: RowActionProps): JSX.Element {
                            p-2 text-white transition`,
                           active && 'brightness-90'
                         )}
-                        onClick={openModal}
+                        onClick={openDeleteCourseModal}
                       >
                         <MdDelete className='text-lg' /> Delete
                       </Button>

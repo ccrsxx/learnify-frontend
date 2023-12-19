@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { useModal } from '@/lib/hooks/use-modal';
 import { preventBubbling } from '@/lib/helper';
 import { Button } from '../ui/button';
+import { LazyImage } from '../ui/lazy-image';
 import { Modal } from './modal';
 import type { ImageProps } from 'next/image';
 
@@ -67,7 +68,7 @@ export function ImagePreview({
         className={clsx('smooth-tab grid', wrapperClassName)}
         onClick={openModal}
       >
-        <Image
+        <LazyImage
           {...rest}
           className={clsx(
             'mx-auto cursor-pointer rounded-medium transition hover:brightness-75',

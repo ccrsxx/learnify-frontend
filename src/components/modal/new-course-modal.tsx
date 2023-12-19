@@ -28,19 +28,15 @@ type NewCourseModalProps = {
 
 export function NewCourseModal({
   open,
+  course,
   closeModal
 }: NewCourseModalProps): JSX.Element {
   const { user } = useAuth();
 
-  const { createCourseMutation } = useCrudCourses();
+  const { createCourseMutation, updateCourseMutation } = useCrudCourses();
 
   const form = useForm<CourseSchema>({
-    defaultValues: {
-      ...generateRandomCourse(),
-      type: 'PREMIUM',
-      target_audience: [{ name: 'Test' }],
-      course_category_id: '5db0a017-6041-4d9a-8f44-5fca03d5378a'
-    },
+    defaultValues: setInitialValues(course),
     resolver: zodResolver(courseSchema)
   });
 
@@ -50,7 +46,14 @@ export function NewCourseModal({
   });
 
   const [image, setImage] = useState<File | null>(null);
-  const [imageData, setImageData] = useState<ImageData | null>(null);
+  const [imageData, setImageData] = useState<ImageData | null>(() =>
+    course?.image
+      ? {
+          src: course.image,
+          alt: course.name
+        }
+      : null
+  );
 
   const [formLoading, setFormLoading] = useState(false);
 
@@ -83,6 +86,26 @@ export function NewCourseModal({
     formData.append('target_audience', JSON.stringify(parsedTargetAudience));
 
     if (image) formData.append('image', image);
+    else if (imageData) formData.append('image', imageData.src);
+
+    if (course) {
+      updateCourseMutation.mutate(
+        { id: course.id, data: formData },
+        {
+          onSuccess: ({ message }) => {
+            toast.success(message);
+            closeModal();
+          },
+          onError: ({ message }) => {
+            toast.error(message);
+          },
+          onSettled: () => {
+            setFormLoading(false);
+          }
+        }
+      );
+      return;
+    }
 
     createCourseMutation.mutate(formData, {
       onSuccess: ({ message }) => {
@@ -180,4 +203,23 @@ export function NewCourseModal({
       </CourseForm>
     </Modal>
   );
+}
+
+function setInitialValues(course?: Course): CourseSchema {
+  if (!course)
+    return {
+      ...generateRandomCourse(),
+      type: 'PREMIUM',
+      target_audience: [{ name: 'Test' }],
+      course_category_id: '5db0a017-6041-4d9a-8f44-5fca03d5378a'
+    };
+
+  const { premium, target_audience, course_category_id } = course;
+
+  return {
+    ...course,
+    type: premium ? 'PREMIUM' : 'FREE',
+    target_audience: target_audience.map((name) => ({ name })),
+    course_category_id
+  };
 }

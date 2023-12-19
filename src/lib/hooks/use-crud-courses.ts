@@ -19,7 +19,7 @@ type ExtractMutationVariables<T> = T extends MutationResult<infer U>
 type CrudCourses = {
   queryClient: QueryClient;
   createCourseMutation: MutationResult<FormData>;
-  updateCourseMutation: MutationResult<{ id: string; data: Course }>;
+  updateCourseMutation: MutationResult<{ id: string; data: FormData }>;
   deleteCourseMutation: MutationResult<string>;
 };
 
@@ -58,7 +58,7 @@ export function useCrudCourses(): CrudCourses {
         headers: {
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(data)
+        body: data
       }),
     onSuccess: () =>
       queryClient.invalidateQueries({
