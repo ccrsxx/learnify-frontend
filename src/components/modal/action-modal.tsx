@@ -1,9 +1,12 @@
 import { clsx } from 'clsx';
 import { Dialog } from '@headlessui/react';
 import { Button } from '../ui/button';
+import { Modal } from './modal';
 
 type ActionModalProps = {
+  open: boolean;
   title: string;
+  loading?: boolean;
   description: string;
   mainBtnLabel: string;
   secondaryBtnLabel?: string;
@@ -14,7 +17,9 @@ type ActionModalProps = {
 };
 
 export function ActionModal({
+  open,
   title,
+  loading,
   description,
   mainBtnLabel,
   secondaryBtnLabel,
@@ -24,21 +29,38 @@ export function ActionModal({
   closeModal
 }: ActionModalProps): JSX.Element {
   return (
-    <div className='grid gap-6'>
-      <div className='grid gap-2'>
-        <Dialog.Title className='text-xl font-bold'>{title}</Dialog.Title>
-        <Dialog.Description className='text-light-secondary dark:text-dark-secondary'>
-          {description}
-        </Dialog.Description>
+    <Modal
+      modalClassName='max-w-xs bg-white w-full p-6 rounded-2xl text-black'
+      open={open}
+      closeModal={closeModal}
+    >
+      <div className='grid gap-6'>
+        <div className='grid gap-2'>
+          <Dialog.Title className='text-xl font-bold'>{title}</Dialog.Title>
+          <Dialog.Description>{description}</Dialog.Description>
+        </div>
+        <div className='grid gap-4'>
+          <Button
+            className={clsx(
+              'bg-primary-alert-error p-2 text-white',
+              mainButtonClassName
+            )}
+            loading={loading}
+            onClick={action}
+          >
+            {mainBtnLabel}
+          </Button>
+          <Button
+            className={clsx(
+              'bg-primary-blue-300 p-2 text-white',
+              secondaryButtonClassName
+            )}
+            onClick={closeModal}
+          >
+            {secondaryBtnLabel ?? 'Cancel'}
+          </Button>
+        </div>
       </div>
-      <div className='grid gap-4'>
-        <Button className={clsx(mainButtonClassName)} onClick={action}>
-          {mainBtnLabel}
-        </Button>
-        <Button className={clsx(secondaryButtonClassName)} onClick={closeModal}>
-          {secondaryBtnLabel ?? 'Cancel'}
-        </Button>
-      </div>
-    </div>
+    </Modal>
   );
 }

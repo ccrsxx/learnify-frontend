@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { clsx } from 'clsx';
 import { useModal } from '@/lib/hooks/use-modal';
 import { preventBubbling } from '@/lib/helper';
+import { Button } from '../ui/button';
 import { Modal } from './modal';
 import type { ImageProps } from 'next/image';
 
@@ -62,7 +63,7 @@ export function ImagePreview({
           </a>
         </div>
       </Modal>
-      <button
+      <Button
         className={clsx('smooth-tab grid', wrapperClassName)}
         onClick={openModal}
       >
@@ -76,7 +77,7 @@ export function ImagePreview({
           alt={alt}
           title={alt}
         />
-      </button>
+      </Button>
     </>
   );
 }

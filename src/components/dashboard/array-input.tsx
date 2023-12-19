@@ -49,7 +49,7 @@ export function ArrayInput<T extends FieldValues>({
   onRemove
 }: ArrayInputProps<T>): JSX.Element {
   return (
-    <>
+    <div className='grid gap-2'>
       <AnimatePresence mode='popLayout'>
         {fields.map(({ id: fieldId }, index) => (
           <motion.div {...variant} layout='position' key={fieldId}>
@@ -89,7 +89,7 @@ export function ArrayInput<T extends FieldValues>({
       {errors?.message && (
         <Alert className='mt-1' variant='error' message={errors.message} />
       )}
-    </>
+    </div>
   );
 }
 
