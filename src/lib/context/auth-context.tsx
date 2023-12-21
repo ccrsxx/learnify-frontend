@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, createContext, useContext } from 'react';
+import { useRouter } from 'next/navigation';
 import { useLocalStorage } from '../hooks/use-local-storage';
 import { NEXT_PUBLIC_BACKEND_URL } from '../env';
 import type { ReactNode } from 'react';
@@ -23,6 +24,8 @@ export function AuthContextProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
+  const router = useRouter();
+
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useLocalStorage<string | null>('token', null);
   const [loading, setLoading] = useState(true);
@@ -109,8 +112,12 @@ export function AuthContextProvider({
   };
 
   const handleLogout = (): void => {
-    setUser(null);
-    setToken(null);
+    router.replace('/');
+
+    setTimeout(() => {
+      setUser(null);
+      setToken(null);
+    }, 200);
   };
 
   const contextValue: AuthContextType = {

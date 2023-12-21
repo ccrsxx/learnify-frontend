@@ -17,8 +17,12 @@ export function useRequireAuth(
   useEffect(() => {
     if (loading || needsToBeAdmin) return;
 
+    const searchParamsString = searchParams.toString();
+
     router.replace(
-      `${redirect}?redirect=${pathname}?${searchParams.toString()}`
+      `${redirect}?redirect=${pathname}${
+        searchParamsString ? `?${searchParamsString}` : ''
+      }`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, needsToBeAdmin, loading]);

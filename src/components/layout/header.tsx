@@ -2,15 +2,15 @@
 
 import Link from 'next/link';
 import { clsx } from 'clsx';
-import { MdLogin, MdLogout } from 'react-icons/md';
+import { MdLogin } from 'react-icons/md';
 import { useState } from 'react';
 import { useAuth } from '@/lib/context/auth-context';
 import { Logo } from '../common/logo';
 import { SearchBar } from '../common/search-bar';
-import { Button } from '../ui/button';
+import { HeaderProfile } from './header-profile';
 
 export function Header(): JSX.Element {
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
 
   const [search, setSearch] = useState('');
 
@@ -41,13 +41,7 @@ export function Header(): JSX.Element {
           )}
         >
           {loading ? null : user ? (
-            <Button
-              className='clickable flex items-center gap-2 text-xl font-bold'
-              onClick={logout}
-            >
-              <MdLogout />
-              Log out
-            </Button>
+            <HeaderProfile />
           ) : (
             <Link
               href='/login'
