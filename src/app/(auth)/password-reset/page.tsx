@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { sleep } from '@/lib/helper';
+import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/env';
 import { emailSchema } from '@/lib/validation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,43 +28,48 @@ export default function Login(): JSX.Element {
   const [errorServer, setErrorServer] = useState<string | null>(null);
   const [formLoading, setFormLoading] = useState(false);
 
-  const onSubmit: SubmitHandler<PasswordResetSchema> = async (
-    _data
-  ): Promise<void> => {
+  const onSubmit: SubmitHandler<PasswordResetSchema> = async ({
+    email
+  }): Promise<void> => {
     setFormLoading(true);
     setErrorServer(null);
 
     try {
-      const errorMessage = await toast.promise(
-        sleep(2000).then(() => null),
+      const response = await fetch(
+        `${NEXT_PUBLIC_BACKEND_URL}/auth/password-reset`,
         {
-          loading: 'Mengirim link reset password',
-          success: 'Link reset password telah dikirim ke email kamu',
-          error: 'Terjadi kesalahan. Silahkan coba lagi'
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email })
         }
       );
 
-      if (errorMessage) {
-        setFormLoading(false);
-        setErrorServer(errorMessage);
+      if (!response.ok) {
+        const errorMessage =
+          response.status === 404
+            ? 'Maaf, akun tidak ditemukan'
+            : 'Terjadi kesalahan. Silahkan coba lagi';
 
         toast.error(errorMessage);
+
+        setErrorServer(errorMessage);
 
         return;
       }
 
-      setFormLoading(false);
-
-      await sleep(1000);
-
-      toast.dismiss();
-    } catch {
-      setFormLoading(false);
+      toast.success('Link reset password telah dikirim ke email Anda');
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
       toast.error('Terjadi kesalahan. Silahkan coba lagi');
+    } finally {
+      setFormLoading(false);
     }
   };
 
-  const serverEmailError = errorServer?.includes('akun');
+  const serverEmailError = errorServer?.includes('Akun');
 
   return (
     <div className='mx-auto grid w-full max-w-md gap-6'>

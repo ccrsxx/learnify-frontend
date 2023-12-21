@@ -2,15 +2,18 @@
 
 import { z } from 'zod';
 import { toast } from 'react-hot-toast';
-import { useState } from 'react';
+import { clsx } from 'clsx';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { sleep } from '@/lib/helper';
 import { passwordSchema } from '@/lib/validation';
+import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/env';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { SubmitHandler } from 'react-hook-form';
+import type { APIResponse } from '@/lib/types/api';
 
 const passwordResetValidation = z
   .object({
@@ -24,7 +27,13 @@ const passwordResetValidation = z
 
 type PasswordResetValidationSchema = z.infer<typeof passwordResetValidation>;
 
-export default function Login(): JSX.Element {
+export default function Login({
+  params: { token }
+}: {
+  params: { token: string };
+}): JSX.Element {
+  const router = useRouter();
+
   const {
     formState: { errors },
     register,
@@ -33,58 +42,90 @@ export default function Login(): JSX.Element {
     resolver: zodResolver(passwordResetValidation)
   });
 
-  const [errorServer, setErrorServer] = useState<string | null>(null);
   const [formLoading, setFormLoading] = useState(false);
+  const [validationLoading, setValidationLoading] = useState(true);
 
-  const router = useRouter();
+  useEffect(() => {
+    const checkToken = async (): Promise<void> => {
+      try {
+        const response = await fetch(
+          `${NEXT_PUBLIC_BACKEND_URL}/auth/password-reset/${token}`
+        );
 
-  const onSubmit: SubmitHandler<PasswordResetValidationSchema> = async (
-    _data
-  ): Promise<void> => {
+        const data = (await response.json()) as APIResponse;
+
+        if (!response.ok) throw new Error(data.message);
+
+        await sleep(3000);
+
+        setValidationLoading(false);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+
+        toast.error('Tautan invalid atau kadaluarsa');
+
+        router.replace('/login');
+      }
+    };
+
+    void checkToken();
+  }, [token, router]);
+
+  const onSubmit: SubmitHandler<PasswordResetValidationSchema> = async ({
+    password
+  }): Promise<void> => {
     setFormLoading(true);
-    setErrorServer(null);
 
     try {
-      const errorMessage = await toast.promise(
-        sleep(2000).then(() => null),
+      const response = await fetch(
+        `${NEXT_PUBLIC_BACKEND_URL}/auth/password-reset`,
         {
-          loading: 'Memperoses perubahan password',
-          success:
-            'Password berhasil diubah. Kamu akan dialihkan ke halaman login',
-          error: 'Terjadi kesalahan. Silahkan coba lagi'
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ token, password })
         }
       );
 
-      if (errorMessage) {
-        setFormLoading(false);
-        setErrorServer(errorMessage);
+      const data = (await response.json()) as APIResponse;
 
-        toast.error(errorMessage);
-
-        return;
-      }
+      if (!response.ok) throw new Error(data.message);
 
       setFormLoading(false);
+
+      await toast.promise(sleep(2000), {
+        loading:
+          'Password berhasil diubah, kamu akan dialihkan ke halaman login',
+        success: 'Sedang mengalihkan',
+        error: 'Terjadi kesalahan. Silahkan coba lagi'
+      });
 
       await sleep(1000);
 
       toast.dismiss();
 
-      void router.replace('/login');
-    } catch {
+      router.replace('/login');
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
       setFormLoading(false);
       toast.error('Terjadi kesalahan. Silahkan coba lagi');
     }
   };
 
-  const serverEmailError = errorServer?.includes('akun');
-
   return (
-    <div className='mx-auto grid w-full max-w-md gap-6'>
+    <div
+      className={clsx(
+        'mx-auto grid w-full max-w-md gap-6',
+        validationLoading && 'pointer-events-none animate-pulse'
+      )}
+    >
       <h1 className='text-2xl font-bold text-primary-blue-500'>
         Reset Password
       </h1>
-      <form className='grid gap-6' onSubmit={handleSubmit(onSubmit)}>
+      <form className={clsx('grid gap-6')} onSubmit={handleSubmit(onSubmit)}>
         <section className='grid gap-4'>
           <Input
             id='password'
@@ -93,7 +134,6 @@ export default function Login(): JSX.Element {
             error={errors.password}
             register={register('password')}
             placeholder='Masukkan password baru'
-            overrideError={serverEmailError}
           />
           <Input
             id='confirmPassword'
@@ -102,7 +142,6 @@ export default function Login(): JSX.Element {
             error={errors.confirmPassword}
             register={register('confirmPassword')}
             placeholder='Ulangi password baru'
-            overrideError={serverEmailError}
           />
         </section>
         <Button
