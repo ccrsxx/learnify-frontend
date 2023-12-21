@@ -1,15 +1,22 @@
 'use client';
 
-import { SiTelegram } from 'react-icons/si';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast, Toaster } from 'react-hot-toast';
+import { SiTelegram } from 'react-icons/si';
+import { MdWarning } from 'react-icons/md';
 import { useModal } from '@/lib/hooks/use-modal';
 import { useCourse } from '@/lib/hooks/use-course';
+import { useMaterialStatus } from '@/lib/hooks/use-material-status';
+import { useAuth } from '@/lib/context/auth-context';
 import { CourseStats } from '@/components/course/course-stats';
 import { VideoPlayer } from '@/components/ui/video-player';
 import { CourseStudyCard } from '@/components/course/course-study-card';
 import { CourseDetailsSkeleton } from '@/components/common/skeleton';
 import { BackButton } from '@/components/ui/back-arrow';
 import { PurchaseCourseModal } from '@/components/modal/purchase-course-modal';
+import { EnrollCourseModal } from '@/components/modal/enroll-course-modal';
 import type { Course, CourseMaterial } from '@/lib/types/schema';
 
 export default function Course({
@@ -19,13 +26,71 @@ export default function Course({
 }): JSX.Element {
   const router = useRouter();
 
+  const { user } = useAuth();
+
   const [courseId, materialId] = slug;
 
   const { data: courseData, isLoading: courseLoading } = useCourse(courseId);
+  const { updateMaterialStatusMutation } = useMaterialStatus();
 
-  const { open, openModal, closeModal } = useModal();
+  const [currentMaterial, setCurrentMaterial] = useState<CourseMaterial | null>(
+    () => getCourseMaterialById(courseData?.data, materialId)
+  );
+
+  const {
+    open: enrollCourseModalOpen,
+    openModal: openEnrollCourseModal,
+    closeModal: closeEnrollCourseModal
+  } = useModal();
+
+  const {
+    open: purchaseCourseModalOpen,
+    openModal: openPurchaseCourseModal,
+    closeModal: closePurchaseCourseModal
+  } = useModal();
+
+  useEffect(() => {
+    if (!courseData || !materialId) return;
+
+    const newCurrentMaterialId = getCourseMaterialById(
+      courseData.data,
+      materialId
+    );
+
+    setCurrentMaterial(newCurrentMaterialId);
+  }, [materialId, courseData]);
+
+  if (courseLoading) return <CourseDetailsSkeleton />;
+
+  if (!courseData)
+    return (
+      <section className='flex justify-center'>
+        <h1 className='max-w-md p-4 font-medium text-black'>
+          Kursus tidak ditemukan
+        </h1>
+      </section>
+    );
+
+  const course = courseData.data;
+  const courseEnrolled = typeof course?.total_completed_materials === 'number';
+
+  const {
+    premium,
+    telegram,
+    intro_video,
+    description,
+    course_chapter,
+    target_audience
+  } = course;
 
   const handleNextMaterial = (): void => {
+    const isNotEnrolledOnFreeCourse = !courseEnrolled && !premium;
+
+    if (isNotEnrolledOnFreeCourse) {
+      openEnrollCourseModal();
+      return;
+    }
+
     const course_materials = course_chapter.reduce<CourseMaterial[]>(
       (acc, { course_material }) => [...acc, ...course_material],
       []
@@ -39,58 +104,52 @@ export default function Course({
 
     const isPurchaseRequired =
       premium &&
+      !courseEnrolled &&
       course_chapter.some(
         ({ course_material }, index) =>
           index && course_material.some(({ id }) => id === nextMaterialId)
       );
 
-    if (isPurchaseRequired) openModal();
-    else if (nextMaterialId)
-      router.push(`/courses/${courseId}/${nextMaterialId}`);
+    if (isPurchaseRequired) {
+      openPurchaseCourseModal();
+      return;
+    }
+
+    const courseMaterialStatus = currentMaterial?.course_material_status[0];
+
+    const materialCanBeCompleted =
+      courseMaterialStatus && !courseMaterialStatus.completed;
+
+    if (materialCanBeCompleted)
+      updateMaterialStatusMutation.mutate(courseMaterialStatus.id, {
+        onSuccess: () => {
+          toast.success('Materi  berhasil diselesaikan');
+        },
+        onError: () => {
+          toast.error('Terjadi kesalahan. Silahkan coba lagi');
+        }
+      });
+
+    if (!nextMaterialId) return;
+
+    router.push(`/courses/${courseId}/${nextMaterialId}`);
   };
 
-  const course = courseData?.data;
-
-  if (courseLoading) return <CourseDetailsSkeleton />;
-
-  if (!course)
-    return (
-      <section className='flex justify-center'>
-        <h1 className='max-w-md p-4 font-medium text-black'>
-          Course Not Found
-        </h1>
-      </section>
-    );
-
-  const {
-    premium,
-    telegram,
-    intro_video,
-    description,
-    course_chapter,
-    target_audience
-  } = course;
-
-  let selectedMaterialVideo: string | null = null;
-
-  for (const { course_material } of course_chapter) {
-    const material = course_material.find(({ id }) => id === materialId);
-
-    if (material) {
-      selectedMaterialVideo = material.video;
-      break;
-    }
-  }
-
-  const selectedVideo = selectedMaterialVideo ?? intro_video;
+  const selectedVideo = currentMaterial?.video ?? intro_video;
 
   return (
     <main className='grid gap-8 text-black'>
       <PurchaseCourseModal
-        open={open}
+        open={purchaseCourseModalOpen}
         course={course}
-        closeModal={closeModal}
+        closeModal={closePurchaseCourseModal}
       />
+      <EnrollCourseModal
+        open={enrollCourseModalOpen}
+        course={course}
+        closeModal={closeEnrollCourseModal}
+      />
+      <Toaster position='bottom-center' />
       <section className='bg-primary-blue-50'>
         <div className='layout grid gap-4 py-4'>
           <BackButton href='/courses' label='Kelas Lainnya' />
@@ -110,10 +169,25 @@ export default function Course({
       </section>
       <section className='layout flex w-full gap-8'>
         <section className='mb-8 grid w-full max-w-xl shrink-0 gap-6'>
-          <VideoPlayer
-            src={selectedVideo}
-            handleNextMaterial={handleNextMaterial}
-          />
+          {user ? (
+            <VideoPlayer
+              src={selectedVideo}
+              handleNextMaterial={handleNextMaterial}
+            />
+          ) : (
+            <div
+              className='grid h-80 w-full content-center justify-items-center 
+                         gap-4 rounded-medium bg-gray-200'
+            >
+              <MdWarning className='text-5xl text-primary-alert-warning' />
+              <Link
+                className='clickable bg-primary-blue-500 px-4 py-2 text-white'
+                href={`/login?redirect=/courses/${courseId}`}
+              >
+                Login untuk melihat video
+              </Link>
+            </div>
+          )}
           <div className='grid gap-2'>
             <h2 className='text-xl font-bold'>Tentang Kelas</h2>
             <p className='whitespace-pre-line'>{description}</p>
@@ -130,11 +204,32 @@ export default function Course({
         <section className='relative -top-56 w-full'>
           <CourseStudyCard
             course={course}
+            courseEnrolled={courseEnrolled}
             selectedMaterialId={materialId}
-            openModal={openModal}
+            openPurchaseCourseModal={openPurchaseCourseModal}
           />
         </section>
       </section>
     </main>
   );
+}
+
+function getCourseMaterialById(
+  course: Course | undefined,
+  materialId: string | undefined
+): CourseMaterial | null {
+  if (!course || !materialId) return null;
+
+  let selectedMaterial: CourseMaterial | null = null;
+
+  for (const { course_material } of course.course_chapter) {
+    const material = course_material.find(({ id }) => id === materialId);
+
+    if (material) {
+      selectedMaterial = material;
+      break;
+    }
+  }
+
+  return selectedMaterial;
 }

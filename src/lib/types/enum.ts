@@ -10,6 +10,10 @@ export type CourseType = (typeof COURSE_TYPES)[number];
 export type CourseFilter = (typeof COURSE_FILTERS)[number];
 export type CourseDifficulty = (typeof COURSE_DIFFICULTIES)[number];
 
+export const MY_COURSE_TYPES = ['all', 'ongoing', 'completed'] as const;
+
+export type MyCourseType = (typeof MY_COURSE_TYPES)[number];
+
 export const TYPES = ['FREE', 'PREMIUM'] as const;
 
 export type Type = (typeof TYPES)[number];

@@ -4,20 +4,21 @@ import { useAuth } from '../context/auth-context';
 import type { Course } from '../types/schema';
 import type { UseQueryResult } from '@tanstack/react-query';
 
-export function useCourse(courseId: string): UseQueryResult<{
-  data: Course;
+export function useMyCourses(searchParams?: string): UseQueryResult<{
+  data: Course[];
 }> {
   const { token } = useAuth();
 
   const result = useQuery<{
-    data: Course;
+    data: Course[];
   }>({
-    queryKey: ['courses', courseId, token],
+    queryKey: ['courses', 'me', token, searchParams],
     queryFn: () =>
-      fetcher(
-        `/courses/${courseId}`,
-        token ? { headers: { Authorization: `Bearer ${token}` } } : undefined
-      )
+      fetcher(searchParams ? `/courses/me?${searchParams}` : '/courses/me', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
   });
 
   return result;

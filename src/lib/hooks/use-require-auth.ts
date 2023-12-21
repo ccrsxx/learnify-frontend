@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/context/auth-context';
 import type { User } from '@/lib/types/schema';
 
@@ -8,6 +8,7 @@ export function useRequireAuth(
 ): User | null {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const { user, loading } = useAuth();
 
@@ -16,7 +17,9 @@ export function useRequireAuth(
   useEffect(() => {
     if (loading || needsToBeAdmin) return;
 
-    router.replace(`${redirect}?redirect=${pathname}`);
+    router.replace(
+      `${redirect}?redirect=${pathname}?${searchParams.toString()}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, needsToBeAdmin, loading]);
 

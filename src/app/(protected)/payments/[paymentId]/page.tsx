@@ -4,30 +4,36 @@ import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { MdArrowCircleRight } from 'react-icons/md';
 import { toast, Toaster } from 'react-hot-toast';
-import { useCourse } from '@/lib/hooks/use-course';
 import { sleep } from '@/lib/helper';
+import { useAuth } from '@/lib/context/auth-context';
 import { formatCurrency, formatDate } from '@/lib/format';
+import { usePayment } from '@/lib/hooks/use-payment';
+import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/env';
 import { Alert } from '@/components/ui/alert';
 import { BackButton } from '@/components/ui/back-arrow';
 import { CourseCard } from '@/components/course/course-card';
 import { Button } from '@/components/ui/button';
-import { CourseCardSkeleton } from '@/components/common/skeleton';
-import { PaymentMethod } from '@/components/payment/payment-method';
-import type { Course } from '@/lib/types/schema';
+import { CheckoutSkeleton } from '@/components/common/skeleton';
+import { PaymentMethod } from '@/components/payments/payment-method';
+import type { APIResponse } from '@/lib/types/api';
+import type { UserPayment } from '@/lib/types/schema';
 
 export default function Checkout({
-  params: { courseId }
+  params: { paymentId }
 }: {
-  params: { courseId: string };
+  params: { paymentId: string };
 }): JSX.Element {
   const router = useRouter();
-  const { data: courseData, isLoading: courseLoading } = useCourse(courseId);
+
+  const { token } = useAuth();
+  const { data: paymentData, isLoading: paymentLoading } =
+    usePayment(paymentId);
 
   const [transferBankOpen, setTransferBankOpen] = useState(false);
   const [creditCardOpen, setCreditCardOpen] = useState(false);
 
   const [alreadyPaid, setAlreadyPaid] = useState(false);
-  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -47,31 +53,63 @@ export default function Checkout({
       return;
     }
 
-    setPaymentLoading(true);
+    setFormLoading(true);
+
+    const paymentMethod = creditCardOpen ? 'CREDIT_CARD' : 'BANK_TRANSFER';
 
     try {
-      const redirectUrl = await toast.promise(
-        sleep(2000).then(() => `/checkout/success/${course?.id}`),
+      const response = await fetch(
+        `${NEXT_PUBLIC_BACKEND_URL}/user-payments/${paymentData?.data?.id}`,
         {
-          loading: 'Sedang memproses pembayaran',
-          success: 'Pembayaran berhasil',
-          error: 'Terjadi kesalahan. Silahkan coba lagi'
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            payment_method: paymentMethod
+          })
         }
       );
+
+      const data = (await response.json()) as APIResponse<UserPayment>;
+
+      if (!response.ok) throw new Error(data.message);
+
+      await toast.promise(sleep(2000), {
+        loading: 'Mengalihkan ke halaman sukses',
+        success: 'Sedang mengalihkan...',
+        error: 'Terjadi kesalahan. Silahkan coba lagi'
+      });
 
       await sleep(1000);
 
       setAlreadyPaid(true);
-      setPaymentLoading(false);
 
-      router.replace(redirectUrl);
+      router.replace(`/payments/success/${data.data?.course_id}`);
     } catch (error) {
+      // eslint-disable-next-line no-console
+      if (error instanceof Error) console.error(error.message);
+
       toast.error('Terjadi kesalahan. Silahkan coba lagi');
-      setPaymentLoading(false);
     }
+
+    setFormLoading(false);
   };
 
-  const course = courseData?.data;
+  if (paymentLoading) return <CheckoutSkeleton />;
+
+  if (!paymentData)
+    return (
+      <section className='flex justify-center'>
+        <h1 className='max-w-md p-4 font-medium text-black'>
+          Pembayaran tidak ditemukan
+        </h1>
+      </section>
+    );
+
+  const payment = paymentData.data;
+  const course = payment.course;
 
   const coursePrice = course?.price ?? 0;
 
@@ -87,7 +125,7 @@ export default function Checkout({
           variant='error'
           className='mx-auto rounded-medium px-3 py-2 text-black shadow-low'
           message={`Selesaikan pembayaran sebelum ${formatDate(
-            new Date(Date.now() + 86400000)
+            new Date(payment.expired_at)
           )}`}
         />
       </section>
@@ -103,11 +141,7 @@ export default function Checkout({
         </section>
         <section className='grid w-full max-w-md gap-4 rounded-md p-6 text-black shadow-low'>
           <h1 className='text-xl font-bold'>Pembayaran Kelas</h1>
-          {courseLoading ? (
-            <CourseCardSkeleton />
-          ) : (
-            <CourseCard payment modal course={course as Course} />
-          )}
+          <CourseCard payment modal course={course} />
           <div className='flex justify-between gap-2'>
             <div>
               <p className='font-medium'>Harga</p>
@@ -127,7 +161,7 @@ export default function Checkout({
           <Button
             className='clickable mx-auto mt-8 flex items-center gap-2 rounded-high
                        bg-primary-alert-error px-6 py-3 text-white'
-            loading={paymentLoading}
+            loading={formLoading}
             disabled={alreadyPaid}
             onClick={handleSubmit}
           >

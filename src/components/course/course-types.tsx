@@ -1,26 +1,31 @@
 import { CourseTag } from './course-tag';
-import type { CourseType } from '@/lib/types/enum';
+import type { CourseType, MyCourseType } from '@/lib/types/enum';
+import type { GenericCourseType } from '@/app/(public)/courses/courses';
 
-type CourseTypeProps = {
+type CourseTypeProps<T extends boolean> = {
   disabled: boolean;
-  selectedCourseType: CourseType;
-  handleCourseTypeClick: (type: CourseType) => () => void;
+  userCourses?: T;
+  selectedCourseType: GenericCourseType<T>;
+  handleCourseTypeClick: (type: GenericCourseType<T>) => () => void;
 };
 
-export function CourseTypes({
+export function CourseTypes<T extends boolean>({
   disabled,
+  userCourses,
   selectedCourseType,
   handleCourseTypeClick
-}: CourseTypeProps): JSX.Element {
+}: CourseTypeProps<T>): JSX.Element {
+  const targetCourseTypes = userCourses ? myCourseTypes : courseTypes;
+
   return (
     <section className='grid grid-cols-12 gap-4 text-black'>
-      {courseTypes.map(({ id, label }, i) => (
+      {targetCourseTypes.map(({ id, label }, i) => (
         <CourseTag
           index={i}
           label={label}
           selected={selectedCourseType === id}
           disabled={disabled}
-          onClick={handleCourseTypeClick(id)}
+          onClick={handleCourseTypeClick(id as GenericCourseType<T>)}
           key={id}
         />
       ))}
@@ -28,7 +33,7 @@ export function CourseTypes({
   );
 }
 
-export type CourseTypeWithLabel = {
+type CourseTypeWithLabel = {
   id: CourseType;
   label: string;
 };
@@ -37,4 +42,15 @@ const courseTypes: CourseTypeWithLabel[] = [
   { id: 'all', label: 'All' },
   { id: 'premium', label: 'Kelas Premium' },
   { id: 'free', label: 'Kelas Gratis' }
+];
+
+type MyCourseTypeWithLabel = {
+  id: MyCourseType;
+  label: string;
+};
+
+const myCourseTypes: MyCourseTypeWithLabel[] = [
+  { id: 'all', label: 'All' },
+  { id: 'ongoing', label: 'Kelas Berlangsung' },
+  { id: 'completed', label: 'Kelas Selesai' }
 ];

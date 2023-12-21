@@ -5,6 +5,7 @@ import { formatCurrency } from '@/lib/format';
 import { LazyImage } from '../ui/lazy-image';
 import { Button } from '../ui/button';
 import { CourseStats } from './course-stats';
+import { CourseProgressBar } from './course-progress-bar';
 import type { Course } from '@/lib/types/schema';
 
 type CourseCardProps = {
@@ -13,6 +14,7 @@ type CourseCardProps = {
   payment?: boolean;
   details?: boolean;
   homepage?: boolean;
+  progress?: boolean;
 };
 
 export function CourseCard({
@@ -20,7 +22,8 @@ export function CourseCard({
   course,
   payment,
   details,
-  homepage
+  homepage,
+  progress
 }: CourseCardProps): JSX.Element {
   const {
     id,
@@ -28,6 +31,8 @@ export function CourseCard({
     price,
     image,
     premium,
+    total_materials,
+    total_completed_materials,
     course_category: { image: categoryImage }
   } = course;
 
@@ -50,7 +55,8 @@ export function CourseCard({
         />
         <section className='grid justify-items-start gap-3 p-3 text-black'>
           <CourseStats course={course} details={details} payment={payment} />
-          {!payment &&
+          {!progress &&
+            !payment &&
             ((homepage ?? modal) && premium ? (
               <Button className='clickable flex gap-3 bg-primary-blue-300 px-2 py-1 text-white'>
                 <div className='flex items-center gap-1'>
@@ -76,6 +82,12 @@ export function CourseCard({
                 Mulai Kelas
               </Button>
             ))}
+          {progress && (
+            <CourseProgressBar
+              total_materials={total_materials}
+              total_completed_materials={total_completed_materials as number}
+            />
+          )}
         </section>
       </Link>
     </article>

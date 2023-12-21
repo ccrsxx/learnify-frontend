@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import { MdArrowCircleRight } from 'react-icons/md';
 import { useAuth } from '@/lib/context/auth-context';
-import { sleep } from '@/lib/helper';
 import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/env';
 import { CourseCard } from '../course/course-card';
 import { Button } from '../ui/button';
@@ -11,18 +10,18 @@ import { Modal } from './modal';
 import type { Course, UserPayment } from '@/lib/types/schema';
 import type { APIResponse } from '@/lib/types/api';
 
-type PurchaseCourseModalProps = {
+type EnrollCourseModalProps = {
   open: boolean;
   course: Course;
   closeModal: () => void;
 };
 
-export function PurchaseCourseModal({
+export function EnrollCourseModal({
   open,
   course,
   closeModal
-}: PurchaseCourseModalProps): JSX.Element {
-  const router = useRouter();
+}: EnrollCourseModalProps): JSX.Element {
+  const queryClient = useQueryClient();
   const { token } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -31,36 +30,35 @@ export function PurchaseCourseModal({
     setLoading(true);
 
     try {
-      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/user-payments`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          course_id: course.id
-        })
-      });
+      const response = await fetch(
+        `${NEXT_PUBLIC_BACKEND_URL}/user-payments/free`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            course_id: course.id
+          })
+        }
+      );
 
       const data = (await response.json()) as APIResponse<UserPayment>;
 
       if (!response.ok) throw new Error(data.message);
 
-      await toast.promise(sleep(2000), {
-        loading: 'Mengalihkan ke halaman pembayaran',
-        success: 'Sedang mengalihkan...',
-        error: 'Gagal mengalihkan'
+      await queryClient.invalidateQueries({
+        queryKey: ['courses']
       });
 
+      toast.success('Berhasil masuk di kelas!');
+
       closeModal();
-
-      await sleep(2000);
-
-      void router.push(`/payments/${data.data?.id}`);
     } catch (err) {
       // eslint-disable-next-line no-console
       if (err instanceof Error) console.error(err.message);
-      toast.error('Gagal membeli kelas. Silahkan coba lagi');
+      toast.error('Gagal masuk di kelas. Silahkan coba lagi');
     }
 
     setLoading(false);
@@ -73,10 +71,8 @@ export function PurchaseCourseModal({
       closeModal={closeModal}
     >
       <div className='grid gap-1 text-center font-bold text-black'>
-        <h2 className='text-2xl'>Selangkah lagi menuju</h2>
-        <p className='text-2xl font-bold text-primary-blue-500'>
-          Kelas Premium
-        </p>
+        <h2 className='text-2xl'>Enroll</h2>
+        <p className='text-2xl font-bold text-primary-blue-500'>Kelas Gratis</p>
       </div>
       <CourseCard modal course={course} />
       <Button
@@ -85,7 +81,7 @@ export function PurchaseCourseModal({
         loading={loading}
         onClick={handlePurchaseCourse}
       >
-        Beli Sekarang
+        Mulai Belajar Sekarang
         <MdArrowCircleRight className='text-2xl' />
       </Button>
     </Modal>

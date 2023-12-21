@@ -31,11 +31,18 @@ export type CourseCategory = BaseRecord & {
   image: string;
 };
 
+export type CourseMaterialStatus = BaseRecord & {
+  user_id: string;
+  completed: boolean;
+  course_material_id: string;
+};
+
 export type CourseMaterial = BaseRecord & {
   name: string;
   video: string;
   order_index: number;
   course_chapter_id: string;
+  course_material_status: CourseMaterialStatus[];
 };
 
 export type CourseChapter = BaseRecord & {
@@ -68,6 +75,7 @@ export type Course = BaseRecord & {
   onboarding_text: string;
   target_audience: string[];
   course_category_id: string;
+  total_completed_materials?: number;
 };
 
 export type Statistic = Record<

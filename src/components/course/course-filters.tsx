@@ -1,7 +1,7 @@
 import { Checkbox } from '../ui/checkbox';
 import type { CourseCategory } from '@/lib/types/schema';
 import type { CourseFilter, CourseDifficulty } from '@/lib/types/enum';
-import type { CourseFilters } from '@/app/(public)/courses/page';
+import type { CourseFilters } from '@/app/(public)/courses/courses';
 
 export type CourseFiltersKey = 'filter' | 'category' | 'difficulty';
 
