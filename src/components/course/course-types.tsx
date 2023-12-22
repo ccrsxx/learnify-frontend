@@ -51,6 +51,6 @@ type MyCourseTypeWithLabel = {
 
 const myCourseTypes: MyCourseTypeWithLabel[] = [
   { id: 'all', label: 'All' },
-  { id: 'ongoing', label: 'Kelas Berlangsung' },
-  { id: 'completed', label: 'Kelas Selesai' }
+  { id: 'ongoing', label: 'In Progress' },
+  { id: 'completed', label: 'Selesai' }
 ];

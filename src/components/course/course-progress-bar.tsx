@@ -22,7 +22,7 @@ export function CourseProgressBar({
         </p>
         <div
           style={{ width: `${percentage}%` }}
-          className='absolute left-0 top-0 z-0 h-full rounded-medium bg-primary-blue-500'
+          className='absolute left-0 top-0 z-0 h-full rounded-medium bg-primary-blue-500 transition-[width]'
         />
       </div>
     </div>
