@@ -23,6 +23,7 @@ export function PurchaseCourseModal({
   closeModal
 }: PurchaseCourseModalProps): JSX.Element {
   const router = useRouter();
+
   const { token } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -48,15 +49,15 @@ export function PurchaseCourseModal({
 
       await toast.promise(sleep(2000), {
         loading: 'Mengalihkan ke halaman pembayaran',
-        success: 'Sedang mengalihkan...',
+        success: 'Sedang mengalihkan',
         error: 'Gagal mengalihkan'
       });
 
       closeModal();
 
-      await sleep(2000);
+      await sleep(1000);
 
-      void router.push(`/payments/${data.data?.id}`);
+      router.push(`/payments/${data.data?.id}`);
     } catch (err) {
       // eslint-disable-next-line no-console
       if (err instanceof Error) console.error(err.message);

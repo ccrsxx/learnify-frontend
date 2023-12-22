@@ -17,6 +17,7 @@ import { CourseDetailsSkeleton } from '@/components/common/skeleton';
 import { BackButton } from '@/components/ui/back-arrow';
 import { PurchaseCourseModal } from '@/components/modal/purchase-course-modal';
 import { EnrollCourseModal } from '@/components/modal/enroll-course-modal';
+import { Button } from '@/components/ui/button';
 import type { Course, CourseMaterial } from '@/lib/types/schema';
 
 export default function Course({
@@ -30,12 +31,15 @@ export default function Course({
 
   const [courseId, materialId] = slug;
 
-  const { data: courseData, isLoading: courseLoading } = useCourse(courseId);
   const { updateMaterialStatusMutation } = useMaterialStatus();
+
+  const { data: courseData, isLoading: courseLoading } = useCourse(courseId);
 
   const [currentMaterial, setCurrentMaterial] = useState<CourseMaterial | null>(
     () => getCourseMaterialById(courseData?.data, materialId)
   );
+
+  const [statusMaterialLoading, setStatusMaterialLoading] = useState(false);
 
   const {
     open: enrollCourseModalOpen,
@@ -83,7 +87,7 @@ export default function Course({
     target_audience
   } = course;
 
-  const handleNextMaterial = (): void => {
+  const handleNextMaterial = async (): Promise<void> => {
     const isNotEnrolledOnFreeCourse = !courseEnrolled && !premium;
 
     if (isNotEnrolledOnFreeCourse) {
@@ -120,15 +124,22 @@ export default function Course({
     const materialCanBeCompleted =
       courseMaterialStatus && !courseMaterialStatus.completed;
 
-    if (materialCanBeCompleted)
-      updateMaterialStatusMutation.mutate(courseMaterialStatus.id, {
-        onSuccess: () => {
-          toast.success('Materi  berhasil diselesaikan');
-        },
-        onError: () => {
-          toast.error('Terjadi kesalahan. Silahkan coba lagi');
+    if (materialCanBeCompleted) {
+      setStatusMaterialLoading(true);
+
+      await toast.promise(
+        updateMaterialStatusMutation
+          .mutateAsync(courseMaterialStatus.id)
+          .catch(() => null),
+        {
+          loading: 'Menandai materi sebagai selesai',
+          success: 'Materi selesai dikerjakan',
+          error: 'Gagal menandai materi sebagai selesai'
         }
-      });
+      );
+
+      setStatusMaterialLoading(false);
+    }
 
     if (!nextMaterialId) return;
 
@@ -170,10 +181,26 @@ export default function Course({
       <section className='layout flex w-full gap-8'>
         <section className='mb-8 grid w-full max-w-xl shrink-0 gap-6'>
           {user ? (
-            <VideoPlayer
-              src={selectedVideo}
-              handleNextMaterial={handleNextMaterial}
-            />
+            <VideoPlayer src={selectedVideo}>
+              <div
+                className='absolute bottom-0 right-0 flex gap-3 p-4 
+                   opacity-0 transition-opacity group-hover:opacity-100'
+              >
+                <Link
+                  href='/courses'
+                  className='clickable bg-primary-blue-50 px-4 py-2 text-primary-blue-300'
+                >
+                  Kelas lainnya
+                </Link>
+                <Button
+                  className='clickable bg-primary-blue-500 px-4 py-2 text-white'
+                  loading={statusMaterialLoading}
+                  onClick={handleNextMaterial}
+                >
+                  Next
+                </Button>
+              </div>
+            </VideoPlayer>
           ) : (
             <div
               className='grid h-80 w-full content-center justify-items-center 

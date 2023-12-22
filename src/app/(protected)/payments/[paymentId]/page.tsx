@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { MdArrowCircleRight } from 'react-icons/md';
 import { toast, Toaster } from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 import { sleep } from '@/lib/helper';
 import { useAuth } from '@/lib/context/auth-context';
 import { formatCurrency, formatDate } from '@/lib/format';
@@ -24,6 +25,7 @@ export default function Checkout({
   params: { paymentId: string };
 }): JSX.Element {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { token } = useAuth();
   const { data: paymentData, isLoading: paymentLoading } =
@@ -76,9 +78,13 @@ export default function Checkout({
 
       if (!response.ok) throw new Error(data.message);
 
+      await queryClient.invalidateQueries({
+        queryKey: ['courses']
+      });
+
       await toast.promise(sleep(2000), {
         loading: 'Mengalihkan ke halaman sukses',
-        success: 'Sedang mengalihkan...',
+        success: 'Sedang mengalihkan',
         error: 'Terjadi kesalahan. Silahkan coba lagi'
       });
 

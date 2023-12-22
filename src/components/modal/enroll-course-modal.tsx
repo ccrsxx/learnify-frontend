@@ -26,7 +26,7 @@ export function EnrollCourseModal({
 
   const [loading, setLoading] = useState(false);
 
-  const handlePurchaseCourse = async (): Promise<void> => {
+  const handleEnrollCourse = async (): Promise<void> => {
     setLoading(true);
 
     try {
@@ -79,7 +79,7 @@ export function EnrollCourseModal({
         className='clickable mx-auto flex items-center justify-center gap-2 rounded-high
                    bg-primary-blue-500 px-4 py-2 text-lg font-semibold'
         loading={loading}
-        onClick={handlePurchaseCourse}
+        onClick={handleEnrollCourse}
       >
         Mulai Belajar Sekarang
         <MdArrowCircleRight className='text-2xl' />
