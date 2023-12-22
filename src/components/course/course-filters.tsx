@@ -6,7 +6,7 @@ import type { CourseFilters } from '@/app/(public)/courses/courses';
 export type CourseFiltersKey = 'filter' | 'category' | 'difficulty';
 
 type CourseFiltersProps = {
-  categories: CourseCategory[];
+  categories: CourseCategory[] | undefined;
   courseFilters: CourseFilters;
   handleCourseFiltersChange: <T extends CourseFiltersKey>(
     filter: T,
@@ -34,7 +34,8 @@ export function CourseFilters({
     {
       id: 'category',
       label: 'Kategori',
-      checkboxes: categories.map(({ name }) => ({ id: name, label: name }))
+      checkboxes:
+        categories?.map(({ name }) => ({ id: name, label: name })) ?? []
     },
     {
       id: 'difficulty',

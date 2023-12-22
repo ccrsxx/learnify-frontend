@@ -14,7 +14,7 @@ import {
   CourseFilterSkeleton
 } from '@/components/common/skeleton';
 import type { Entries } from '@/lib/types/helper';
-import type { Course, CourseCategory } from '@/lib/types/schema';
+import type { Course } from '@/lib/types/schema';
 import type {
   CourseType,
   CourseFilter,
@@ -157,7 +157,7 @@ export default function Courses<T extends boolean>({
               ) : (
                 <>
                   <CourseFilters
-                    categories={categories as CourseCategory[]}
+                    categories={categories}
                     courseFilters={courseFilters}
                     handleCourseFiltersChange={handleCourseFiltersChange}
                   />
