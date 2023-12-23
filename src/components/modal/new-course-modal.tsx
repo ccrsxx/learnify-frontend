@@ -64,7 +64,7 @@ export function NewCourseModal({
 
     const parsedTargetAudience = target_audience.map(({ name }) => name);
 
-    const parsedCourseChapters = course_chapter.map(
+    const parsedCourseChapters = course_chapter?.map(
       ({ _id, course_material, ...rest }, i) => ({
         ...rest,
         id: _id,
@@ -229,7 +229,7 @@ function setInitialValues(course?: Course): DefaultValues<CourseSchema> {
   const { premium, target_audience, course_category_id, course_chapter } =
     course;
 
-  const parsedCourseChapters = course_chapter.map(
+  const parsedCourseChapters = course_chapter?.map(
     ({ id, course_material, ...rest }) => ({
       ...rest,
       _id: id,
