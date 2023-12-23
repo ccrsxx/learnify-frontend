@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Dialog } from '@headlessui/react';
 import { toast } from 'react-hot-toast';
 import { MdClose } from 'react-icons/md';
@@ -7,14 +7,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/lib/context/auth-context';
 import { getImagesData } from '@/lib/image';
 import { useCrudCourses } from '@/lib/hooks/use-crud-courses';
-import { generateRandomCourse } from '@/lib/random';
 import { courseSchema } from '@/lib/form/schema';
 import { Button } from '../ui/button';
 import { ImageUpload } from '../dashboard/image-upload';
 import { CourseForm } from '../dashboard/course-form';
 import { Modal } from './modal';
 import type { ChangeEvent, ClipboardEvent } from 'react';
-import type { SubmitHandler } from 'react-hook-form';
+import type { DefaultValues, SubmitHandler } from 'react-hook-form';
 import type { Entries } from '@/lib/types/helper';
 import type { ImageData } from '@/lib/types/file';
 import type { Course } from '@/lib/types/schema';
@@ -40,11 +39,6 @@ export function NewCourseModal({
     resolver: zodResolver(courseSchema)
   });
 
-  const fieldArray = useFieldArray<CourseSchema>({
-    name: 'target_audience',
-    control: form.control
-  });
-
   const [image, setImage] = useState<File | null>(null);
   const [imageData, setImageData] = useState<ImageData | null>(() =>
     course?.image
@@ -62,6 +56,7 @@ export function NewCourseModal({
 
   const onSubmit: SubmitHandler<CourseSchema> = ({
     type,
+    course_chapter,
     target_audience,
     ...rest
   }): void => {
@@ -69,11 +64,23 @@ export function NewCourseModal({
 
     const parsedTargetAudience = target_audience.map(({ name }) => name);
 
+    const parsedCourseChapters = course_chapter.map(
+      ({ _id, course_material, ...rest }, i) => ({
+        ...rest,
+        id: _id,
+        order_index: i + 1,
+        course_material: course_material.map(({ _id, ...rest }, i) => ({
+          ...rest,
+          id: _id,
+          order_index: i + 1
+        }))
+      })
+    );
+
     const parsedCourse: Partial<Course> = {
       ...rest,
       user_id: user?.id,
-      premium: type === 'PREMIUM',
-      target_audience: parsedTargetAudience
+      premium: type === 'PREMIUM'
     };
 
     const formData = new FormData();
@@ -81,8 +88,9 @@ export function NewCourseModal({
     for (const [key, value] of Object.entries(
       parsedCourse
     ) as Entries<CourseSchema>)
-      if (key !== 'target_audience') formData.append(key, value as string);
+      formData.append(key, value as string);
 
+    formData.append('course_chapter', JSON.stringify(parsedCourseChapters));
     formData.append('target_audience', JSON.stringify(parsedTargetAudience));
 
     if (image) formData.append('image', image);
@@ -92,12 +100,14 @@ export function NewCourseModal({
       updateCourseMutation.mutate(
         { id: course.id, data: formData },
         {
-          onSuccess: ({ message }) => {
-            toast.success(message);
+          onSuccess: () => {
+            toast.success('Kursus berhasil di perbarui');
             closeModal();
           },
           onError: ({ message }) => {
-            toast.error(message);
+            // eslint-disable-next-line no-console
+            console.error(message);
+            toast.error('Gagal mengupdate kursus');
           },
           onSettled: () => {
             setFormLoading(false);
@@ -108,12 +118,14 @@ export function NewCourseModal({
     }
 
     createCourseMutation.mutate(formData, {
-      onSuccess: ({ message }) => {
-        toast.success(message);
+      onSuccess: () => {
+        toast.success('Kursus berhasil dibuat');
         closeModal();
       },
       onError: ({ message }) => {
-        toast.error(message);
+        // eslint-disable-next-line no-console
+        console.error(message);
+        toast.error('Gagal membuat kursus');
       },
       onSettled: () => {
         setFormLoading(false);
@@ -177,7 +189,7 @@ export function NewCourseModal({
           <MdClose />
         </Button>
       </div>
-      <CourseForm form={form} fieldArray={fieldArray} onSubmit={onSubmit}>
+      <CourseForm form={form} onSubmit={onSubmit}>
         <div className='col-span-full'>
           <ImageUpload
             selectedImage={imageData}
@@ -205,20 +217,33 @@ export function NewCourseModal({
   );
 }
 
-function setInitialValues(course?: Course): CourseSchema {
+function setInitialValues(course?: Course): DefaultValues<CourseSchema> {
   if (!course)
     return {
-      ...generateRandomCourse(),
-      type: 'PREMIUM',
-      target_audience: [{ name: 'Test' }],
-      course_category_id: '5db0a017-6041-4d9a-8f44-5fca03d5378a'
+      course_chapter: [
+        { name: '', course_material: [{ name: '', video: '' }] }
+      ],
+      target_audience: [{ name: '' }]
     };
 
-  const { premium, target_audience, course_category_id } = course;
+  const { premium, target_audience, course_category_id, course_chapter } =
+    course;
+
+  const parsedCourseChapters = course_chapter.map(
+    ({ id, course_material, ...rest }) => ({
+      ...rest,
+      _id: id,
+      course_material: course_material.map(({ id, ...rest }) => ({
+        ...rest,
+        _id: id
+      }))
+    })
+  );
 
   return {
     ...course,
     type: premium ? 'PREMIUM' : 'FREE',
+    course_chapter: parsedCourseChapters,
     target_audience: target_audience.map((name) => ({ name })),
     course_category_id
   };

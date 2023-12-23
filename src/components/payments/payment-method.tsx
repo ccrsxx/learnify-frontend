@@ -50,6 +50,8 @@ export function PaymentMethod({
       <Accordion
         label='Bank Transfer'
         open={transferBankOpen}
+        className='text-sm'
+        panelClassName='px-2 !pt-2'
         customToggle={toggleAccordion('bank')}
       >
         Bayar dengan bank transfer. Kami menerima transfer dari semua bank.
@@ -58,6 +60,8 @@ export function PaymentMethod({
       <Accordion
         label='Credit Card'
         open={creditCardOpen}
+        className='text-sm'
+        panelClassName='px-2 !pt-2'
         customToggle={toggleAccordion('credit')}
       >
         <form className='grid gap-3' ref={formRef}>

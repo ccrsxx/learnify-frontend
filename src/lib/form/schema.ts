@@ -46,6 +46,33 @@ export const courseSchema = z.object({
       })
     )
     .max(5, { message: 'Target audience tidak boleh lebih dari 3' }),
+  course_chapter: z.array(
+    z.object({
+      _id: z.string().optional(),
+      name: z
+        .string()
+        .trim()
+        .min(1, { message: 'Nama chapter tidak boleh kosong' }),
+      duration: z
+        .number({ invalid_type_error: 'Durasi tidak boleh kosong' })
+        .int({ message: 'Durasi tidak boleh desimal' })
+        .min(1, { message: 'Durasi tidak boleh kosong' }),
+      course_material: z.array(
+        z.object({
+          _id: z.string().optional(),
+          name: z
+            .string()
+            .trim()
+            .min(1, { message: 'Nama materi tidak boleh kosong' }),
+          video: z
+            .string()
+            .trim()
+            .min(1, { message: 'Link video tidak boleh kosong' })
+            .url({ message: 'Link video tidak valid' })
+        })
+      )
+    })
+  ),
   description: z
     .string()
     .trim()

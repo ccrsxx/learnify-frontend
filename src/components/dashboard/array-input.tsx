@@ -49,10 +49,10 @@ export function ArrayInput<T extends FieldValues>({
   onRemove
 }: ArrayInputProps<T>): JSX.Element {
   return (
-    <div className='grid gap-2'>
+    <ul className='grid gap-2'>
       <AnimatePresence mode='popLayout'>
         {fields.map(({ id: fieldId }, index) => (
-          <motion.div {...variant} layout='position' key={fieldId}>
+          <motion.li {...variant} layout='position' key={fieldId}>
             <Input
               id={`${String(id)}.${index}.name`}
               type='text'
@@ -72,28 +72,28 @@ export function ArrayInput<T extends FieldValues>({
                   </Button>
                 )}
                 {fields.length !== 5 && index === fields.length - 1 && (
-                  <button
+                  <Button
                     type='button'
                     className='smooth-tab rounded-medium bg-primary-blue-300
                                p-2 transition hover:brightness-90'
                     onClick={onAppend}
                   >
                     <MdAdd className='text-xl' />
-                  </button>
+                  </Button>
                 )}
               </div>
             </Input>
-          </motion.div>
+          </motion.li>
         ))}
       </AnimatePresence>
       {errors?.message && (
         <Alert className='mt-1' variant='error' message={errors.message} />
       )}
-    </div>
+    </ul>
   );
 }
 
-const variant: MotionProps = {
+export const variant: MotionProps = {
   initial: { opacity: 0 },
   animate: {
     opacity: 1,

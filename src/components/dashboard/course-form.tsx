@@ -1,27 +1,24 @@
-import { Controller } from 'react-hook-form';
+import { Controller, useFieldArray } from 'react-hook-form';
+import { useState } from 'react';
 import { courseTypes, difficultyTypes } from '@/lib/form/schema';
 import { useCategories } from '@/lib/hooks/use-categories';
 import { Input } from '../ui/input';
 import { Select } from '../ui/select';
+import { Accordion } from '../ui/accordion';
 import { ArrayInput } from '../dashboard/array-input';
+import { CourseChapterInput } from './course-chapter-input';
 import type { PropsWithChildren } from 'react';
-import type {
-  SubmitHandler,
-  UseFormReturn,
-  UseFieldArrayReturn
-} from 'react-hook-form';
+import type { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import type { CourseSchema } from '@/lib/form/schema';
 
 type CourseFormProps = PropsWithChildren<{
   form: UseFormReturn<CourseSchema>;
-  fieldArray: UseFieldArrayReturn<CourseSchema>;
   onSubmit: SubmitHandler<CourseSchema>;
 }>;
 
 export function CourseForm({
   form,
   children,
-  fieldArray,
   onSubmit
 }: CourseFormProps): JSX.Element {
   const {
@@ -32,9 +29,14 @@ export function CourseForm({
     handleSubmit
   } = form;
 
-  const { fields, append, remove } = fieldArray;
+  const { fields, append, remove } = useFieldArray<CourseSchema>({
+    name: 'target_audience',
+    control: form.control
+  });
 
   const { data } = useCategories();
+
+  const [chaptersOpen, setChaptersOpen] = useState(false);
 
   const categories = data?.data ?? [];
 
@@ -146,6 +148,15 @@ export function CourseForm({
         />
       </div>
       <div className='col-span-full'>
+        <Accordion
+          label='Chapter dan Materi'
+          open={chaptersOpen}
+          onToggle={setChaptersOpen}
+        >
+          <CourseChapterInput form={form} />
+        </Accordion>
+      </div>
+      <div className='col-span-full'>
         <ArrayInput
           id='target_audience'
           errors={errors.target_audience}
@@ -161,7 +172,7 @@ export function CourseForm({
         <Input
           id='onboarding_text'
           type='textarea'
-          label='Onboarding text'
+          label='Onboarding Text'
           error={errors.onboarding_text}
           placeholder='Masukkan onboarding text kelas'
           register={register('onboarding_text')}

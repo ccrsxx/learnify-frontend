@@ -7,6 +7,8 @@ import type { PropsWithChildren, Dispatch, SetStateAction } from 'react';
 type AccordionProps = PropsWithChildren<{
   open: boolean;
   label: string;
+  className?: string;
+  panelClassName?: string;
   onToggle?: Dispatch<SetStateAction<boolean>>;
   customToggle?: () => void;
 }>;
@@ -15,6 +17,8 @@ export function Accordion({
   open,
   label,
   children,
+  className,
+  panelClassName,
   onToggle,
   customToggle
 }: AccordionProps): JSX.Element {
@@ -23,8 +27,9 @@ export function Accordion({
       <Disclosure.Button
         className={clsx(
           `flex w-full justify-between rounded-medium bg-primary-blue-50 px-4 py-2 text-left 
-           text-sm font-medium text-primary-blue-500 transition hover:brightness-90
+           font-medium text-primary-blue-500 transition hover:brightness-90
            focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75`,
+          className,
           open && 'bg-primary-blue-500 text-white'
         )}
         onClick={customToggle ? customToggle : (): void => onToggle?.(!open)}
@@ -35,7 +40,11 @@ export function Accordion({
         />
       </Disclosure.Button>
       <Collapse open={open}>
-        <Disclosure.Panel className='px-2 pt-2' as='div' static>
+        <Disclosure.Panel
+          className={clsx('pt-4', panelClassName)}
+          as='div'
+          static
+        >
           {children}
         </Disclosure.Panel>
       </Collapse>

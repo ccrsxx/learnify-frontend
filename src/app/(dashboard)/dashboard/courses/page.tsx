@@ -3,9 +3,9 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import { MdAdd } from 'react-icons/md';
 import { Toaster } from 'react-hot-toast';
-import { formatCurrency } from '@/lib/format';
 import { useModal } from '@/lib/hooks/use-modal';
-import { useCourses } from '@/lib/hooks/use-courses';
+import { formatCurrency } from '@/lib/format';
+import { useAdminCourses } from '@/lib/hooks/use-admin-courses';
 import { Button } from '@/components/ui/button';
 import { Table } from '@/components/table/table';
 import { RowAction } from '@/components/table/row-action';
@@ -20,7 +20,7 @@ export default function DashboardCourses(): JSX.Element {
     closeModal: closeNewCourseModal
   } = useModal();
 
-  const { data, isLoading } = useCourses('filter=new');
+  const { data, isLoading } = useAdminCourses();
 
   const courses = data?.data ?? [];
 
