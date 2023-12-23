@@ -18,6 +18,7 @@ import { CheckoutSkeleton } from '@/components/common/skeleton';
 import { PaymentMethod } from '@/components/payments/payment-method';
 import type { APIResponse } from '@/lib/types/api';
 import type { UserPayment } from '@/lib/types/schema';
+import type { PaymentMethod as PaymentMethodType } from '@/lib/types/enum';
 
 export default function Checkout({
   params: { paymentId }
@@ -57,7 +58,9 @@ export default function Checkout({
 
     setFormLoading(true);
 
-    const paymentMethod = creditCardOpen ? 'CREDIT_CARD' : 'BANK_TRANSFER';
+    const paymentMethod: PaymentMethodType = creditCardOpen
+      ? 'CREDIT_CARD'
+      : 'BANK_TRANSFER';
 
     try {
       const response = await fetch(
