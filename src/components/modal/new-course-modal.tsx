@@ -126,10 +126,9 @@ export function NewCourseModal({
       onError: ({ message }) => {
         // eslint-disable-next-line no-console
         console.error(message);
-        toast.error('Gagal membuat kursus');
-      },
-      onSettled: () => {
+
         setFormLoading(false);
+        toast.error('Gagal membuat kursus');
       }
     });
   };
