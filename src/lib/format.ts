@@ -15,7 +15,7 @@ export function formatCurrency(value: number): string {
 }
 
 const DATE_FORMATTER = new Intl.DateTimeFormat('id-ID', {
-  dateStyle: 'long',
+  dateStyle: 'medium',
   timeStyle: 'short'
 });
 

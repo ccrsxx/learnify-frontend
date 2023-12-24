@@ -30,7 +30,7 @@ const columns: ColumnDef<UserPayment, any>[] = [
   }),
   accessor('course.name', {
     header: 'Kelas',
-    size: 288
+    size: 320
   }),
   accessor('status', {
     header: 'Status',
@@ -40,7 +40,7 @@ const columns: ColumnDef<UserPayment, any>[] = [
   }),
   accessor('payment_method', {
     header: 'Pembayaran',
-    size: 128,
+    size: 144,
     cell: ({ getValue }) =>
       getValue() === 'BANK_TRANSFER' ? 'Transfer Bank' : 'Credit Card'
   }),
