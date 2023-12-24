@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { Dialog } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
 import { MdArrowCircleRight } from 'react-icons/md';
 import { useAuth } from '@/lib/context/auth-context';
@@ -24,11 +25,16 @@ export function PurchaseCourseModal({
 }: PurchaseCourseModalProps): JSX.Element {
   const router = useRouter();
 
-  const { token } = useAuth();
+  const { user, token } = useAuth();
 
   const [loading, setLoading] = useState(false);
 
   const handlePurchaseCourse = async (): Promise<void> => {
+    if (!user) {
+      router.push(`/login?redirect=/courses/${course.id}`);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -74,10 +80,10 @@ export function PurchaseCourseModal({
       closeModal={closeModal}
     >
       <div className='grid gap-1 text-center font-bold text-black'>
-        <h2 className='text-2xl'>Selangkah lagi menuju</h2>
-        <p className='text-2xl font-bold text-primary-blue-500'>
+        <Dialog.Title className='text-2xl'>Selangkah lagi menuju</Dialog.Title>
+        <Dialog.Description className='text-2xl font-bold text-primary-blue-500'>
           Kelas Premium
-        </p>
+        </Dialog.Description>
       </div>
       <CourseCard modal course={course} />
       <Button

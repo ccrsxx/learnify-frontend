@@ -41,7 +41,6 @@ export function Modal({
               onClick={closePanelOnClick ? closeModal : undefined}
               {...modal}
             >
-              <Dialog.Title className='hidden' aria-hidden='true' />
               {children}
             </Dialog.Panel>
           </div>

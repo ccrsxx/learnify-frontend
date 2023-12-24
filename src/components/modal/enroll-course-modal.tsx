@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { Dialog } from '@headlessui/react';
+import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { MdArrowCircleRight } from 'react-icons/md';
 import { useAuth } from '@/lib/context/auth-context';
@@ -21,12 +23,19 @@ export function EnrollCourseModal({
   course,
   closeModal
 }: EnrollCourseModalProps): JSX.Element {
+  const router = useRouter();
   const queryClient = useQueryClient();
-  const { token } = useAuth();
+
+  const { user, token } = useAuth();
 
   const [loading, setLoading] = useState(false);
 
   const handleEnrollCourse = async (): Promise<void> => {
+    if (!user) {
+      router.push(`/login?redirect=/courses/${course.id}`);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -71,8 +80,10 @@ export function EnrollCourseModal({
       closeModal={closeModal}
     >
       <div className='grid gap-1 text-center font-bold text-black'>
-        <h2 className='text-2xl'>Enroll</h2>
-        <p className='text-2xl font-bold text-primary-blue-500'>Kelas Gratis</p>
+        <Dialog.Title className='text-2xl'>Enroll</Dialog.Title>
+        <Dialog.Description className='text-2xl font-bold text-primary-blue-500'>
+          Kelas Gratis
+        </Dialog.Description>
       </div>
       <CourseCard modal course={course} />
       <Button
