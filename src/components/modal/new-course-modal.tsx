@@ -174,7 +174,7 @@ export function NewCourseModal({
 
   return (
     <Modal
-      modalClassName='grid gap-4 max-w-4xl w-full bg-white p-6 rounded-medium'
+      modalClassName='grid gap-4 max-w-4xl w-full bg-white p-6 rounded-high'
       open={open}
       closeModal={closeModal}
     >

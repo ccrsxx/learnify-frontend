@@ -75,7 +75,7 @@ export function EnrollCourseModal({
 
   return (
     <Modal
-      modalClassName='max-w-lg bg-white w-full p-8 rounded-medium grid gap-8'
+      modalClassName='max-w-lg bg-white w-full p-8 rounded-high grid gap-8'
       open={open}
       closeModal={closeModal}
     >
