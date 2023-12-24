@@ -55,6 +55,12 @@ export type CourseChapter = BaseRecord & {
   course_material_id: string;
 };
 
+export type UserCourse = BaseRecord & {
+  user_id: string;
+  course_id: string;
+  onboarded: boolean;
+};
+
 export type Course = BaseRecord & {
   name: string;
   code: string;
@@ -68,6 +74,7 @@ export type Course = BaseRecord & {
   difficulty: Difficulty;
   description: string;
   intro_video: string;
+  user_course?: UserCourse[];
   total_duration: number;
   course_chapter: CourseChapter[];
   total_materials: number;

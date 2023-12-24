@@ -1,4 +1,9 @@
-type SlugEndPoints = 'courses' | 'course-material-status' | 'user-payments';
+type SlugEndPoints =
+  | 'courses'
+  | 'user-courses'
+  | 'user-payments'
+  | 'course-material-status';
+
 type SlugEndPointsWithParams = 'courses' | 'courses/me';
 
 type ApiEndpoints =

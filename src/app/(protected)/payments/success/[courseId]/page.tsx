@@ -1,6 +1,8 @@
-import Image from 'next/image';
+'use client';
+
 import Link from 'next/link';
 import { Alert } from '@/components/ui/alert';
+import { LazyImage } from '@/components/ui/lazy-image';
 
 export default function Success({
   params: { courseId }
@@ -19,12 +21,12 @@ export default function Success({
       <section className='grid gap-16 text-black'>
         <section className='grid justify-items-center gap-8'>
           <h1 className='text-4xl font-bold text-primary-blue-500'>Selamat!</h1>
-          <Image
+          <LazyImage
             src='/assets/congratulations.svg'
             className='h-48 w-48'
+            alt='Selamat'
             width={192}
             height={192}
-            alt='Selamat'
           />
           <div className='grid gap-2 text-center'>
             <p className='font-bold'>

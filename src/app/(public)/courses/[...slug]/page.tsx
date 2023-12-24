@@ -18,6 +18,7 @@ import { BackButton } from '@/components/ui/back-arrow';
 import { PurchaseCourseModal } from '@/components/modal/purchase-course-modal';
 import { EnrollCourseModal } from '@/components/modal/enroll-course-modal';
 import { Button } from '@/components/ui/button';
+import { OnboardingModal } from '@/components/modal/onboarding-modal';
 import type { Course, CourseMaterial } from '@/lib/types/schema';
 
 export default function Course({
@@ -53,20 +54,37 @@ export default function Course({
     closeModal: closePurchaseCourseModal
   } = useModal();
 
-  useEffect(() => {
-    if (!courseData || !materialId) return;
+  const {
+    open: onboardingModalOpen,
+    openModal: openOnboardingModal,
+    closeModal: closeOnboardingModal
+  } = useModal();
 
-    const newCurrentMaterialId = getCourseMaterialById(
-      courseData.data,
-      materialId
-    );
+  const course = courseData?.data;
+  const courseEnrolled = typeof course?.total_completed_materials === 'number';
+
+  useEffect(() => {
+    if (!course || !materialId) return;
+
+    const newCurrentMaterialId = getCourseMaterialById(course, materialId);
 
     setCurrentMaterial(newCurrentMaterialId);
-  }, [materialId, courseData]);
+  }, [course, materialId]);
+
+  useEffect(() => {
+    if (!course || !courseEnrolled) return;
+
+    const isOnboardingRequired = course.user_course?.[0]?.onboarded === false;
+
+    if (!isOnboardingRequired) return;
+
+    openOnboardingModal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [course, courseEnrolled]);
 
   if (courseLoading) return <CourseDetailsSkeleton />;
 
-  if (!courseData)
+  if (!course)
     return (
       <section className='flex justify-center'>
         <h1 className='max-w-md p-4 font-medium text-black'>
@@ -74,9 +92,6 @@ export default function Course({
         </h1>
       </section>
     );
-
-  const course = courseData.data;
-  const courseEnrolled = typeof course?.total_completed_materials === 'number';
 
   const {
     premium,
@@ -109,7 +124,7 @@ export default function Course({
     const isPurchaseRequired =
       premium &&
       !courseEnrolled &&
-      course_chapter.some(
+      course_chapter?.some(
         ({ course_material }, index) =>
           index && course_material.some(({ id }) => id === nextMaterialId)
       );
@@ -159,6 +174,11 @@ export default function Course({
         open={enrollCourseModalOpen}
         course={course}
         closeModal={closeEnrollCourseModal}
+      />
+      <OnboardingModal
+        open={onboardingModalOpen}
+        course={course}
+        closeModal={closeOnboardingModal}
       />
       <Toaster position='bottom-center' />
       <section className='bg-primary-blue-50'>
@@ -215,7 +235,7 @@ export default function Course({
               </Link>
             </div>
           )}
-          <div className='grid gap-2'>
+          <div className='grid gap-2' onClick={openOnboardingModal}>
             <h2 className='text-xl font-bold'>Tentang Kelas</h2>
             <p className='whitespace-pre-line'>{description}</p>
           </div>
