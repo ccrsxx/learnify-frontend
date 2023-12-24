@@ -110,7 +110,7 @@ export default function Course({
       return;
     }
 
-    const course_materials = course_chapter.reduce<CourseMaterial[]>(
+    const course_materials = course_chapter!.reduce<CourseMaterial[]>(
       (acc, { course_material }) => [...acc, ...course_material],
       []
     );
@@ -269,7 +269,7 @@ function getCourseMaterialById(
 
   let selectedMaterial: CourseMaterial | null = null;
 
-  for (const { course_material } of course.course_chapter) {
+  for (const { course_material } of course.course_chapter!) {
     const material = course_material.find(({ id }) => id === materialId);
 
     if (material) {

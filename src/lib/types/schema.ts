@@ -76,7 +76,7 @@ export type Course = BaseRecord & {
   intro_video: string;
   user_course?: UserCourse[];
   total_duration: number;
-  course_chapter: CourseChapter[];
+  course_chapter?: CourseChapter[];
   total_materials: number;
   course_category: CourseCategory;
   onboarding_text: string;

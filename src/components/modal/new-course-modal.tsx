@@ -230,7 +230,7 @@ function setInitialValues(course?: Course): DefaultValues<CourseSchema> {
   const { premium, target_audience, course_category_id, course_chapter } =
     course;
 
-  const parsedCourseChapters = course_chapter.map(
+  const parsedCourseChapters = course_chapter?.map(
     ({ id, course_material, ...rest }) => ({
       ...rest,
       _id: id,
