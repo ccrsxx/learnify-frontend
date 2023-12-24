@@ -10,10 +10,12 @@ import type { CourseSchema } from '@/lib/form/schema';
 
 type CourseChapterInputProps = {
   form: UseFormReturn<CourseSchema>;
+  loading: boolean;
 };
 
 export function CourseChapterInput({
-  form
+  form,
+  loading
 }: CourseChapterInputProps): JSX.Element {
   const {
     control,
@@ -45,6 +47,7 @@ export function CourseChapterInput({
                 type='text'
                 label='Nama Chapter'
                 error={errors.course_chapter?.[index]?.name}
+                disabled={loading}
                 register={register(chapterNameId)}
                 placeholder='Masukkan nama chapter'
               />
@@ -53,6 +56,7 @@ export function CourseChapterInput({
                 type='number'
                 label='Durasi Chapter'
                 error={errors.course_chapter?.[index]?.duration}
+                disabled={loading}
                 register={register(chapterDurationId, { valueAsNumber: true })}
                 placeholder='Masukkan durasi chapter'
               />
@@ -61,6 +65,7 @@ export function CourseChapterInput({
                   <Button
                     className='smooth-tab flex items-center gap-2 rounded-medium bg-primary-alert-error 
                                px-4 py-2 transition hover:brightness-90'
+                    disabled={loading}
                     onClick={() => remove(index)}
                   >
                     <MdDelete className='text-xl' />
@@ -72,6 +77,7 @@ export function CourseChapterInput({
                     type='button'
                     className='smooth-tab flex items-center gap-2 rounded-medium bg-primary-blue-300 
                                px-4 py-2 transition hover:brightness-90'
+                    disabled={loading}
                     onClick={() =>
                       append({
                         name: '',
@@ -86,7 +92,11 @@ export function CourseChapterInput({
                   </Button>
                 )}
               </div>
-              <CourseMaterialInput form={form} chapterIndex={index} />
+              <CourseMaterialInput
+                form={form}
+                loading={loading}
+                chapterIndex={index}
+              />
             </motion.li>
           );
         })}

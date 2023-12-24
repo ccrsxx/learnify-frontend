@@ -11,6 +11,7 @@ type SelectProps = {
   value: undefined | string;
   error: FieldError | undefined;
   options: { id: string; name: string }[] | undefined;
+  disabled?: boolean;
   onChange?: (...event: unknown[]) => void;
 };
 
@@ -19,12 +20,13 @@ export function Select({
   label,
   value,
   options,
+  disabled,
   onChange
 }: SelectProps): JSX.Element {
   const valueLabel = options?.find((option) => option.id === value)?.name;
 
   return (
-    <Listbox onChange={onChange}>
+    <Listbox disabled={disabled} onChange={onChange}>
       {({ open }): JSX.Element => (
         <div className='relative w-full'>
           <div className='grid gap-2'>
@@ -32,6 +34,7 @@ export function Select({
             <Listbox.Button
               className={clsx('custom-input relative w-full', {
                 'shadow-low': open,
+                'bg-gray-50': disabled,
                 'border-primary-alert-error focus:border-primary-alert-error':
                   error
               })}

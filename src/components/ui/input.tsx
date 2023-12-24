@@ -8,6 +8,7 @@ export type InputProps = PropsWithChildren<{
   type: 'text' | 'textarea' | 'number' | 'tel' | 'password';
   label?: string;
   error?: FieldError | undefined;
+  disabled?: boolean;
   required?: boolean;
   register?: UseFormRegisterReturn;
   tabIndex?: number;
@@ -21,6 +22,7 @@ export function Input({
   type,
   label,
   error,
+  disabled,
   tabIndex,
   children,
   register,
@@ -48,6 +50,7 @@ export function Input({
             rows={4}
             tabIndex={tabIndex}
             required={required}
+            disabled={disabled}
             placeholder={placeholder}
             {...register}
           />
@@ -58,6 +61,7 @@ export function Input({
             type={type}
             tabIndex={tabIndex}
             required={required}
+            disabled={disabled}
             placeholder={placeholder}
             {...register}
           />

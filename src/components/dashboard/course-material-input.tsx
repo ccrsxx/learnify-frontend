@@ -9,6 +9,7 @@ import type { CourseSchema } from '@/lib/form/schema';
 
 type CourseMaterialInputProps = {
   form: UseFormReturn<CourseSchema>;
+  loading: boolean;
   chapterIndex: number;
 };
 
@@ -18,6 +19,7 @@ export function CourseMaterialInput({
     formState: { errors },
     register
   },
+  loading,
   chapterIndex
 }: CourseMaterialInputProps): JSX.Element {
   const { fields, append, remove } = useFieldArray<CourseSchema>({
@@ -51,6 +53,7 @@ export function CourseMaterialInput({
                       materialIndex
                     ]?.name
                   }
+                  disabled={loading}
                   placeholder='Masukkan nama materi'
                   register={register(materialNameId)}
                 />
@@ -63,6 +66,7 @@ export function CourseMaterialInput({
                       materialIndex
                     ]?.video
                   }
+                  disabled={loading}
                   placeholder='Masukkan link video'
                   register={register(materialVideoId)}
                 />
@@ -72,6 +76,7 @@ export function CourseMaterialInput({
                   <Button
                     className='smooth-tab flex items-center gap-2 rounded-medium 
                                bg-primary-alert-error  px-4  py-2 transition hover:brightness-90'
+                    disabled={loading}
                     onClick={() => remove(materialIndex)}
                   >
                     <MdDelete className='text-xl' />
@@ -83,6 +88,7 @@ export function CourseMaterialInput({
                     type='button'
                     className='smooth-tab flex items-center gap-2 rounded-medium 
                                bg-primary-blue-300  px-4  py-2 transition hover:brightness-90'
+                    disabled={loading}
                     onClick={() => append({ name: '' })}
                   >
                     <MdAdd className='text-xl' />

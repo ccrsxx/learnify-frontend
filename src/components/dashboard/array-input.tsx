@@ -32,6 +32,7 @@ type ArrayInputProps<T extends FieldValues> = {
   label: string;
   fields: FieldArrayWithId<T>[];
   errors: CustomFieldErrors | undefined;
+  disabled?: boolean;
   placeholder: string;
   register: UseFormRegister<T>;
   onAppend: () => void;
@@ -43,6 +44,7 @@ export function ArrayInput<T extends FieldValues>({
   label,
   fields,
   errors,
+  disabled,
   placeholder,
   register,
   onAppend,
@@ -58,6 +60,7 @@ export function ArrayInput<T extends FieldValues>({
               type='text'
               label={index === 0 ? label : undefined}
               error={errors?.[index]?.name}
+              disabled={disabled}
               placeholder={placeholder}
               register={register(`${String(id)}.${index}.name` as Path<T>)}
             >
@@ -66,6 +69,7 @@ export function ArrayInput<T extends FieldValues>({
                   <Button
                     className='smooth-tab rounded-medium bg-primary-alert-error
                                p-2 transition hover:brightness-90'
+                    disabled={disabled}
                     onClick={onRemove(index)}
                   >
                     <MdDelete className='text-xl' />
@@ -76,6 +80,7 @@ export function ArrayInput<T extends FieldValues>({
                     type='button'
                     className='smooth-tab rounded-medium bg-primary-blue-300
                                p-2 transition hover:brightness-90'
+                    disabled={disabled}
                     onClick={onAppend}
                   >
                     <MdAdd className='text-xl' />

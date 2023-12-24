@@ -8,6 +8,7 @@ import type { MotionProps } from 'framer-motion';
 import type { ImageData } from '@/lib/types/file';
 
 type ImageUploadProps = {
+  loading: boolean;
   selectedImage: ImageData | null;
   onImageUpload: (
     e: ChangeEvent<HTMLInputElement> | ClipboardEvent<HTMLTextAreaElement>
@@ -16,6 +17,7 @@ type ImageUploadProps = {
 };
 
 export function ImageUpload({
+  loading,
   selectedImage,
   onImageUpload,
   removeImage
@@ -36,6 +38,7 @@ export function ImageUpload({
               <Button
                 className='smooth-tab absolute right-2 top-2 rounded-full bg-black/10 p-1
                            backdrop-blur-sm transition hover:bg-black/20'
+                disabled={loading}
                 onClick={removeImage}
               >
                 <MdClose className='text-2xl text-white' />
@@ -51,13 +54,16 @@ export function ImageUpload({
         type='file'
         onChange={onImageUpload}
       />
-      <label
+      <Button
         className='custom-button block w-full cursor-pointer rounded-medium bg-primary-blue-300
-                   px-4 py-2 text-center text-white transition hover:brightness-90'
-        htmlFor='image'
+                   px-4 py-2 text-center text-white transition hover:brightness-90 
+                   disabled:pointer-events-none'
+        disabled={loading}
       >
-        Upload Gambar
-      </label>
+        <label className='cursor-pointer' htmlFor='image'>
+          Upload Gambar
+        </label>
+      </Button>
     </div>
   );
 }

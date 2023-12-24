@@ -190,9 +190,10 @@ export function NewCourseModal({
           <MdClose />
         </Button>
       </div>
-      <CourseForm form={form} onSubmit={onSubmit}>
+      <CourseForm form={form} loading={formLoading} onSubmit={onSubmit}>
         <div className='col-span-full'>
           <ImageUpload
+            loading={formLoading}
             selectedImage={imageData}
             removeImage={removeImage}
             onImageUpload={handleImageUpload}
