@@ -119,7 +119,7 @@ export default function Course({
       return;
     }
 
-    const courseMaterialStatus = currentMaterial?.course_material_status[0];
+    const courseMaterialStatus = currentMaterial?.course_material_status?.[0];
 
     const materialCanBeCompleted =
       courseMaterialStatus && !courseMaterialStatus.completed;
