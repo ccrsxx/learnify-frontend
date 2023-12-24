@@ -8,7 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { sleep } from '@/lib/helper';
 import { useAuth } from '@/lib/context/auth-context';
 import { formatCurrency, formatDate } from '@/lib/format';
-import { usePayment } from '@/lib/hooks/use-payment';
+import { usePayment } from '@/lib/hooks/query/use-payment';
 import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/env';
 import { Alert } from '@/components/ui/alert';
 import { BackButton } from '@/components/ui/back-arrow';

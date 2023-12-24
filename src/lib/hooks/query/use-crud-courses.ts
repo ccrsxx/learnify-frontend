@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetcher } from '../fetcher';
-import { useAuth } from '../context/auth-context';
-import type { Course } from '../types/schema';
-import type { APIResponse } from '../types/api';
+import { fetcher } from '../../fetcher';
+import { useAuth } from '../../context/auth-context';
+import type { Course } from '../../types/schema';
+import type { APIResponse } from '../../types/api';
 import type { QueryClient, UseMutationResult } from '@tanstack/react-query';
 
 type MutationResult<T = void> = UseMutationResult<

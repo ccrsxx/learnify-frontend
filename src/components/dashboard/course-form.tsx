@@ -1,7 +1,7 @@
 import { Controller, useFieldArray } from 'react-hook-form';
 import { useState } from 'react';
 import { courseTypes, difficultyTypes } from '@/lib/form/schema';
-import { useCategories } from '@/lib/hooks/use-categories';
+import { useCategories } from '@/lib/hooks/query/use-categories';
 import { Input } from '../ui/input';
 import { Select } from '../ui/select';
 import { Accordion } from '../ui/accordion';

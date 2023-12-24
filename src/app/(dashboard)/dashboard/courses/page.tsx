@@ -5,7 +5,7 @@ import { MdAdd } from 'react-icons/md';
 import { Toaster } from 'react-hot-toast';
 import { useModal } from '@/lib/hooks/use-modal';
 import { formatCurrency } from '@/lib/format';
-import { useAdminCourses } from '@/lib/hooks/use-admin-courses';
+import { useAdminCourses } from '@/lib/hooks/query/use-admin-courses';
 import { Button } from '@/components/ui/button';
 import { Table } from '@/components/table/table';
 import { RowAction } from '@/components/table/row-action';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTabs } from '@/lib/hooks/use-tabs';
-import { useStatistics } from '@/lib/hooks/use-statistics';
+import { useStatistics } from '@/lib/hooks/query/use-statistics';
 import { Widget } from '@/components/dashboard/widget';
 import { DashboardTab } from '@/components/ui/tab';
 import { WidgetSkeleton } from '@/components/common/skeleton';

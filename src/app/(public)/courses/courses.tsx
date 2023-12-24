@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { COURSE_TYPES, MY_COURSE_TYPES } from '@/lib/types/enum';
-import { useCategories } from '@/lib/hooks/use-categories';
+import { useCategories } from '@/lib/hooks/query/use-categories';
 import { SearchBar } from '@/components/common/search-bar';
 import { CourseCard } from '@/components/course/course-card';
 import { Button } from '@/components/ui/button';

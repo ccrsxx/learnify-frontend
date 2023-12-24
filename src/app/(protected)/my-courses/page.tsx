@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useMyCourses } from '@/lib/hooks/use-my-courses';
+import { useMyCourses } from '@/lib/hooks/query/use-my-courses';
 import Courses from '@/app/(public)/courses/courses';
 
 export default function MyCourses(): JSX.Element {

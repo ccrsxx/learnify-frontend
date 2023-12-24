@@ -6,7 +6,7 @@ import { MdClose } from 'react-icons/md';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/lib/context/auth-context';
 import { getImagesData } from '@/lib/image';
-import { useCrudCourses } from '@/lib/hooks/use-crud-courses';
+import { useCrudCourses } from '@/lib/hooks/query/use-crud-courses';
 import { courseSchema } from '@/lib/form/schema';
 import { Button } from '../ui/button';
 import { ImageUpload } from '../dashboard/image-upload';

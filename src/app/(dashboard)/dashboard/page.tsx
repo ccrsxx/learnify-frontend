@@ -2,7 +2,7 @@
 
 import { createColumnHelper } from '@tanstack/react-table';
 import { formatDate } from '@/lib/format';
-import { usePayments } from '@/lib/hooks/use-payments';
+import { usePayments } from '@/lib/hooks/query/use-payments';
 import { Table } from '@/components/table/table';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { UserPayment } from '@/lib/types/schema';

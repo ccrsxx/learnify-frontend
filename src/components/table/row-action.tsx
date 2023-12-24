@@ -3,7 +3,7 @@ import { toast } from 'react-hot-toast';
 import { clsx } from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MdMoreVert, MdEdit, MdDelete } from 'react-icons/md';
-import { useCrudCourses } from '@/lib/hooks/use-crud-courses';
+import { useCrudCourses } from '@/lib/hooks/query/use-crud-courses';
 import { useModal } from '@/lib/hooks/use-modal';
 import { Button } from '../ui/button';
 import { ActionModal } from '../modal/action-modal';
