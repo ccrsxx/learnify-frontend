@@ -8,7 +8,7 @@ import { SiTelegram } from 'react-icons/si';
 import { MdWarning } from 'react-icons/md';
 import { useModal } from '@/lib/hooks/use-modal';
 import { useCourse } from '@/lib/hooks/query/use-course';
-import { useMaterialStatus } from '@/lib/hooks/query/use-material-status';
+import { useMaterialStatus } from '@/lib/hooks/mutation/use-material-status';
 import { useAuth } from '@/lib/context/auth-context';
 import { CourseStats } from '@/components/course/course-stats';
 import { VideoPlayer } from '@/components/ui/video-player';
@@ -39,8 +39,6 @@ export default function Course({
   const [currentMaterial, setCurrentMaterial] = useState<CourseMaterial | null>(
     () => getCourseMaterialById(courseData?.data, materialId)
   );
-
-  const [statusMaterialLoading, setStatusMaterialLoading] = useState(false);
 
   const {
     open: enrollCourseModalOpen,
@@ -139,9 +137,7 @@ export default function Course({
     const materialCanBeCompleted =
       courseMaterialStatus && !courseMaterialStatus.completed;
 
-    if (materialCanBeCompleted) {
-      setStatusMaterialLoading(true);
-
+    if (materialCanBeCompleted)
       await toast.promise(
         updateMaterialStatusMutation
           .mutateAsync(courseMaterialStatus.id)
@@ -152,9 +148,6 @@ export default function Course({
           error: 'Gagal menandai materi sebagai selesai'
         }
       );
-
-      setStatusMaterialLoading(false);
-    }
 
     if (!nextMaterialId) return;
 
@@ -214,7 +207,7 @@ export default function Course({
                 </Link>
                 <Button
                   className='clickable bg-primary-blue-500 px-4 py-2 text-white'
-                  loading={statusMaterialLoading}
+                  loading={updateMaterialStatusMutation.isPending}
                   onClick={handleNextMaterial}
                 >
                   Next

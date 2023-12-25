@@ -54,13 +54,12 @@ export function ImageUpload({
         type='file'
         onChange={onImageUpload}
       />
-      <Button
-        className='custom-button block w-full cursor-pointer rounded-medium bg-primary-blue-300
-                   px-4 py-2 text-center text-white transition hover:brightness-90 
-                   disabled:pointer-events-none'
-        disabled={loading}
-      >
-        <label className='cursor-pointer' htmlFor='image'>
+      <Button className='disabled:pointer-events-none' disabled={loading}>
+        <label
+          className='custom-button block w-full cursor-pointer rounded-medium bg-primary-blue-300
+                     px-4 py-2 text-center text-white transition hover:brightness-90'
+          htmlFor='image'
+        >
           Upload Gambar
         </label>
       </Button>

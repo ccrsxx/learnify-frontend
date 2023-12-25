@@ -1,24 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetcher } from '../../fetcher';
 import { useAuth } from '../../context/auth-context';
-import type { APIResponse } from '../../types/api';
+import type { QueryClient } from '@tanstack/react-query';
+import type {
+  APIResponse,
+  MutationResult,
+  ExtractMutationVariables
+} from '../../types/api';
 import type { CourseMaterialStatus } from '../../types/schema';
-import type { QueryClient, UseMutationResult } from '@tanstack/react-query';
 
-type MutationResult<T = void> = UseMutationResult<
-  APIResponse<CourseMaterialStatus>,
-  Error,
-  T,
-  unknown
->;
-
-type ExtractMutationVariables<T> = T extends MutationResult<infer U>
-  ? U
-  : never;
+type OnboardingStatusResponse = APIResponse<CourseMaterialStatus>;
 
 type OnboardingStatus = {
   queryClient: QueryClient;
-  updateOnboardingStatus: MutationResult<string>;
+  updateOnboardingStatus: MutationResult<string, OnboardingStatusResponse>;
 };
 
 export function useOnboardingStatus(courseId: string): OnboardingStatus {
@@ -27,7 +22,7 @@ export function useOnboardingStatus(courseId: string): OnboardingStatus {
   const { token } = useAuth();
 
   const updateOnboardingStatus = useMutation<
-    APIResponse<CourseMaterialStatus>,
+    OnboardingStatusResponse,
     Error,
     ExtractMutationVariables<OnboardingStatus['updateOnboardingStatus']>
   >({

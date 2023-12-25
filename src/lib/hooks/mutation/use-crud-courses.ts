@@ -2,25 +2,23 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetcher } from '../../fetcher';
 import { useAuth } from '../../context/auth-context';
 import type { Course } from '../../types/schema';
-import type { APIResponse } from '../../types/api';
-import type { QueryClient, UseMutationResult } from '@tanstack/react-query';
+import type {
+  APIResponse,
+  MutationResult,
+  ExtractMutationVariables
+} from '../../types/api';
+import type { QueryClient } from '@tanstack/react-query';
 
-type MutationResult<T = void> = UseMutationResult<
-  APIResponse<Course>,
-  Error,
-  T,
-  unknown
->;
-
-type ExtractMutationVariables<T> = T extends MutationResult<infer U>
-  ? U
-  : never;
+type CrudCourseResponse = APIResponse<Course>;
 
 type CrudCourses = {
   queryClient: QueryClient;
-  createCourseMutation: MutationResult<FormData>;
-  updateCourseMutation: MutationResult<{ id: string; data: FormData }>;
-  deleteCourseMutation: MutationResult<string>;
+  createCourseMutation: MutationResult<FormData, CrudCourseResponse>;
+  updateCourseMutation: MutationResult<
+    { id: string; data: FormData },
+    CrudCourseResponse
+  >;
+  deleteCourseMutation: MutationResult<string, CrudCourseResponse>;
 };
 
 export function useCrudCourses(): CrudCourses {
@@ -29,7 +27,7 @@ export function useCrudCourses(): CrudCourses {
   const { token } = useAuth();
 
   const createCourseMutation = useMutation<
-    APIResponse<Course>,
+    CrudCourseResponse,
     Error,
     ExtractMutationVariables<CrudCourses['createCourseMutation']>
   >({
@@ -48,7 +46,7 @@ export function useCrudCourses(): CrudCourses {
   });
 
   const updateCourseMutation = useMutation<
-    APIResponse<Course>,
+    CrudCourseResponse,
     Error,
     ExtractMutationVariables<CrudCourses['updateCourseMutation']>
   >({
@@ -67,7 +65,7 @@ export function useCrudCourses(): CrudCourses {
   });
 
   const deleteCourseMutation = useMutation<
-    APIResponse<Course>,
+    CrudCourseResponse,
     Error,
     ExtractMutationVariables<CrudCourses['deleteCourseMutation']>
   >({

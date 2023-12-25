@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Dialog } from '@headlessui/react';
-import { useOnboardingStatus } from '@/lib/hooks/query/use-onboarding-status';
+import { useOnboardingStatus } from '@/lib/hooks/mutation/use-onboarding-status';
 import { LazyImage } from '../ui/lazy-image';
 import { Button } from '../ui/button';
 import { Modal } from './modal';
@@ -20,11 +19,7 @@ export function OnboardingModal({
 }: OnboardingModalProps): JSX.Element {
   const { updateOnboardingStatus } = useOnboardingStatus(courseId);
 
-  const [loading, setLoading] = useState(false);
-
   const handleOnboardingComplete = (): void => {
-    setLoading(true);
-
     const userCourseId = user_course?.[0]?.id as string;
 
     updateOnboardingStatus.mutate(userCourseId, {
@@ -32,16 +27,12 @@ export function OnboardingModal({
         closeModal();
 
         toast.success('Selamat belajar!');
-
-        setLoading(false);
       },
       onError: ({ message }) => {
         // eslint-disable-next-line no-console
         console.error(message);
 
         toast.error('Gagal menyelesaikan onboarding');
-
-        setLoading(false);
       }
     });
   };
@@ -72,7 +63,7 @@ export function OnboardingModal({
       </div>
       <Button
         className='clickable rounded-high bg-primary-blue-500 px-12 py-3 font-medium'
-        loading={loading}
+        loading={updateOnboardingStatus.isPending}
         onClick={handleOnboardingComplete}
       >
         Ikuti Kelas

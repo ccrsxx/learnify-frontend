@@ -7,8 +7,8 @@ import type { Course, CourseMaterial } from '@/lib/types/schema';
 type CourseMaterialProps = {
   course: Course;
   chapter_index: number;
-  course_material: CourseMaterial;
   courseEnrolled: boolean;
+  course_material: CourseMaterial;
   selectedMaterialId?: string;
   openPurchaseCourseModal: () => void;
 };

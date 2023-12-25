@@ -42,7 +42,7 @@ export type CourseMaterial = BaseRecord & {
   video: string;
   order_index: number;
   course_chapter_id: string;
-  course_material_status: CourseMaterialStatus[];
+  course_material_status?: CourseMaterialStatus[];
 };
 
 export type CourseChapter = BaseRecord & {

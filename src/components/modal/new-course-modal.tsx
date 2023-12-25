@@ -6,7 +6,7 @@ import { MdClose } from 'react-icons/md';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/lib/context/auth-context';
 import { getImagesData } from '@/lib/image';
-import { useCrudCourses } from '@/lib/hooks/query/use-crud-courses';
+import { useCrudCourses } from '@/lib/hooks/mutation/use-crud-courses';
 import { courseSchema } from '@/lib/form/schema';
 import { Button } from '../ui/button';
 import { ImageUpload } from '../dashboard/image-upload';
@@ -49,8 +49,6 @@ export function NewCourseModal({
       : null
   );
 
-  const [formLoading, setFormLoading] = useState(false);
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => cleanImage, [imageData]);
 
@@ -60,8 +58,6 @@ export function NewCourseModal({
     target_audience,
     ...rest
   }): void => {
-    setFormLoading(true);
-
     const parsedTargetAudience = target_audience.map(({ name }) => name);
 
     const parsedCourseChapters = course_chapter?.map(
@@ -109,9 +105,6 @@ export function NewCourseModal({
             // eslint-disable-next-line no-console
             console.error(message);
             toast.error('Gagal mengupdate kursus');
-          },
-          onSettled: () => {
-            setFormLoading(false);
           }
         }
       );
@@ -127,7 +120,6 @@ export function NewCourseModal({
         // eslint-disable-next-line no-console
         console.error(message);
 
-        setFormLoading(false);
         toast.error('Gagal membuat kursus');
       }
     });
@@ -171,6 +163,9 @@ export function NewCourseModal({
   };
 
   const cleanImage = (): void => URL.revokeObjectURL(imageData?.src as string);
+
+  const formLoading =
+    createCourseMutation.isPending || updateCourseMutation.isPending;
 
   return (
     <Modal

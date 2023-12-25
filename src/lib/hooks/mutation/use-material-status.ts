@@ -1,24 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetcher } from '../../fetcher';
 import { useAuth } from '../../context/auth-context';
-import type { APIResponse } from '../../types/api';
+import type {
+  APIResponse,
+  MutationResult,
+  ExtractMutationVariables
+} from '../../types/api';
 import type { CourseMaterialStatus } from '../../types/schema';
-import type { QueryClient, UseMutationResult } from '@tanstack/react-query';
+import type { QueryClient } from '@tanstack/react-query';
 
-type MutationResult<T = void> = UseMutationResult<
-  APIResponse<CourseMaterialStatus>,
-  Error,
-  T,
-  unknown
->;
-
-type ExtractMutationVariables<T> = T extends MutationResult<infer U>
-  ? U
-  : never;
+type MaterialStatusResponse = APIResponse<CourseMaterialStatus>;
 
 type MaterialStatus = {
   queryClient: QueryClient;
-  updateMaterialStatusMutation: MutationResult<string>;
+  updateMaterialStatusMutation: MutationResult<string, MaterialStatusResponse>;
 };
 
 export function useMaterialStatus(): MaterialStatus {
@@ -27,7 +22,7 @@ export function useMaterialStatus(): MaterialStatus {
   const { token } = useAuth();
 
   const updateMaterialStatusMutation = useMutation<
-    APIResponse<CourseMaterialStatus>,
+    MaterialStatusResponse,
     Error,
     ExtractMutationVariables<MaterialStatus['updateMaterialStatusMutation']>
   >({
