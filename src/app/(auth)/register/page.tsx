@@ -117,12 +117,12 @@ export default function Login(): JSX.Element {
             label='Nomor Telepon'
             error={errors.phone_number}
             register={register('phone_number')}
-            placeholder='Masukkan Nomor Telepon'
+            placeholder='Masukkan nomor telepon'
             overrideError={serverPhoneNumberError}
           />
           <Input
             id='email'
-            type='text'
+            type='email'
             label='Email'
             error={errors.email}
             register={register('email')}

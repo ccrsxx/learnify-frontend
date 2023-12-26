@@ -15,6 +15,7 @@ type AuthContextType = {
   loading: boolean;
   login: (data: LoginSchema, admin?: boolean) => Promise<string | null>;
   logout: () => void;
+  updateUser: (updatedUser: User) => void;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -62,6 +63,8 @@ export function AuthContextProvider({
 
     void manageAuth();
   }, [token]);
+
+  const handleUpdateUser = (updatedUser: User): void => setUser(updatedUser);
 
   const handleLogin = async (
     { emailOrPhoneNumber, password }: LoginSchema,
@@ -125,7 +128,8 @@ export function AuthContextProvider({
     token,
     loading,
     login: handleLogin,
-    logout: handleLogout
+    logout: handleLogout,
+    updateUser: handleUpdateUser
   };
 
   return (

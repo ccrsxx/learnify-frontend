@@ -8,6 +8,7 @@ export type BaseRecord = {
 
 export type User = BaseRecord & {
   name: string;
+  image: string | null;
   email: string;
   token: string;
   admin: boolean;

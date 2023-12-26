@@ -3,7 +3,7 @@
 import { useTabs } from '@/lib/hooks/use-tabs';
 import { useStatistics } from '@/lib/hooks/query/use-statistics';
 import { Widget } from '@/components/dashboard/widget';
-import { DashboardTab } from '@/components/ui/tab';
+import { NavTab } from '@/components/ui/tab';
 import { WidgetSkeleton } from '@/components/common/skeleton';
 import type { ReactNode } from 'react';
 import type { Tab } from '@/lib/hooks/use-tabs';
@@ -54,7 +54,7 @@ export default function Layout({
               )
             )}
           </section>
-          <DashboardTab {...tabProps} />
+          <NavTab {...tabProps} />
         </div>
         <hr />
       </section>

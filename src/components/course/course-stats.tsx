@@ -7,13 +7,13 @@ import type { Course } from '@/lib/types/schema';
 type CourseStatsProps = {
   course: Course;
   details?: boolean;
-  payment?: boolean;
+  showDetails?: boolean;
 };
 
 export function CourseStats({
   course,
   details,
-  payment
+  showDetails = true
 }: CourseStatsProps): JSX.Element {
   const {
     name,
@@ -50,7 +50,7 @@ export function CourseStats({
           By {author}
         </p>
       </div>
-      {!payment && (
+      {showDetails && (
         <div
           className={clsx(
             'flex flex-wrap',

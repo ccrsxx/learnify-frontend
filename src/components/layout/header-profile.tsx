@@ -12,7 +12,7 @@ import type { ReactNode } from 'react';
 export function HeaderProfile(): JSX.Element {
   const { user, logout } = useAuth();
 
-  const { name, admin, email } = user!;
+  const { name, image, admin, email } = user!;
 
   return (
     <div className='flex items-center gap-3'>
@@ -34,10 +34,10 @@ export function HeaderProfile(): JSX.Element {
           <>
             <Menu.Button className='smooth-tab relative grid place-items-center'>
               <LazyImage
-                className='h-10 w-10 rounded-full'
+                className='h-10 w-10 rounded-full object-cover'
                 width={40}
                 height={40}
-                src={`https://vercel.com/api/www/avatar?u=${name}`}
+                src={image ?? `https://vercel.com/api/www/avatar?u=${name}`}
                 alt={name}
               />
             </Menu.Button>

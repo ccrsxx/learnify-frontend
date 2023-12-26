@@ -53,6 +53,7 @@ export function generateRandomUser(): User {
     id: faker.string.uuid(),
     name: faker.person.fullName(),
     email: faker.internet.email(),
+    image: faker.image.avatar(),
     token: faker.string.uuid(),
     admin: faker.datatype.boolean(),
     password: faker.internet.password(),

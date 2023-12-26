@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { clsx } from 'clsx';
 import { useModal } from '@/lib/hooks/use-modal';
@@ -5,17 +7,21 @@ import { preventBubbling } from '@/lib/helper';
 import { Button } from '../ui/button';
 import { LazyImage } from '../ui/lazy-image';
 import { Modal } from './modal';
+import type { PropsWithChildren } from 'react';
 import type { ImageProps } from 'next/image';
 
-type ImagePreviewProps = Omit<ImageProps, 'src'> & {
-  src: string;
-  customLink?: string;
-  wrapperClassName?: string;
-};
+type ImagePreviewProps = PropsWithChildren<
+  Omit<ImageProps, 'src'> & {
+    src: string;
+    customLink?: string;
+    wrapperClassName?: string;
+  }
+>;
 
 export function ImagePreview({
   src,
   alt,
+  children,
   className,
   customLink,
   wrapperClassName,
@@ -78,6 +84,7 @@ export function ImagePreview({
           alt={alt}
           title={alt}
         />
+        {children}
       </Button>
     </>
   );

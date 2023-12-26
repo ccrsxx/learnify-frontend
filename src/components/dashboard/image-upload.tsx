@@ -27,9 +27,9 @@ export function ImageUpload({
       <Collapse className='mx-auto' open={!!selectedImage}>
         <AnimatePresence>
           {selectedImage && (
-            <motion.div className='relative' {...variants}>
+            <motion.div className='relative my-0.5' {...variants}>
               <ImagePreview
-                className='h-60 w-60 rounded-medium object-cover'
+                className='h-60 w-60 rounded-medium object-cover shadow-low hover:shadow-high'
                 width={240}
                 height={240}
                 src={selectedImage.src}

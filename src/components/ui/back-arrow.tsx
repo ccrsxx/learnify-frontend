@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MdArrowBack } from 'react-icons/md';
@@ -14,8 +16,8 @@ export function BackButton({ href = '', label }: BackButtonProps): JSX.Element {
 
   return (
     <Tag
-      className='smooth-tab mr-auto flex items-center gap-4 rounded-medium px-3 py-1 text-lg
-                 font-semibold text-black transition hover:bg-gray-200'
+      className='smooth-tab mr-auto flex w-fit items-center gap-4 rounded-medium px-3 py-1
+                 text-lg font-semibold text-black transition hover:bg-gray-200'
       href={href}
       {...(!href && { onClick: () => router.back() })}
     >

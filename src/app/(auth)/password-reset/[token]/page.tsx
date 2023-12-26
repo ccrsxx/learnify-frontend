@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import type { SubmitHandler } from 'react-hook-form';
 import type { APIResponse } from '@/lib/types/api';
 
-const passwordResetValidation = z
+const passwordResetValidationSchema = z
   .object({
     password: passwordSchema,
     confirmPassword: passwordSchema
@@ -25,9 +25,11 @@ const passwordResetValidation = z
     path: ['confirmPassword']
   });
 
-type PasswordResetValidationSchema = z.infer<typeof passwordResetValidation>;
+type PasswordResetValidationSchema = z.infer<
+  typeof passwordResetValidationSchema
+>;
 
-export default function Login({
+export default function PasswordResetToken({
   params: { token }
 }: {
   params: { token: string };
@@ -39,7 +41,7 @@ export default function Login({
     register,
     handleSubmit
   } = useForm<PasswordResetValidationSchema>({
-    resolver: zodResolver(passwordResetValidation)
+    resolver: zodResolver(passwordResetValidationSchema)
   });
 
   const [formLoading, setFormLoading] = useState(false);

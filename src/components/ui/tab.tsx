@@ -6,17 +6,17 @@ import type { PropsWithChildren } from 'react';
 import type { MotionProps, Transition, Variants } from 'framer-motion';
 import type { Tab } from '../../lib/hooks/use-tabs';
 
-type DashboardTabProps = {
+type NavTab = {
   tabs: Tab[];
   selectedTabIndex: number;
   setSelectedTab: (input: [number, number]) => void;
 };
 
-export function DashboardTab({
+export function NavTab({
   tabs,
   selectedTabIndex,
   setSelectedTab
-}: DashboardTabProps): JSX.Element {
+}: NavTab): JSX.Element {
   const [hoveredTab, setHoveredTab] = useState<number | null>(null);
 
   return (
@@ -82,18 +82,18 @@ const tabVariants: MotionProps = {
   exit: { opacity: 0 }
 };
 
-type DashboardTabContentProps = PropsWithChildren<{
+type NavTabContent = PropsWithChildren<{
   direction: number;
   className?: string;
   selectedTabIndex: number;
 }>;
 
-export function DashboardTabContent({
+export function NavTabContent({
   children,
   className,
   direction,
   selectedTabIndex
-}: DashboardTabContentProps): JSX.Element {
+}: NavTabContent): JSX.Element {
   return (
     <AnimatePresence mode='wait' custom={direction}>
       <motion.div

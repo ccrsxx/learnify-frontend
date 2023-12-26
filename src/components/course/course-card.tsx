@@ -1,20 +1,13 @@
 import Link from 'next/link';
 import { clsx } from 'clsx';
-import { MdDiamond, MdPlayArrow } from 'react-icons/md';
-import { formatCurrency } from '@/lib/format';
 import { LazyImage } from '../ui/lazy-image';
-import { Button } from '../ui/button';
 import { CourseStats } from './course-stats';
-import { CourseProgressBar } from './course-progress-bar';
-import type { Course } from '@/lib/types/schema';
+import { CourseCardButton } from './course-card-button';
+import type { CourseCardButtonProps } from './course-card-button';
 
-type CourseCardProps = {
-  course: Course;
-  modal?: boolean;
-  payment?: boolean;
+type CourseCardProps = CourseCardButtonProps & {
   details?: boolean;
-  homepage?: boolean;
-  progress?: boolean;
+  showButton?: boolean;
 };
 
 export function CourseCard({
@@ -23,16 +16,13 @@ export function CourseCard({
   payment,
   details,
   homepage,
-  progress
+  progress,
+  showButton = true
 }: CourseCardProps): JSX.Element {
   const {
     id,
     name,
-    price,
     image,
-    premium,
-    total_materials,
-    total_completed_materials,
     course_category: { image: categoryImage }
   } = course;
 
@@ -54,38 +44,18 @@ export function CourseCard({
           alt={name}
         />
         <section className='grid justify-items-start gap-3 p-3 text-black'>
-          <CourseStats course={course} details={details} payment={payment} />
-          {!progress &&
-            !payment &&
-            ((homepage ?? modal) && premium ? (
-              <Button className='clickable flex gap-3 bg-primary-blue-300 px-2 py-1 text-white'>
-                <div className='flex items-center gap-1'>
-                  <MdDiamond />
-                  <p>Beli</p>
-                </div>
-                <p>{formatCurrency(price)}</p>
-              </Button>
-            ) : premium ? (
-              <Button
-                className='clickable flex items-center gap-1 
-                          bg-primary-blue-300 px-2 py-1 text-white'
-              >
-                <MdDiamond />
-                Premium
-              </Button>
-            ) : (
-              <Button
-                className='clickable flex items-center gap-1 
-                          bg-primary-blue-300 px-2 py-1 text-white'
-              >
-                <MdPlayArrow />
-                Mulai Kelas
-              </Button>
-            ))}
-          {progress && (
-            <CourseProgressBar
-              total_materials={total_materials}
-              total_completed_materials={total_completed_materials as number}
+          <CourseStats
+            course={course}
+            details={details}
+            showDetails={showButton}
+          />
+          {showButton && (
+            <CourseCardButton
+              modal={modal}
+              course={course}
+              payment={payment}
+              homepage={homepage}
+              progress={progress}
             />
           )}
         </section>

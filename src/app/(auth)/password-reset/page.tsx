@@ -12,18 +12,20 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { SubmitHandler } from 'react-hook-form';
 
-const passwordReset = z.object({
+const passwordResetSchema = z.object({
   email: emailSchema
 });
 
-type PasswordResetSchema = z.infer<typeof passwordReset>;
+type PasswordResetSchema = z.infer<typeof passwordResetSchema>;
 
-export default function Login(): JSX.Element {
+export default function PasswordReset(): JSX.Element {
   const {
     formState: { errors },
     register,
     handleSubmit
-  } = useForm<PasswordResetSchema>({ resolver: zodResolver(passwordReset) });
+  } = useForm<PasswordResetSchema>({
+    resolver: zodResolver(passwordResetSchema)
+  });
 
   const [errorServer, setErrorServer] = useState<string | null>(null);
   const [formLoading, setFormLoading] = useState(false);

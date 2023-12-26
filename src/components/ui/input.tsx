@@ -5,7 +5,7 @@ import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 export type InputProps = PropsWithChildren<{
   id: string;
-  type: 'text' | 'textarea' | 'number' | 'tel' | 'password';
+  type: 'text' | 'email' | 'textarea' | 'number' | 'tel' | 'password';
   label?: string;
   error?: FieldError | undefined;
   disabled?: boolean;
@@ -37,7 +37,7 @@ export function Input({
     'border-primary-alert-error focus:border-primary-alert-error';
 
   return (
-    <div className='grid gap-2'>
+    <div className='grid gap-2 text-black'>
       <div className='flex justify-between gap-4'>
         <label htmlFor={id}>{label}</label>
         {additionalLabel}

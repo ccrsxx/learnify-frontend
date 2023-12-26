@@ -150,7 +150,7 @@ export default function Checkout({
         </section>
         <section className='grid w-full max-w-md gap-4 rounded-md p-6 text-black shadow-low'>
           <h1 className='text-xl font-bold'>Pembayaran Kelas</h1>
-          <CourseCard payment modal course={course} />
+          <CourseCard modal showButton={false} course={course} />
           <div className='flex justify-between gap-2'>
             <div>
               <p className='font-medium'>Harga</p>
