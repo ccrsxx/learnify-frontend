@@ -57,7 +57,7 @@ export function HeaderProfile(): JSX.Element {
                   <hr />
                   {admin && <NavItem name='Dashboard' href='/dashboard' />}
                   <NavItem name='My Courses' href='/my-courses' />
-                  <NavItem name='Settings' href='/settings' />
+                  <NavItem name='Settings' href='/account' />
                   <NavItem name='Log Out' href='/' onClick={logout} />
                 </Menu.Items>
               )}

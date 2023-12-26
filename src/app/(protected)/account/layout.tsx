@@ -32,17 +32,17 @@ export default function Layout({
 const settingsTabs: Tab[] = [
   {
     id: 'settings',
-    href: '/settings',
+    href: '/account',
     label: 'Profile Saya'
   },
   {
     id: 'password-reset',
-    href: '/settings/password-reset',
+    href: '/account/password-reset',
     label: 'Ubah Password'
   },
   {
     id: 'payments-history',
-    href: '/settings/payments-history',
+    href: '/account/payments-history',
     label: 'Riwayat Pembayaran'
   }
 ];
