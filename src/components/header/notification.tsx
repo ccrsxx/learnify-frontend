@@ -46,7 +46,7 @@ export function Notification(): JSX.Element {
                     </p>
                   </div>
                   {isLoading ? (
-                    Array.from({ length: 12 }).map((_, index) => (
+                    Array.from({ length: 6 }).map((_, index) => (
                       <NotificationItemSkeleton key={index} />
                     ))
                   ) : notifications?.length ? (
