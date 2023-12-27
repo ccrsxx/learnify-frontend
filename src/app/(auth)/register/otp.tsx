@@ -31,8 +31,6 @@ export function Otp({ email, onTabChange }: OtpProps): JSX.Element {
     setLoading(true);
     setErrorServer(null);
 
-    await sleep(2000);
-
     try {
       const response = await fetch(
         `${NEXT_PUBLIC_BACKEND_URL}/auth/otp/verify`,
