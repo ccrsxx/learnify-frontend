@@ -11,9 +11,9 @@ export function useCountdown(initialSeconds: number): Countdown {
   useEffect(() => {
     if (!seconds) return;
 
-    const intervalId = setInterval(() => setSeconds(seconds - 1), 1000);
+    const timeoutId = setTimeout(() => setSeconds(seconds - 1), 1000);
 
-    return () => clearInterval(intervalId);
+    return () => clearTimeout(timeoutId);
   }, [seconds]);
 
   const reset = (): void => setSeconds(initialSeconds);
