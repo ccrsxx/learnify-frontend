@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['loremflickr.com'],
-    unoptimized: true
+    domains: ['vercel.com', 'res.cloudinary.com']
   }
 };
 
