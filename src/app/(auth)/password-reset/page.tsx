@@ -74,7 +74,7 @@ export default function PasswordReset(): JSX.Element {
   const serverEmailError = errorServer?.includes('Akun');
 
   return (
-    <div className='mx-auto grid w-full max-w-md gap-6'>
+    <div className='mx-auto grid w-full max-w-lg gap-6'>
       <h1 className='text-2xl font-bold text-primary-blue-500'>
         Lupa Password
       </h1>

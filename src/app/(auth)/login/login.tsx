@@ -74,7 +74,7 @@ export function Login({ admin }: LoginProps): JSX.Element {
   const serverPasswordError = errorServer?.includes('password');
 
   return (
-    <div className='mx-auto grid w-full max-w-md gap-6'>
+    <div className='mx-auto grid w-full max-w-lg gap-6'>
       <h1 className='text-2xl font-bold text-primary-blue-500'>Masuk</h1>
       <form className='grid gap-6' onSubmit={handleSubmit(onSubmit)}>
         <section className='grid gap-4'>

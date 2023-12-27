@@ -120,7 +120,7 @@ export default function PasswordResetToken({
   return (
     <div
       className={clsx(
-        'mx-auto grid w-full max-w-md gap-6',
+        'mx-auto grid w-full max-w-lg gap-6',
         validationLoading && 'pointer-events-none animate-pulse'
       )}
     >
