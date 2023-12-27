@@ -53,7 +53,7 @@ export function Login({ admin }: LoginProps): JSX.Element {
       }
 
       await toast.promise(sleep(2000), {
-        loading: 'Login berhasil, kamu akan dialihkan ke beranda',
+        loading: 'Login berhasil, kamu akan dialihkan',
         success: 'Sedang mengalihkan',
         error: 'Terjadi kesalahan. Silahkan coba lagi'
       });

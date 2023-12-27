@@ -13,6 +13,7 @@ type ApiEndpoints =
   | 'courses/me'
   | 'user-payments'
   | 'course-categories'
+  | 'user-notifications'
   | 'dashboard/statistics'
   | `${SlugEndPoints}/${string}`
   | `${SlugEndPointsWithParams}?${string}`;

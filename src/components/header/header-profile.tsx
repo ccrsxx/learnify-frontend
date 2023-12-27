@@ -1,10 +1,10 @@
 import { clsx } from 'clsx';
 import { Menu } from '@headlessui/react';
-import { MdNotifications } from 'react-icons/md';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAuth } from '@/lib/context/auth-context';
 import { LazyImage } from '../ui/lazy-image';
+import { Notification } from './notification';
 import type { MotionProps } from 'framer-motion';
 import type { IconType } from 'react-icons';
 import type { ReactNode } from 'react';
@@ -15,26 +15,14 @@ export function HeaderProfile(): JSX.Element {
   const { name, image, admin, email } = user!;
 
   return (
-    <div className='flex items-center gap-3'>
-      <Link
-        className='relative rounded-full p-2 text-white'
-        href='/notifications'
-      >
-        <span className='absolute right-0 flex h-3 w-3'>
-          <span
-            className='absolute inline-flex h-full w-full animate-ping 
-                       rounded-full bg-sky-400 opacity-75'
-          />
-          <span className='relative inline-flex h-3 w-3 rounded-full bg-sky-500' />
-        </span>
-        <MdNotifications className='text-4xl' />
-      </Link>
+    <motion.div className='flex items-center gap-4' {...profileVariants}>
+      <Notification />
       <Menu className='relative' as='div'>
         {({ open }) => (
           <>
             <Menu.Button className='smooth-tab relative grid place-items-center'>
               <LazyImage
-                className='h-10 w-10 rounded-full object-cover'
+                className='h-10 w-10 rounded-full object-cover shadow-low hover:shadow-high'
                 width={40}
                 height={40}
                 src={image ?? `https://vercel.com/api/www/avatar?u=${name}`}
@@ -45,10 +33,10 @@ export function HeaderProfile(): JSX.Element {
               {open && (
                 <Menu.Items
                   className='smooth-tab absolute right-0 z-20 mt-4 w-48 origin-top-right
-                             rounded-md bg-white py-1 shadow-high'
+                             rounded-medium bg-white py-1 shadow-high'
                   static
                   as={motion.div}
-                  {...variants}
+                  {...menuVariants}
                 >
                   <div className='px-4 py-2'>
                     <p className='text-black'>{name}</p>
@@ -65,9 +53,19 @@ export function HeaderProfile(): JSX.Element {
           </>
         )}
       </Menu>
-    </div>
+    </motion.div>
   );
 }
+
+export const profileVariants: MotionProps = {
+  initial: { opacity: 0, scale: 0.75 },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: { type: 'spring', duration: 0.5, bounce: 0.5 }
+  },
+  exit: { opacity: 0, scale: 0.75, transition: { duration: 0.2 } }
+};
 
 type NavigationProps = {
   name: string;
@@ -107,7 +105,7 @@ function NavItem({
   );
 }
 
-const variants: MotionProps = {
+export const menuVariants: MotionProps = {
   initial: { opacity: 0, y: 20 },
   animate: {
     opacity: 1,

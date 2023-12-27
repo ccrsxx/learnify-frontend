@@ -27,6 +27,13 @@ export type UserPayment = BaseRecord & {
   payment_method: PaymentMethod;
 };
 
+export type UserNotification = BaseRecord & {
+  name: string;
+  viewed: boolean;
+  user_id: string;
+  description: string;
+};
+
 export type CourseCategory = BaseRecord & {
   name: string;
   image: string;

@@ -57,16 +57,21 @@ export function EnrollCourseModal({
 
       if (!response.ok) throw new Error(data.message);
 
-      await queryClient.invalidateQueries({
-        queryKey: ['courses']
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ['courses']
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ['user-notifications']
+        })
+      ]);
 
       toast.success('Berhasil masuk di kelas!');
 
       closeModal();
     } catch (err) {
       // eslint-disable-next-line no-console
-      if (err instanceof Error) console.error(err.message);
+      console.error(err);
       toast.error('Gagal masuk di kelas. Silahkan coba lagi');
     }
 

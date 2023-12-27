@@ -157,6 +157,16 @@ export function CourseDetailsSkeleton(): JSX.Element {
   );
 }
 
+export function NotificationItemSkeleton(): JSX.Element {
+  return (
+    <li className='grid gap-1 p-4'>
+      <div className='h-5 w-1/2 animate-pulse rounded-medium bg-gray-300' />
+      <div className='h-4 w-3/4 animate-pulse rounded-medium bg-gray-200' />
+      <div className='h-4 w-1/4 animate-pulse rounded-medium bg-gray-200' />
+    </li>
+  );
+}
+
 export function WidgetSkeleton(): JSX.Element {
   return (
     <article className='flex items-center gap-4 rounded-medium bg-gray-100 p-6'>

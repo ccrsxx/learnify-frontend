@@ -35,7 +35,6 @@ export default function Checkout({
   const [transferBankOpen, setTransferBankOpen] = useState(false);
   const [creditCardOpen, setCreditCardOpen] = useState(false);
 
-  const [alreadyPaid, setAlreadyPaid] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -81,9 +80,14 @@ export default function Checkout({
 
       if (!response.ok) throw new Error(data.message);
 
-      await queryClient.invalidateQueries({
-        queryKey: ['courses']
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ['courses']
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ['user-notifications']
+        })
+      ]);
 
       await toast.promise(sleep(2000), {
         loading: 'Mengalihkan ke halaman sukses',
@@ -93,17 +97,13 @@ export default function Checkout({
 
       await sleep(1000);
 
-      setAlreadyPaid(true);
-
       router.replace(`/payments/success/${data.data?.course_id}`);
-    } catch (error) {
+    } catch (err) {
       // eslint-disable-next-line no-console
-      if (error instanceof Error) console.error(error.message);
-
+      console.error(err);
       toast.error('Terjadi kesalahan. Silahkan coba lagi');
+      setFormLoading(false);
     }
-
-    setFormLoading(false);
   };
 
   if (paymentLoading) return <CheckoutSkeleton />;
@@ -171,7 +171,6 @@ export default function Checkout({
             className='clickable mx-auto mt-8 flex items-center gap-2 rounded-high
                        bg-primary-alert-error px-6 py-3 text-white'
             loading={formLoading}
-            disabled={alreadyPaid}
             onClick={handleSubmit}
           >
             Bayar dan Ikuti Kelas Selamanya

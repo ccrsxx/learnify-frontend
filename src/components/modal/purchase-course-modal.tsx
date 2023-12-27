@@ -66,7 +66,7 @@ export function PurchaseCourseModal({
       router.push(`/payments/${data.data?.id}`);
     } catch (err) {
       // eslint-disable-next-line no-console
-      if (err instanceof Error) console.error(err.message);
+      console.error(err);
       toast.error('Gagal membeli kelas. Silahkan coba lagi');
     }
 

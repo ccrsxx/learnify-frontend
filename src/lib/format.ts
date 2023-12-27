@@ -22,3 +22,29 @@ const DATE_FORMATTER = new Intl.DateTimeFormat('id-ID', {
 export function formatDate(value: Date): string {
   return DATE_FORMATTER.format(value);
 }
+
+const RELATIVE_TIME_FORMATTER = new Intl.RelativeTimeFormat('id-ID', {
+  style: 'long'
+});
+
+type Units = Partial<Record<Intl.RelativeTimeFormatUnit, number>>;
+
+const UNITS: Units = {
+  day: 24 * 60 * 60 * 1000,
+  hour: 60 * 60 * 1000,
+  minute: 60 * 1000
+};
+
+export function formatRelativeTime(date: Date): string {
+  const elapsed = +date - +new Date();
+
+  if (elapsed > 0) return 'Baru saja';
+
+  const unitsItems = Object.entries(UNITS) as [keyof Units, number][];
+
+  for (const [unit, millis] of unitsItems)
+    if (Math.abs(elapsed) > millis)
+      return RELATIVE_TIME_FORMATTER.format(Math.round(elapsed / millis), unit);
+
+  return RELATIVE_TIME_FORMATTER.format(Math.round(elapsed / 1000), 'second');
+}
