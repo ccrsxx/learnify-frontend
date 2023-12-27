@@ -32,7 +32,7 @@ export function Notification(): JSX.Element {
           <AnimatePresence mode='wait'>
             {open && (
               <Menu.Items
-                className='smooth-tab absolute right-0 z-20 mt-3 w-80 origin-top-right
+                className='smooth-tab absolute right-0 z-20 mt-3 w-[360px] origin-top-right
                            overflow-hidden overflow-y-auto rounded-medium bg-white py-1 shadow-high'
                 static
                 as={motion.div}
