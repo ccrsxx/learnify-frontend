@@ -3,7 +3,7 @@
 import { Toaster } from 'react-hot-toast';
 import { useTabs } from '@/lib/hooks/use-tabs';
 import { BackButton } from '@/components/ui/back-arrow';
-import { NavTab } from '@/components/ui/tab';
+import { NavTab } from '@/components/ui/nav-tab';
 import type { Tab } from '@/lib/hooks/use-tabs';
 import type { ReactNode } from 'react';
 

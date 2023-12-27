@@ -15,7 +15,7 @@ import { BackButton } from '@/components/ui/back-arrow';
 import { CourseCard } from '@/components/course/course-card';
 import { Button } from '@/components/ui/button';
 import { CheckoutSkeleton } from '@/components/common/skeleton';
-import { PaymentMethod } from '@/components/payments/payment-method';
+import { PaymentMethod } from './payment-method';
 import type { APIResponse } from '@/lib/types/api';
 import type { UserPayment } from '@/lib/types/schema';
 import type { PaymentMethod as PaymentMethodType } from '@/lib/types/enum';

@@ -1,5 +1,5 @@
-import { Accordion } from '../ui/accordion';
-import { Input } from '../ui/input';
+import { Accordion } from '../../../../components/ui/accordion';
+import { Input } from '../../../../components/ui/input';
 import type { Dispatch, SetStateAction, RefObject } from 'react';
 
 type PaymentMethodProps = {

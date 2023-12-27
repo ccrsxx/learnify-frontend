@@ -33,13 +33,10 @@ export function Login({ admin }: LoginProps): JSX.Element {
 
   const [errorServer, setErrorServer] = useState<string | null>(null);
   const [formLoading, setFormLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
 
   const { login } = useAuth();
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data): Promise<void> => {
-    if (loggedIn) return;
-
     setFormLoading(true);
     setErrorServer(null);
 
@@ -55,9 +52,6 @@ export function Login({ admin }: LoginProps): JSX.Element {
         return;
       }
 
-      setLoggedIn(true);
-      setFormLoading(false);
-
       await toast.promise(sleep(2000), {
         loading: 'Login berhasil, kamu akan dialihkan ke beranda',
         success: 'Sedang mengalihkan',
@@ -67,9 +61,12 @@ export function Login({ admin }: LoginProps): JSX.Element {
       await sleep(1000);
 
       toast.dismiss();
-    } catch {
-      setFormLoading(false);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
       toast.error('Terjadi kesalahan. Silahkan coba lagi');
+    } finally {
+      setFormLoading(false);
     }
   };
 
@@ -86,9 +83,10 @@ export function Login({ admin }: LoginProps): JSX.Element {
             type='text'
             label='Email atau Nomor Telepon'
             error={errors.emailOrPhoneNumber}
-            register={register('emailOrPhoneNumber')}
-            placeholder='Masukkan email atau nomor telepon'
             tabIndex={1}
+            register={register('emailOrPhoneNumber')}
+            disabled={formLoading}
+            placeholder='Masukkan email atau nomor telepon'
             overrideError={serverEmailError}
           />
           <Input
@@ -97,8 +95,9 @@ export function Login({ admin }: LoginProps): JSX.Element {
             label='Password'
             error={errors.password}
             register={register('password')}
-            placeholder='Masukkan password'
             tabIndex={2}
+            disabled={formLoading}
+            placeholder='Masukkan password'
             overrideError={serverPasswordError}
             additionalLabel={
               <Link
@@ -117,7 +116,6 @@ export function Login({ admin }: LoginProps): JSX.Element {
           type='submit'
           loading={formLoading}
           tabIndex={3}
-          disabled={loggedIn}
         >
           Login
         </Button>
