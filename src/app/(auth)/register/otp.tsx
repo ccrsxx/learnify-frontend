@@ -123,14 +123,15 @@ export function Otp({ email, onTabChange }: OtpProps): JSX.Element {
         <p>Ketik 6 digit kode yang dikirimkan ke {maskedEmail}</p>
         <OtpInput
           value={otp}
-          onChange={setOtp}
           numInputs={6}
+          inputType='tel'
           containerStyle='flex justify-center gap-4'
           inputStyle={clsx(
             '!h-10 !w-10 p-2 custom-input',
             serverOtpError && 'border-red-500'
           )}
           renderInput={(props) => <input {...props} disabled={loading} />}
+          onChange={setOtp}
         />
         <Button
           className='custom-underline font-semibold text-primary-alert-error
