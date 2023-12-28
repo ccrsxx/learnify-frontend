@@ -4,6 +4,7 @@ type SlugEndPoints =
   | 'courses'
   | 'user-courses'
   | 'user-payments'
+  | 'user-notifications'
   | 'course-material-status';
 
 type SlugEndPointsWithParams = 'courses' | 'courses/me';

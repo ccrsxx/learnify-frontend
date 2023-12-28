@@ -1,24 +1,37 @@
 import { Menu } from '@headlessui/react';
-import { MdNotifications } from 'react-icons/md';
+import { MdDoneAll, MdNotifications } from 'react-icons/md';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNotifications } from '@/lib/hooks/query/use-notifications';
+import { useCrudNotifications } from '@/lib/hooks/mutation/use-crud-notifications';
+import { Button } from '../ui/button';
 import { NotificationItemSkeleton } from '../common/skeleton';
 import { menuVariants } from './header-profile';
 import { NotificationItem } from './notification-item';
+import { NotificationItemAction } from './notification-item-action';
 
 export function Notification(): JSX.Element {
   const { data, isLoading } = useNotifications();
 
+  const {
+    updateNotificationMutation,
+    deleteNotificationMutation,
+    readAllNotificationsMutation
+  } = useCrudNotifications();
+
   const notifications = data?.data;
 
-  const totalUnread = notifications?.filter(({ viewed }) => !viewed).length;
+  const totalUnreadNotifications = notifications?.filter(
+    ({ viewed }) => !viewed
+  ).length;
+
+  const notificationsAllRead = totalUnreadNotifications === 0;
 
   return (
-    <Menu className='relative' as='div'>
+    <Menu className='relative z-20' as='div'>
       {({ open }) => (
         <>
           <Menu.Button className='relative rounded-full p-2 text-white'>
-            {!!totalUnread && (
+            {!!totalUnreadNotifications && (
               <span className='absolute right-0 flex h-3 w-3'>
                 <span
                   className='absolute inline-flex h-full w-full animate-ping 
@@ -32,29 +45,49 @@ export function Notification(): JSX.Element {
           <AnimatePresence mode='wait'>
             {open && (
               <Menu.Items
-                className='smooth-tab absolute right-0 z-20 mt-3 w-[360px] origin-top-right
-                           overflow-hidden overflow-y-auto rounded-medium bg-white py-1 shadow-high'
+                className='smooth-tab absolute right-0 mt-3 w-[360px] origin-top-right
+                           overflow-y-auto rounded-medium bg-white py-1 shadow-high'
                 static
                 as={motion.div}
                 {...menuVariants}
               >
-                <div className='max-h-[60vh] divide-y overflow-y-auto'>
-                  <div className='px-4 py-2'>
+                <div className='flex items-center justify-between px-4 py-2'>
+                  <div>
                     <p className='text-black'>Notification</p>
                     <p className='text-sm text-gray-500'>
-                      {totalUnread} unread
+                      {totalUnreadNotifications} unread
                     </p>
                   </div>
+                  <Button
+                    className='clickable rounded-full bg-white brightness-95 enabled:hover:brightness-90
+                               disabled:cursor-default disabled:opacity-50'
+                    loading={readAllNotificationsMutation.isPending}
+                    onClick={() => readAllNotificationsMutation.mutate()}
+                    disabled={notificationsAllRead}
+                  >
+                    <MdDoneAll className='p-1 text-3xl text-primary-alert-success ' />
+                  </Button>
+                </div>
+                <hr />
+                <div className='max-h-[60vh] divide-y overflow-y-auto'>
                   {isLoading ? (
                     Array.from({ length: 6 }).map((_, index) => (
                       <NotificationItemSkeleton key={index} />
                     ))
                   ) : notifications?.length ? (
-                    notifications.map((notification) => (
-                      <NotificationItem
-                        key={notification.id}
-                        {...notification}
-                      />
+                    notifications.map((notification, index) => (
+                      <NotificationItem {...notification} key={notification.id}>
+                        <NotificationItemAction
+                          {...notification}
+                          lastItem={index === notifications.length - 1}
+                          deleteNotificationMutation={
+                            deleteNotificationMutation
+                          }
+                          updateNotificationMutation={
+                            updateNotificationMutation
+                          }
+                        />
+                      </NotificationItem>
                     ))
                   ) : (
                     <section className='flex justify-center'>
