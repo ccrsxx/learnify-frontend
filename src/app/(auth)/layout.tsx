@@ -10,7 +10,7 @@ export default function Layout({
 }): JSX.Element {
   return (
     <AuthLayout>
-      <main className='grid min-h-screen grid-cols-12'>
+      <main className='grid min-h-screen xl:grid-cols-12'>
         <section className='col-span-6 grid content-center p-4 text-black'>
           {children}
           <Toaster
@@ -21,7 +21,7 @@ export default function Layout({
             }}
           />
         </section>
-        <section className='col-span-6 grid content-center justify-center bg-primary-blue-500'>
+        <section className='col-span-6 hidden content-center justify-center bg-primary-blue-500 xl:grid'>
           <Logo className='text-6xl' />
         </section>
       </main>

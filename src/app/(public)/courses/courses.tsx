@@ -13,6 +13,7 @@ import {
   CourseCardSkeleton,
   CourseFilterSkeleton
 } from '@/components/common/skeleton';
+import { Accordion } from '@/components/ui/accordion';
 import type { Entries } from '@/lib/types/helper';
 import type { Course } from '@/lib/types/schema';
 import type {
@@ -53,6 +54,8 @@ export default function Courses<T extends boolean>({
   const [courseFilters, setCourseFilters] = useState<CourseFilters>(() =>
     setInitialCourseFilter(searchParams)
   );
+
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
     const applyFilters = (): void => {
@@ -135,45 +138,56 @@ export default function Courses<T extends boolean>({
 
   return (
     <main className='min-h-screen bg-primary-blue-50'>
-      <div className='layout grid gap-8 py-8'>
-        <section className='flex items-center justify-between'>
+      <div className='layout grid gap-4 py-8 lg:gap-8'>
+        <section className='flex flex-col justify-between gap-4 lg:flex-row lg:items-center'>
           <h1 className='text-2xl font-bold text-primary-blue-500'>
             {userCourses ? 'Kelas Berlajan' : 'Topik Kelas'}
           </h1>
           <SearchBar
             small
+            className='w-full flex-1'
             placeholder='Cari kelas...'
             value={search}
             onSearchChange={setSearch}
           />
         </section>
-        <section className='grid grid-cols-12 gap-8'>
-          <section className='col-span-3'>
-            <div className='grid gap-8 rounded-medium bg-white p-6 text-black'>
-              {categoriesLoading ? (
-                Array.from({ length: 3 }).map((_, i) => (
-                  <CourseFilterSkeleton key={i} />
-                ))
-              ) : (
-                <>
-                  <CourseFilters
-                    categories={categories}
-                    courseFilters={courseFilters}
-                    handleCourseFiltersChange={handleCourseFiltersChange}
-                  />
-                  <section className='grid gap-2 text-white'>
-                    <Button
-                      className='clickable bg-primary-alert-error px-1 py-2'
-                      onClick={handleResetFilters}
-                    >
-                      Hapus Filter
-                    </Button>
-                  </section>
-                </>
-              )}
-            </div>
+        <section className='grid gap-4 lg:grid-cols-12 lg:gap-8'>
+          <section className='lg:col-span-3'>
+            <Accordion
+              open={filtersOpen}
+              label='Filters'
+              className='bg-white lg:hidden'
+              panelClassName='pt-4 lg:pt-0'
+              collapseClassName='lg:visible'
+              collapseWrapperClassName='lg:grid-rows-[1fr]'
+              onToggle={setFiltersOpen}
+            >
+              <div className='grid gap-8 rounded-medium bg-white p-6 text-black'>
+                {categoriesLoading ? (
+                  Array.from({ length: 3 }).map((_, i) => (
+                    <CourseFilterSkeleton key={i} />
+                  ))
+                ) : (
+                  <>
+                    <CourseFilters
+                      categories={categories}
+                      courseFilters={courseFilters}
+                      handleCourseFiltersChange={handleCourseFiltersChange}
+                    />
+                    <section className='grid gap-2 text-white'>
+                      <Button
+                        className='clickable bg-primary-alert-error px-1 py-2'
+                        onClick={handleResetFilters}
+                      >
+                        Hapus Filter
+                      </Button>
+                    </section>
+                  </>
+                )}
+              </div>
+            </Accordion>
           </section>
-          <section className='col-span-9 grid content-start gap-6'>
+          <section className='grid content-start gap-6 lg:col-span-9'>
             <CourseTypes
               disabled={coursesLoading}
               userCourses={userCourses}

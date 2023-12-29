@@ -23,7 +23,7 @@ export default function Layout({
         </div>
         <hr />
       </section>
-      {children}
+      <section className='px-4'>{children}</section>
       <Toaster position='bottom-center' />
     </main>
   );

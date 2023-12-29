@@ -30,7 +30,7 @@ export function Notification(): JSX.Element {
     <Menu className='relative z-20' as='div'>
       {({ open }) => (
         <>
-          <Menu.Button className='relative rounded-full p-2 text-white'>
+          <Menu.Button className='smooth-tab relative rounded-full p-2 text-white'>
             {!!totalUnreadNotifications && (
               <span className='absolute right-0 flex h-3 w-3'>
                 <span

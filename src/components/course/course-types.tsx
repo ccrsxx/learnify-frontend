@@ -18,7 +18,7 @@ export function CourseTypes<T extends boolean>({
   const targetCourseTypes = userCourses ? myCourseTypes : courseTypes;
 
   return (
-    <section className='grid grid-cols-12 gap-4 text-black'>
+    <section className='flex grid-cols-12 gap-4 overflow-x-auto text-black md:grid'>
       {targetCourseTypes.map(({ id, label }, i) => (
         <CourseTag
           index={i}

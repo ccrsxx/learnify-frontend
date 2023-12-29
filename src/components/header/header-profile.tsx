@@ -15,7 +15,7 @@ export function HeaderProfile(): JSX.Element {
   const { name, image, admin, email } = user!;
 
   return (
-    <div className='flex items-center gap-4'>
+    <div className='flex items-center gap-2 md:gap-4'>
       <Notification />
       <Menu className='relative' as='div'>
         {({ open }) => (

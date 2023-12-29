@@ -24,7 +24,7 @@ export default function PaymentsHistory(): JSX.Element {
           ))}
         </>
       ) : (
-        <section className='flex justify-center'>
+        <section className='flex justify-center text-center'>
           <h1 className='max-w-md p-4 font-medium text-black'>
             Tidak ada riwayat pembayaran
           </h1>

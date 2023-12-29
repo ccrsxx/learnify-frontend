@@ -67,21 +67,21 @@ export default function Home(): JSX.Element {
   return (
     <main>
       <section className='bg-primary-blue-500'>
-        <div className='grid grid-cols-12 gap-4'>
+        <div className='grid gap-4 md:grid-cols-12'>
           <section
-            className='relative col-span-8 before:absolute before:h-full before:w-full
-                       before:bg-gradient-to-r before:from-transparent before:to-primary-blue-500'
+            className='relative before:absolute before:h-full before:w-full before:bg-gradient-to-b before:from-transparent
+                       before:to-primary-blue-500 md:col-span-8 md:before:bg-gradient-to-r'
           >
             <Image
-              className='h-80 w-full'
+              className='h-40 w-full object-cover md:h-80 md:object-fill'
               src={CTA}
               alt='CTA'
               placeholder='blur'
             />
           </section>
           <section
-            className='col-span-4 grid w-full content-center justify-center 
-                       gap-2 bg-primary-blue-500 px-12'
+            className='mb-8 grid w-full content-center justify-center 
+                       gap-2 bg-primary-blue-500 px-4 md:col-span-4 md:mb-0 md:px-12'
           >
             <div className='grid max-w-xs gap-4'>
               <h1 className='text-xl font-bold'>
@@ -130,7 +130,7 @@ export default function Home(): JSX.Element {
             Lihat Semua
           </Link>
         </section>
-        <section className='item-center flex gap-4'>
+        <section className='item-center flex gap-4 overflow-x-auto'>
           {categoriesLoading
             ? Array.from({ length: 6 }).map((_, i) => (
                 <CategoryTagSkeleton key={i} />

@@ -107,14 +107,14 @@ export function CourseDetailsSkeleton(): JSX.Element {
       <section className='bg-primary-blue-50'>
         <div className='layout grid gap-4 py-4'>
           <BackButton href='/courses' label='Kelas Lainnya' />
-          <div className='grid max-w-xl gap-2'>
+          <div className='grid gap-2 lg:max-w-xl'>
             <CourseStatsSkeleton details />
             <div className='h-6 w-32 rounded-high bg-gray-200' />
           </div>
         </div>
       </section>
-      <section className='layout flex w-full gap-8'>
-        <section className='grid w-full max-w-xl shrink-0 gap-6'>
+      <section className='layout flex w-full flex-col-reverse gap-8 lg:flex-row'>
+        <section className='grid w-full shrink-0 gap-6 lg:max-w-xl'>
           <VideoPlayerSkeleton />
           <div className='grid gap-3'>
             <div className='h-6 w-1/3 animate-pulse rounded-medium bg-gray-200' />
@@ -149,7 +149,7 @@ export function CourseDetailsSkeleton(): JSX.Element {
             </div>
           </div>
         </section>
-        <section className='relative -top-44 w-full'>
+        <section className='relative w-full lg:-top-44'>
           <CourseStudyCardSkeleton />
         </section>
       </section>
@@ -186,12 +186,12 @@ export function CheckoutSkeleton(): JSX.Element {
         <BackButton label='Kembali' />
         <div className='mx-auto h-6 w-1/3 animate-pulse rounded-medium bg-gray-200' />
       </section>
-      <section className='flex items-start gap-8'>
+      <section className='flex flex-col items-start gap-8 md:flex-row'>
         <section className='grid w-full gap-4 rounded-medium p-6 text-black shadow-low'>
           <div className='h-6 w-full animate-pulse rounded-medium bg-gray-200' />
           <div className='h-6 w-full animate-pulse rounded-medium bg-gray-200' />
         </section>
-        <section className='grid w-full max-w-md gap-4 rounded-medium p-6 text-black shadow-low'>
+        <section className='grid w-full gap-4 rounded-medium p-6 text-black shadow-low md:max-w-md'>
           <div className='h-6 w-1/3 animate-pulse rounded-medium bg-gray-200' />
           <CourseCardSkeleton />
           <div className='flex justify-between gap-2'>

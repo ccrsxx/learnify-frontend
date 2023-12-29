@@ -29,7 +29,7 @@ export function Header(): JSX.Element {
 
   return (
     <header className='bg-primary-blue-500'>
-      <div className='layout flex w-full items-center gap-8 p-4'>
+      <div className='layout flex w-full items-center gap-4 p-4 md:gap-8'>
         <Logo clickable />
         <form className='w-full' onSubmit={handleSubmit}>
           <SearchBar value={search} onSearchChange={setSearch} />

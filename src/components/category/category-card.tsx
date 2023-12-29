@@ -11,7 +11,7 @@ export function CategoryCard({
     <article className='grid'>
       <Link className='clickable grid gap-2' href={`/courses?category=${name}`}>
         <LazyImage
-          className='h-24 w-full rounded-high'
+          className='h-24 w-full rounded-high object-cover'
           width={160}
           height={96}
           src={image}

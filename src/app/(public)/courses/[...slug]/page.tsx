@@ -177,7 +177,7 @@ export default function Course({
       <section className='bg-primary-blue-50'>
         <div className='layout grid gap-4 py-4'>
           <BackButton href='/courses' label='Kelas Lainnya' />
-          <div className='grid max-w-xl gap-2'>
+          <div className='grid gap-2 lg:max-w-xl'>
             <CourseStats details course={course} />
             <a
               className='clickable mr-auto flex items-center gap-4 rounded-high
@@ -191,13 +191,13 @@ export default function Course({
           </div>
         </div>
       </section>
-      <section className='layout flex w-full gap-8'>
-        <section className='mb-8 grid w-full max-w-xl shrink-0 gap-6'>
+      <section className='layout flex w-full flex-col-reverse gap-8 lg:flex-row'>
+        <section className='mb-8 grid w-full shrink-0 gap-6 lg:max-w-xl'>
           {user ? (
             <VideoPlayer src={selectedVideo}>
               <div
                 className='absolute bottom-0 right-0 flex gap-3 p-4 
-                   opacity-0 transition-opacity group-hover:opacity-100'
+                           opacity-0 transition-opacity group-hover:opacity-100'
               >
                 <Link
                   href='/courses'
@@ -241,7 +241,7 @@ export default function Course({
             </ol>
           </div>
         </section>
-        <section className='relative -top-56 w-full'>
+        <section className='relative w-full lg:-top-56'>
           <CourseStudyCard
             course={course}
             courseEnrolled={courseEnrolled}

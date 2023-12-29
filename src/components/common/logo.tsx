@@ -13,13 +13,15 @@ export function Logo({ clickable, className }: LogoProps): JSX.Element {
       href='/'
       className={clsx(
         'flex items-center gap-4 text-4xl',
-        clickable ? 'pointer-events-auto' : 'pointer-events-none',
+        clickable
+          ? 'pointer-events-auto hidden md:flex'
+          : 'pointer-events-none',
         className
       )}
       tabIndex={-1}
     >
       <FaBrain />
-      Learnify
+      <span className={clsx(clickable && 'hidden md:inline')}>Learnify</span>
     </Link>
   );
 }

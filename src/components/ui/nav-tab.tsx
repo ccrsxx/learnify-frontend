@@ -21,7 +21,7 @@ export function NavTab({
 
   return (
     <motion.nav
-      className='relative z-0 flex flex-shrink-0 items-center justify-self-start py-2'
+      className='relative z-0 flex flex-shrink-0 items-center justify-self-start overflow-y-auto py-2'
       onHoverEnd={() => setHoveredTab(null)}
     >
       <LayoutGroup id='tabs'>
@@ -32,8 +32,8 @@ export function NavTab({
           return (
             <MotionLink
               className={clsx(
-                `text-md smooth-tab relative flex h-8 cursor-pointer select-none items-center
-                 rounded-md px-4 text-sm text-primary-neutral-300`,
+                `text-md smooth-tab relative flex h-8 min-w-fit cursor-pointer select-none
+                 items-center rounded-md px-4 text-sm text-primary-neutral-300`,
                 (isHoveredTab || isSelectedTab) && '!text-black'
               )}
               href={href}

@@ -9,6 +9,8 @@ type AccordionProps = PropsWithChildren<{
   label: string;
   className?: string;
   panelClassName?: string;
+  collapseClassName?: string;
+  collapseWrapperClassName?: string;
   onToggle?: Dispatch<SetStateAction<boolean>>;
   customToggle?: () => void;
 }>;
@@ -19,6 +21,8 @@ export function Accordion({
   children,
   className,
   panelClassName,
+  collapseClassName,
+  collapseWrapperClassName,
   onToggle,
   customToggle
 }: AccordionProps): JSX.Element {
@@ -30,7 +34,7 @@ export function Accordion({
            font-medium text-primary-blue-500 transition hover:brightness-90
            focus:outline-none focus-visible:ring focus-visible:ring-purple-500/75`,
           className,
-          open && 'bg-primary-blue-500 text-white'
+          open && '!bg-primary-blue-500 text-white'
         )}
         onClick={customToggle ? customToggle : (): void => onToggle?.(!open)}
       >
@@ -39,7 +43,11 @@ export function Accordion({
           className={clsx('h-5 w-5 transition-transform', open && 'rotate-180')}
         />
       </Disclosure.Button>
-      <Collapse open={open}>
+      <Collapse
+        open={open}
+        className={collapseClassName}
+        wrapperClassName={collapseWrapperClassName}
+      >
         <Disclosure.Panel
           className={clsx('pt-4', panelClassName)}
           as='div'

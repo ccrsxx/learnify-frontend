@@ -132,13 +132,11 @@ export default function Checkout({
         <BackButton label='Kembali' />
         <Alert
           variant='error'
-          className='mx-auto rounded-medium px-3 py-2 text-black shadow-low'
-          message={`Selesaikan pembayaran sebelum ${formatDate(
-            new Date(payment.expired_at)
-          )}`}
+          className='mx-auto rounded-medium px-3 py-2 text-center text-black shadow-low'
+          message={`Bayar sebelum ${formatDate(new Date(payment.expired_at))}`}
         />
       </section>
-      <section className='flex items-start gap-8'>
+      <section className='flex flex-col items-start gap-8 md:flex-row'>
         <section className='grid gap-4 rounded-medium p-6 text-black shadow-low'>
           <PaymentMethod
             formRef={formRef}
@@ -148,10 +146,10 @@ export default function Checkout({
             onTransferBankOpen={setTransferBankOpen}
           />
         </section>
-        <section className='grid w-full max-w-md gap-4 rounded-md p-6 text-black shadow-low'>
+        <section className='grid w-full gap-4 rounded-md p-6 text-black shadow-low md:max-w-md'>
           <h1 className='text-xl font-bold'>Pembayaran Kelas</h1>
           <CourseCard modal showButton={false} course={course} />
-          <div className='flex justify-between gap-2'>
+          <div className='flex justify-between gap-4 '>
             <div>
               <p className='font-medium'>Harga</p>
               <p className='text-sm'>{formatCurrency(coursePrice)}</p>
@@ -173,7 +171,7 @@ export default function Checkout({
             loading={formLoading}
             onClick={handleSubmit}
           >
-            Bayar dan Ikuti Kelas Selamanya
+            Bayar dan Ikuti Kelas
             <MdArrowCircleRight className='text-xl' />
           </Button>
         </section>

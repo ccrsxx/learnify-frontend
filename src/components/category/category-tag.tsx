@@ -18,8 +18,8 @@ export function CategoryTag({
   return (
     <Button
       className={clsx(
-        `clickable rounded-medium bg-primary-blue-50 !py-1 px-3 font-medium 
-         text-black shadow-low transition hover:brightness-95`,
+        `clickable min-w-fit rounded-medium bg-primary-blue-50 !py-1 px-3 
+         font-medium text-black shadow-low transition hover:brightness-95`,
         selected && 'bg-primary-blue-500 text-white'
       )}
       onClick={onClick}
