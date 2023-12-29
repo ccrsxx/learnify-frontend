@@ -49,6 +49,16 @@ export function NewCourseModal({
       : null
   );
 
+  const { watch, setValue } = form;
+
+  const type = watch('type');
+
+  useEffect(() => {
+    if (type === 'PREMIUM') return;
+
+    setValue('price', null);
+  }, [type, setValue]);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => cleanImage, [imageData]);
 
@@ -82,9 +92,9 @@ export function NewCourseModal({
 
     const formData = new FormData();
 
-    for (const [key, value] of Object.entries(
-      parsedCourse
-    ) as Entries<CourseSchema>)
+    for (const [key, value] of Object.entries(parsedCourse) as Entries<
+      Omit<CourseSchema, 'type' | 'course_chapter' | 'target_audience'>
+    >)
       formData.append(key, value as string);
 
     formData.append('course_chapter', JSON.stringify(parsedCourseChapters));
@@ -222,8 +232,7 @@ function setInitialValues(course?: Course): DefaultValues<CourseSchema> {
       target_audience: [{ name: '' }]
     };
 
-  const { premium, target_audience, course_category_id, course_chapter } =
-    course;
+  const { premium, target_audience, course_chapter } = course;
 
   const parsedCourseChapters = course_chapter?.map(
     ({ id, course_material, ...rest }) => ({
@@ -240,7 +249,6 @@ function setInitialValues(course?: Course): DefaultValues<CourseSchema> {
     ...course,
     type: premium ? 'PREMIUM' : 'FREE',
     course_chapter: parsedCourseChapters,
-    target_audience: target_audience.map((name) => ({ name })),
-    course_category_id
+    target_audience: target_audience.map((name) => ({ name }))
   };
 }

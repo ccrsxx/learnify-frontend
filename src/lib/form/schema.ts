@@ -11,7 +11,23 @@ export const difficultyTypes = DIFFICULTIES.map((type) => ({
   name: type.toLowerCase()
 }));
 
-export const courseSchema = z.object({
+const refinedSchema = z
+  .object({
+    type: z.enum(TYPES, { required_error: 'Tipe kelas tidak boleh kosong' }),
+    price: z.union([
+      z
+        .number({ invalid_type_error: 'Harga tidak boleh kosong' })
+        .int({ message: 'Harga tidak boleh desimal' })
+        .min(1, { message: 'Harga tidak boleh kosong' }),
+      z.null()
+    ])
+  })
+  .refine(({ type, price }) => (type === 'FREE' ? true : price), {
+    message: 'Harga tidak boleh kosong',
+    path: ['price']
+  });
+
+const restSchema = z.object({
   name: z.string().trim().min(1, { message: 'Nama kelas tidak boleh kosong' }),
   code: z.string().trim().min(1, { message: 'Kode kelas tidak boleh kosong' }),
   author: z.string().trim().min(1, { message: 'Author tidak boleh kosong' }),
@@ -31,11 +47,6 @@ export const courseSchema = z.object({
   difficulty: z.enum(DIFFICULTIES, {
     required_error: 'Level tidak boleh kosong'
   }),
-  type: z.enum(TYPES, { required_error: 'Tipe kelas tidak boleh kosong' }),
-  price: z
-    .number({ invalid_type_error: 'Harga tidak boleh kosong' })
-    .int({ message: 'Harga tidak boleh desimal' })
-    .min(1, { message: 'Harga tidak boleh kosong' }),
   target_audience: z
     .array(
       z.object({
@@ -82,5 +93,7 @@ export const courseSchema = z.object({
     .trim()
     .min(1, { message: 'Onboarding text tidak boleh kosong' })
 });
+
+export const courseSchema = z.intersection(refinedSchema, restSchema);
 
 export type CourseSchema = z.infer<typeof courseSchema>;

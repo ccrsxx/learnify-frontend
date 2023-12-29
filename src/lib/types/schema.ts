@@ -73,7 +73,7 @@ export type Course = BaseRecord & {
   name: string;
   code: string;
   image: string | null;
-  price: number;
+  price: number | null;
   author: string;
   rating?: number;
   premium: boolean;
