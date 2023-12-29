@@ -75,23 +75,28 @@ export function Notification(): JSX.Element {
                       <NotificationItemSkeleton key={index} />
                     ))
                   ) : notifications?.length ? (
-                    notifications.map((notification, index) => (
-                      <NotificationItem {...notification} key={notification.id}>
-                        <NotificationItemAction
+                    <AnimatePresence mode='popLayout' initial={false}>
+                      {notifications.map((notification, index) => (
+                        <NotificationItem
                           {...notification}
-                          lastItem={
-                            notifications.length > 1 &&
-                            index === notifications.length - 1
-                          }
-                          deleteNotificationMutation={
-                            deleteNotificationMutation
-                          }
-                          updateNotificationMutation={
-                            updateNotificationMutation
-                          }
-                        />
-                      </NotificationItem>
-                    ))
+                          key={notification.id}
+                        >
+                          <NotificationItemAction
+                            {...notification}
+                            lastItem={
+                              notifications.length > 1 &&
+                              index === notifications.length - 1
+                            }
+                            deleteNotificationMutation={
+                              deleteNotificationMutation
+                            }
+                            updateNotificationMutation={
+                              updateNotificationMutation
+                            }
+                          />
+                        </NotificationItem>
+                      ))}
+                    </AnimatePresence>
                   ) : (
                     <section className='flex items-center justify-center'>
                       <p className='max-w-md p-4 font-medium text-black'>

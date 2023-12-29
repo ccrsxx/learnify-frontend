@@ -1,8 +1,10 @@
 import { clsx } from 'clsx';
 import { Menu } from '@headlessui/react';
+import { motion } from 'framer-motion';
 import { MdCircleNotifications } from 'react-icons/md';
 import { formatRelativeTime } from '@/lib/format';
 import { preventBubbling } from '@/lib/helper';
+import { variant } from '../dashboard/array-input';
 import type { PropsWithChildren } from 'react';
 import type { UserNotification } from '@/lib/types/schema';
 
@@ -18,13 +20,15 @@ export function NotificationItem({
   return (
     <Menu.Item>
       {({ active }) => (
-        <div
+        <motion.div
           className={clsx(
             `group relative flex gap-3 self-start p-3 transition-colors
              [&:has(div.absolute>button.opacity-100)+div>div.absolute>button]:opacity-0`,
             active && 'bg-gray-100'
           )}
+          layout='position'
           onClick={preventBubbling({ preventDefault: true })}
+          {...variant}
         >
           <MdCircleNotifications className='shrink-0 text-4xl text-primary-blue-300' />
           <div className='grid gap-1'>
@@ -41,7 +45,7 @@ export function NotificationItem({
               viewed ? 'bg-primary-alert-success' : 'bg-primary-alert-error'
             )}
           />
-        </div>
+        </motion.div>
       )}
     </Menu.Item>
   );

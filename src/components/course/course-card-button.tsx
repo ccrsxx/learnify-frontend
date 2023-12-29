@@ -23,7 +23,8 @@ export function CourseCardButton({
   if (payment) {
     const { status, expired_at } = payment;
 
-    const isExpired = new Date() > new Date(expired_at);
+    const isCompleted = status === 'COMPLETED';
+    const isExpired = !isCompleted && new Date() > new Date(expired_at);
     const isPending = status === 'PENDING' && !isExpired;
 
     if (isExpired)
