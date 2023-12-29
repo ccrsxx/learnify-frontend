@@ -20,7 +20,7 @@ export function NotificationItem({
       {({ active }) => (
         <div
           className={clsx(
-            `group relative flex gap-3 p-3 transition-colors 
+            `group relative flex gap-3 self-start p-3 transition-colors
              [&:has(div.absolute>button.opacity-100)+div>div.absolute>button]:opacity-0`,
             active && 'bg-gray-100'
           )}

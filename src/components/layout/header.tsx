@@ -3,12 +3,11 @@
 import Link from 'next/link';
 import { clsx } from 'clsx';
 import { MdLogin } from 'react-icons/md';
-import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useAuth } from '@/lib/context/auth-context';
 import { Logo } from '../common/logo';
 import { SearchBar } from '../common/search-bar';
-import { HeaderProfile, profileVariants } from '../header/header-profile';
+import { HeaderProfile } from '../header/header-profile';
 
 export function Header(): JSX.Element {
   const { user, loading } = useAuth();
@@ -37,25 +36,21 @@ export function Header(): JSX.Element {
         </form>
         <div
           className={clsx(
-            'ml-auto min-w-fit opacity-0 transition-opacity',
-            !loading && 'opacity-100'
+            'ml-auto min-w-fit transition',
+            loading && 'scale-75 opacity-0'
           )}
         >
-          <AnimatePresence mode='wait'>
-            {loading ? null : user ? (
-              <HeaderProfile />
-            ) : (
-              <motion.div {...profileVariants}>
-                <Link
-                  href='/login'
-                  className='clickable flex items-center gap-2 text-xl font-bold'
-                >
-                  <MdLogin />
-                  Masuk
-                </Link>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {loading ? null : user ? (
+            <HeaderProfile />
+          ) : (
+            <Link
+              href='/login'
+              className='clickable flex items-center gap-2 text-xl font-bold'
+            >
+              <MdLogin />
+              Masuk
+            </Link>
+          )}
         </div>
       </div>
     </header>

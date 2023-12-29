@@ -53,9 +53,9 @@ export function Notification(): JSX.Element {
               >
                 <div className='flex items-center justify-between px-4 py-2'>
                   <div>
-                    <p className='text-black'>Notification</p>
+                    <p className='text-black'>Notifikasi</p>
                     <p className='text-sm text-gray-500'>
-                      {totalUnreadNotifications} unread
+                      {totalUnreadNotifications} belum dibaca
                     </p>
                   </div>
                   <Button
@@ -69,7 +69,7 @@ export function Notification(): JSX.Element {
                   </Button>
                 </div>
                 <hr />
-                <div className='max-h-[60vh] divide-y overflow-y-auto'>
+                <div className='grid h-full max-h-[60vh] min-h-[208px] divide-y overflow-y-auto'>
                   {isLoading ? (
                     Array.from({ length: 6 }).map((_, index) => (
                       <NotificationItemSkeleton key={index} />
@@ -79,7 +79,10 @@ export function Notification(): JSX.Element {
                       <NotificationItem {...notification} key={notification.id}>
                         <NotificationItemAction
                           {...notification}
-                          lastItem={index === notifications.length - 1}
+                          lastItem={
+                            notifications.length > 1 &&
+                            index === notifications.length - 1
+                          }
                           deleteNotificationMutation={
                             deleteNotificationMutation
                           }
@@ -90,7 +93,7 @@ export function Notification(): JSX.Element {
                       </NotificationItem>
                     ))
                   ) : (
-                    <section className='flex justify-center'>
+                    <section className='flex items-center justify-center'>
                       <p className='max-w-md p-4 font-medium text-black'>
                         Tidak ada notifikasi
                       </p>

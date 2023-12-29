@@ -40,7 +40,7 @@ export function NotificationItemAction({
             {open && (
               <Menu.Items
                 className={clsx(
-                  `smooth-tab absolute right-0 mt-1 w-52 origin-top-right
+                  `smooth-tab absolute right-0 mt-1 w-60 origin-top-right
                    rounded-medium bg-white py-1 shadow-high`,
                   lastItem && 'bottom-full mb-2'
                 )}
@@ -54,7 +54,9 @@ export function NotificationItemAction({
                       className={clsx(
                         `flex w-full items-center gap-2 rounded-none p-3 text-primary-alert-success
                          transition enabled:active:bg-gray-200 disabled:opacity-50`,
-                        active && 'bg-gray-100'
+                        !updateNotificationMutation.isPending &&
+                          active &&
+                          'bg-gray-100'
                       )}
                       onClick={preventBubbling({
                         callback: () => updateNotificationMutation.mutate(id),
@@ -64,7 +66,7 @@ export function NotificationItemAction({
                       disabled={viewed}
                     >
                       <MdCheck className='text-2xl' />
-                      Mark as read
+                      Tandai sudah dibaca
                     </Button>
                   )}
                 </Menu.Item>
@@ -74,7 +76,9 @@ export function NotificationItemAction({
                       className={clsx(
                         `flex w-full items-center gap-2 rounded-none p-3
                          text-primary-alert-error transition-colors active:bg-gray-200`,
-                        active && 'bg-gray-100'
+                        !deleteNotificationMutation.isPending &&
+                          active &&
+                          'bg-gray-100'
                       )}
                       onClick={preventBubbling({
                         callback: () => deleteNotificationMutation.mutate(id),
@@ -83,7 +87,7 @@ export function NotificationItemAction({
                       loading={deleteNotificationMutation.isPending}
                     >
                       <MdDelete className='text-2xl' />
-                      Delete notification
+                      Hapus notifikasi
                     </Button>
                   )}
                 </Menu.Item>

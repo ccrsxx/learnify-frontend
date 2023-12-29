@@ -15,7 +15,7 @@ export function HeaderProfile(): JSX.Element {
   const { name, image, admin, email } = user!;
 
   return (
-    <motion.div className='flex items-center gap-4' {...profileVariants}>
+    <div className='flex items-center gap-4'>
       <Notification />
       <Menu className='relative' as='div'>
         {({ open }) => (
@@ -53,19 +53,9 @@ export function HeaderProfile(): JSX.Element {
           </>
         )}
       </Menu>
-    </motion.div>
+    </div>
   );
 }
-
-export const profileVariants: MotionProps = {
-  initial: { opacity: 0, scale: 0.75 },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    transition: { type: 'spring', duration: 0.5, bounce: 0.5 }
-  },
-  exit: { opacity: 0, scale: 0.75, transition: { duration: 0.2 } }
-};
 
 type NavigationProps = {
   name: string;
