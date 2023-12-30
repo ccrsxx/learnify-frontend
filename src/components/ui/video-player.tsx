@@ -1,3 +1,4 @@
+import { getYoutubeVideoId } from '@/lib/helper';
 import type { PropsWithChildren } from 'react';
 
 type VideoPlayerProps = PropsWithChildren<{
@@ -5,7 +6,7 @@ type VideoPlayerProps = PropsWithChildren<{
 }>;
 
 export function VideoPlayer({ src, children }: VideoPlayerProps): JSX.Element {
-  const youtubeId = src.split('/').pop();
+  const youtubeId = getYoutubeVideoId(src) ?? 'dQw4w9WgXcQ';
 
   return (
     <div className='group relative h-64 rounded-medium bg-black lg:h-80'>

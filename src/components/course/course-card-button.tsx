@@ -68,7 +68,7 @@ export function CourseCardButton({
           <MdDiamond />
           <p>Beli</p>
         </div>
-        <p>{formatCurrency(price!)}</p>
+        <p>{formatCurrency(price)}</p>
       </Button>
     );
 

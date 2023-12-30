@@ -85,6 +85,9 @@ const columns: ColumnDef<Course, any>[] = [
   accessor('price', {
     header: 'Harga',
     size: 128,
-    cell: ({ getValue }) => formatCurrency(getValue() as number)
+    cell: ({ getValue }) => {
+      const price = getValue() as number | null;
+      return price ? formatCurrency(price) : 'GRATIS';
+    }
   })
 ];

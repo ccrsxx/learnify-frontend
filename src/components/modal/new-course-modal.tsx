@@ -64,6 +64,7 @@ export function NewCourseModal({
 
   const onSubmit: SubmitHandler<CourseSchema> = ({
     type,
+    price,
     course_chapter,
     target_audience,
     ...rest
@@ -93,15 +94,23 @@ export function NewCourseModal({
     const formData = new FormData();
 
     for (const [key, value] of Object.entries(parsedCourse) as Entries<
-      Omit<CourseSchema, 'type' | 'course_chapter' | 'target_audience'>
+      Omit<
+        CourseSchema,
+        'price' | 'type' | 'course_chapter' | 'target_audience'
+      >
     >)
-      formData.append(key, value as string);
+      formData.append(key, value);
 
     formData.append('course_chapter', JSON.stringify(parsedCourseChapters));
     formData.append('target_audience', JSON.stringify(parsedTargetAudience));
 
-    if (image) formData.append('image', image);
-    else if (imageData) formData.append('image', imageData.src);
+    const parsedPrice = price ?? 0;
+
+    formData.append('price', parsedPrice.toString());
+
+    const parsedImage = image ?? imageData?.src;
+
+    if (parsedImage) formData.append('image', parsedImage);
 
     if (course) {
       updateCourseMutation.mutate(
