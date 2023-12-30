@@ -49,7 +49,7 @@ export function NewCourseModal({
       : null
   );
 
-  const { watch, setValue } = form;
+  const { watch, reset, setValue } = form;
 
   const type = watch('type');
 
@@ -134,6 +134,7 @@ export function NewCourseModal({
       onSuccess: () => {
         toast.success('Kursus berhasil dibuat');
         closeModal();
+        reset();
       },
       onError: ({ message }) => {
         // eslint-disable-next-line no-console

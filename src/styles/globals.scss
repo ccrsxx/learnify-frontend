@@ -28,7 +28,8 @@
   }
 
   .custom-input {
-    @apply rounded-medium border border-primary-neutral-200 px-4 py-3 outline-none transition focus:border-primary-blue-500;
+    @apply min-w-0 rounded-medium border border-primary-neutral-200 px-4 py-3
+           outline-none transition focus:border-primary-blue-500;
   }
 
   .smooth-tab {

@@ -51,30 +51,32 @@ export function CourseMaterial({
     <li>
       <Link
         className={clsx(
-          `smooth-tab flex justify-between gap-2 rounded-medium
-           bg-gray-100 px-4 py-2 transition hover:brightness-90`,
+          `smooth-tab flex gap-2 rounded-medium bg-gray-100
+           px-4 py-2 transition hover:brightness-90 md:justify-between`,
           isMaterialSelected && 'bg-primary-blue-50 text-primary-blue-500'
         )}
         href={parsedLink}
         scroll={false}
         onClick={handleMaterialClick(materialId)}
       >
-        <div className='flex items-center gap-2'>
+        <div className='flex w-full items-center justify-center gap-2'>
           <p
-            className='grid h-8 w-8 place-items-center rounded-full bg-gray-200
-                       p-1 text-center text-sm font-medium'
+            className='grid h-8 w-8 shrink-0 place-items-center rounded-full
+                       bg-gray-200 p-1 text-center text-sm font-medium'
           >
             {material_index}
           </p>
-          <h4 className='font-medium'>{name}</h4>
+          <h4 className='w-full text-center text-sm font-medium md:text-base'>
+            {name}
+          </h4>
         </div>
-        <div className='grid place-items-center'>
+        <div className='ml-auto flex items-center text-3xl'>
           {needsToPurchase ? (
-            <MdLock className='text-2xl text-gray-400' />
+            <MdLock className='text-gray-400' />
           ) : (
             <MdPlayCircle
               className={clsx(
-                'text-2xl transition-colors',
+                'transition-colors',
                 completed
                   ? 'text-primary-alert-success'
                   : 'text-primary-blue-500'

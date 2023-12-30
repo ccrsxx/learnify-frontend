@@ -19,7 +19,7 @@ export function CourseStudyCard({
 
   return (
     <div className='grid w-full content-start gap-4 rounded-medium bg-white p-6 shadow-high'>
-      <div className='flex justify-between'>
+      <div className='flex flex-col justify-between gap-2 md:flex-row'>
         <h2 className='text-xl font-bold text-black'>Materi Belajar</h2>
         {courseEnrolled && (
           <CourseProgressBar
@@ -38,7 +38,7 @@ export function CourseStudyCard({
             order_index: chapter_index
           }) => (
             <li className='grid gap-3' key={id}>
-              <div className='flex justify-between gap-2'>
+              <div className='flex flex-col justify-between md:flex-row md:gap-2'>
                 <h3 className='font-bold text-primary-blue-500'>
                   Chapter {chapter_index} - {name}
                 </h3>

@@ -15,15 +15,15 @@ export default function Layout({
   const { tabProps } = useTabs({ tabs: settingsTabs });
 
   return (
-    <main className='grid gap-8'>
+    <main>
       <section className='pt-8'>
-        <div className='layout grid gap-4'>
+        <div className='layout grid gap-4 overflow-x-auto'>
           <BackButton label='Kembali ke Beranda' href='/' />
           <NavTab {...tabProps} />
         </div>
         <hr />
       </section>
-      <section className='px-4'>{children}</section>
+      <section className='px-4 py-8'>{children}</section>
       <Toaster position='bottom-center' />
     </main>
   );

@@ -23,7 +23,9 @@ export function SearchBar({
         `flex w-full items-center justify-between gap-4 rounded-high bg-white
          ring-1 ring-primary-blue-500 transition focus-within:ring-2
          focus-within:ring-primary-blue-300`,
-        small ? 'px-4 py-1.5 lg:max-w-xs' : 'px-6 py-3 md:max-w-md',
+        small
+          ? 'px-4 py-1.5 lg:max-w-xs'
+          : 'px-4 py-2 md:max-w-md md:px-6 md:py-2',
         className
       )}
     >
@@ -35,8 +37,8 @@ export function SearchBar({
         onChange={({ target: { value } }) => onSearchChange(value)}
       />
       <button
-        className='clickable cursor-pointer rounded-medium bg-primary-blue-500 p-2 
-                   transition hover:brightness-90'
+        className='clickable hidden cursor-pointer rounded-medium bg-primary-blue-500 
+                   p-2 transition hover:brightness-90 md:inline-block'
       >
         <MdSearch
           className={clsx('text-white', small ? 'text-base' : 'text-xl')}

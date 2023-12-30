@@ -13,9 +13,10 @@ import type { MotionProps } from 'framer-motion';
 
 type RowActionProps = {
   course: Course;
+  lastItem: boolean;
 };
 
-export function RowAction({ course }: RowActionProps): JSX.Element {
+export function RowAction({ course, lastItem }: RowActionProps): JSX.Element {
   const {
     open: deleteCourseModalOpen,
     openModal: openDeleteCourseModal,
@@ -73,8 +74,11 @@ export function RowAction({ course }: RowActionProps): JSX.Element {
             <AnimatePresence mode='wait'>
               {open && (
                 <Menu.Items
-                  className='fixed right-20 z-10 mt-2 grid w-36 origin-top-right gap-2
-                             rounded-medium bg-white p-2 shadow-high outline-none xl:right-auto'
+                  className={clsx(
+                    `absolute right-0 z-10 mt-2 grid w-36 origin-top-right gap-2
+                     rounded-medium bg-white p-2 shadow-high outline-none`,
+                    lastItem && 'bottom-full mb-2'
+                  )}
                   as={motion.div}
                   {...variants}
                   static

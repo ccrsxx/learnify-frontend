@@ -21,7 +21,7 @@ export function NavTab({
 
   return (
     <motion.nav
-      className='relative z-0 flex flex-shrink-0 items-center justify-self-start overflow-y-auto py-2'
+      className='relative z-0 flex items-center overflow-y-auto py-2'
       onHoverEnd={() => setHoveredTab(null)}
     >
       <LayoutGroup id='tabs'>

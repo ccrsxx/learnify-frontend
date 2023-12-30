@@ -67,7 +67,7 @@ export function CategoryTagSkeleton(): JSX.Element {
 
 export function VideoPlayerSkeleton(): JSX.Element {
   return (
-    <div className='grid h-80 w-full animate-pulse place-items-center rounded-medium bg-gray-200'>
+    <div className='grid h-64 w-full animate-pulse place-items-center rounded-medium bg-gray-200 md:h-80'>
       <MdPlayArrow className='text-5xl text-white' />
     </div>
   );
@@ -76,14 +76,14 @@ export function VideoPlayerSkeleton(): JSX.Element {
 export function CourseStudyCardSkeleton(): JSX.Element {
   return (
     <div className='grid w-full content-start gap-4 rounded-medium bg-white p-6 shadow-high'>
-      <div className='flex justify-between'>
+      <div className='flex flex-col justify-between gap-2 md:flex-row'>
         <div className='h-6 w-1/3 animate-pulse rounded-medium bg-gray-200' />
         <div className='h-6 w-1/4 animate-pulse rounded-medium bg-gray-200' />
       </div>
       <ol className='grid gap-6'>
         {Array.from({ length: 2 }).map((_, index) => (
           <li className='grid gap-3' key={index}>
-            <div className='flex justify-between'>
+            <div className='flex flex-col justify-between gap-2 md:flex-row'>
               <div className='h-4 w-1/3 animate-pulse rounded-medium bg-gray-200' />
               <div className='h-4 w-16 animate-pulse rounded-medium bg-gray-200' />
             </div>
@@ -103,7 +103,7 @@ export function CourseStudyCardSkeleton(): JSX.Element {
 
 export function CourseDetailsSkeleton(): JSX.Element {
   return (
-    <main className='grid gap-8 text-black'>
+    <main className='text-black'>
       <section className='bg-primary-blue-50'>
         <div className='layout grid gap-4 py-4'>
           <BackButton href='/courses' label='Kelas Lainnya' />
@@ -113,9 +113,11 @@ export function CourseDetailsSkeleton(): JSX.Element {
           </div>
         </div>
       </section>
-      <section className='layout flex w-full flex-col-reverse gap-8 lg:flex-row'>
-        <section className='grid w-full shrink-0 gap-6 lg:max-w-xl'>
+      <section className='layout grid w-full gap-6 py-8 lg:grid-cols-2'>
+        <section className='order-1 grid w-full gap-6 lg:max-w-xl'>
           <VideoPlayerSkeleton />
+        </section>
+        <section className='order-2 grid gap-4 lg:-mt-24 lg:max-w-lg'>
           <div className='grid gap-3'>
             <div className='h-6 w-1/3 animate-pulse rounded-medium bg-gray-200' />
             <div className='grid gap-3'>
@@ -149,7 +151,7 @@ export function CourseDetailsSkeleton(): JSX.Element {
             </div>
           </div>
         </section>
-        <section className='relative w-full lg:-top-44'>
+        <section className='order-1'>
           <CourseStudyCardSkeleton />
         </section>
       </section>

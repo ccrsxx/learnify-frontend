@@ -30,9 +30,9 @@ export function Notification(): JSX.Element {
     <Menu className='relative z-20' as='div'>
       {({ open }) => (
         <>
-          <Menu.Button className='smooth-tab relative rounded-full p-2 text-white'>
+          <Menu.Button className='smooth-tab relative flex items-center rounded-full text-white'>
             {!!totalUnreadNotifications && (
-              <span className='absolute right-0 flex h-3 w-3'>
+              <span className='absolute -right-1 top-0 flex h-3 w-3'>
                 <span
                   className='absolute inline-flex h-full w-full animate-ping 
                              rounded-full bg-sky-400 opacity-75'
@@ -45,8 +45,8 @@ export function Notification(): JSX.Element {
           <AnimatePresence mode='wait'>
             {open && (
               <Menu.Items
-                className='smooth-tab absolute right-0 mt-3 w-[360px] origin-top-right
-                           overflow-y-auto rounded-medium bg-white py-1 shadow-high'
+                className='smooth-tab absolute -right-full mt-3 w-80 origin-top-right overflow-y-auto rounded-medium
+                           bg-white py-1 shadow-high md:right-0 md:w-[360px]'
                 static
                 as={motion.div}
                 {...menuVariants}

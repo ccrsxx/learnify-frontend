@@ -15,16 +15,16 @@ export function HeaderProfile(): JSX.Element {
   const { name, image, admin, email } = user!;
 
   return (
-    <div className='flex items-center gap-2 md:gap-4'>
+    <div className='flex items-center gap-3 md:gap-4'>
       <Notification />
       <Menu className='relative' as='div'>
         {({ open }) => (
           <>
             <Menu.Button className='smooth-tab relative grid place-items-center'>
               <LazyImage
-                className='h-10 w-10 rounded-full object-cover shadow-low hover:shadow-high'
-                width={40}
-                height={40}
+                className='h-8 w-8 rounded-full object-cover shadow-low hover:shadow-high'
+                width={32}
+                height={32}
                 src={image ?? `https://vercel.com/api/www/avatar?u=${name}`}
                 alt={name}
               />

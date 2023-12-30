@@ -42,7 +42,12 @@ export function Input({
         <label htmlFor={id}>{label}</label>
         {additionalLabel}
       </div>
-      <div className='flex items-center gap-4 [&>:first-child]:flex-1'>
+      <div
+        className={clsx(
+          'grid',
+          children && 'grid-cols-[1fr,auto] items-center gap-4'
+        )}
+      >
         {type === 'textarea' ? (
           <textarea
             className={clsx('custom-input', inputErrorStyle)}

@@ -32,7 +32,12 @@ export default function DashboardCourses(): JSX.Element {
       header: 'Aksi',
       enableSorting: false,
       meta: { className: 'p-0 text-clip overflow-visible' },
-      cell: (cell) => <RowAction course={cell.row.original} />
+      cell: (cell) => (
+        <RowAction
+          course={cell.row.original}
+          lastItem={courses.length > 2 && cell.row.index >= courses.length - 2}
+        />
+      )
     }
   ];
 

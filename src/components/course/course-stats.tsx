@@ -1,7 +1,6 @@
 import { clsx } from 'clsx';
 import { MdAccessTime, MdLibraryBooks } from 'react-icons/md';
 import { RiShieldStarLine } from 'react-icons/ri';
-import { CourseRating } from './course-rating';
 import type { Course } from '@/lib/types/schema';
 
 type CourseStatsProps = {
@@ -17,7 +16,6 @@ export function CourseStats({
 }: CourseStatsProps): JSX.Element {
   const {
     name,
-    rating,
     author,
     difficulty,
     total_duration,
@@ -30,17 +28,14 @@ export function CourseStats({
   return (
     <section className='grid w-full gap-2'>
       <div className={clsx(details && 'grid gap-1')}>
-        <div className='flex justify-between'>
-          <p
-            className={clsx(
-              'font-bold text-primary-blue-500',
-              details ? 'text-2xl' : 'text-lg'
-            )}
-          >
-            {categoryName}
-          </p>
-          <CourseRating rating={rating} />
-        </div>
+        <p
+          className={clsx(
+            'font-bold text-primary-blue-500',
+            details ? 'text-2xl' : 'text-lg'
+          )}
+        >
+          {categoryName}
+        </p>
         <NameTag
           className={clsx('font-bold', details ? 'text-2xl' : 'text-xl')}
         >
@@ -53,8 +48,8 @@ export function CourseStats({
       {showDetails && (
         <div
           className={clsx(
-            'flex flex-wrap',
-            details ? 'gap-6 text-base' : 'gap-3 text-sm'
+            'flex flex-wrap gap-y-2',
+            details ? 'gap-x-4 text-base md:gap-x-6' : 'gap-x-3 text-sm'
           )}
         >
           <div className='flex items-center gap-1 font-medium'>

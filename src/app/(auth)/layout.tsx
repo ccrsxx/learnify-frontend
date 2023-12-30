@@ -16,6 +16,7 @@ export default function Layout({
           <Toaster
             containerStyle={{
               top: 48,
+              left: 0,
               position: 'relative',
               textAlign: 'center'
             }}

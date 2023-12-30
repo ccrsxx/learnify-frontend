@@ -9,7 +9,7 @@ export function VideoPlayer({ src, children }: VideoPlayerProps): JSX.Element {
   const youtubeId = getYoutubeVideoId(src) ?? 'dQw4w9WgXcQ';
 
   return (
-    <div className='group relative h-64 rounded-medium bg-black lg:h-80'>
+    <div className='group relative h-64 rounded-medium bg-black md:h-80'>
       <iframe
         className='h-full w-full rounded-medium'
         src={`https://www.youtube.com/embed/${youtubeId}`}

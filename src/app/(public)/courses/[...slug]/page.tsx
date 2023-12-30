@@ -151,13 +151,13 @@ export default function Course({
 
     if (!nextMaterialId) return;
 
-    router.push(`/courses/${courseId}/${nextMaterialId}`);
+    router.push(`/courses/${courseId}/${nextMaterialId}`, { scroll: false });
   };
 
   const selectedVideo = currentMaterial?.video ?? intro_video;
 
   return (
-    <main className='grid gap-8 text-black'>
+    <main className='text-black'>
       <PurchaseCourseModal
         open={purchaseCourseModalOpen}
         course={course}
@@ -191,12 +191,12 @@ export default function Course({
           </div>
         </div>
       </section>
-      <section className='layout flex w-full flex-col-reverse gap-8 lg:flex-row'>
-        <section className='mb-8 grid w-full shrink-0 gap-6 lg:max-w-xl'>
+      <section className='layout grid w-full gap-6 py-8 lg:grid-cols-2'>
+        <section className='order-1 grid w-full gap-6 lg:max-w-xl'>
           {user ? (
             <VideoPlayer src={selectedVideo}>
               <div
-                className='absolute bottom-0 right-0 flex gap-3 p-4 
+                className='absolute bottom-0 right-0 flex gap-3 p-4
                            opacity-0 transition-opacity group-hover:opacity-100'
               >
                 <Link
@@ -216,7 +216,7 @@ export default function Course({
             </VideoPlayer>
           ) : (
             <div
-              className='grid h-80 w-full content-center justify-items-center 
+              className='grid h-80 w-full content-center justify-items-center
                          gap-4 rounded-medium bg-gray-200'
             >
               <MdWarning className='text-5xl text-primary-alert-warning' />
@@ -228,7 +228,9 @@ export default function Course({
               </Link>
             </div>
           )}
-          <div className='grid gap-2' onClick={openOnboardingModal}>
+        </section>
+        <section className='order-2 grid gap-4 lg:-mt-64 lg:max-w-lg'>
+          <div className='grid gap-2'>
             <h2 className='text-xl font-bold'>Tentang Kelas</h2>
             <p className='whitespace-pre-line'>{description}</p>
           </div>
@@ -241,7 +243,7 @@ export default function Course({
             </ol>
           </div>
         </section>
-        <section className='relative w-full lg:-top-56'>
+        <section className='order-1'>
           <CourseStudyCard
             course={course}
             courseEnrolled={courseEnrolled}
