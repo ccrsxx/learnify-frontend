@@ -57,12 +57,13 @@ export function AuthContextProvider({
         if (err instanceof Error) console.error(err.message);
 
         setUser(null);
+        setToken(null);
         setLoading(false);
       }
     };
 
     void manageAuth();
-  }, [token]);
+  }, [token, setToken]);
 
   const handleUpdateUser = (updatedUser: User): void => setUser(updatedUser);
 
