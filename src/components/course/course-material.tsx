@@ -66,7 +66,7 @@ export function CourseMaterial({
           >
             {material_index}
           </p>
-          <h4 className='w-full text-center text-sm font-medium md:text-base'>
+          <h4 className='w-full text-center text-sm font-medium md:text-start md:text-base'>
             {name}
           </h4>
         </div>

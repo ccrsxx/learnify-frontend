@@ -19,6 +19,7 @@ import { PurchaseCourseModal } from '@/components/modal/purchase-course-modal';
 import { EnrollCourseModal } from '@/components/modal/enroll-course-modal';
 import { Button } from '@/components/ui/button';
 import { OnboardingModal } from '@/components/modal/onboarding-modal';
+import { ImagePreview } from '@/components/modal/image-preview';
 import type { Course, CourseMaterial } from '@/lib/types/schema';
 
 export default function Course({
@@ -92,12 +93,15 @@ export default function Course({
     );
 
   const {
+    name,
+    image,
     premium,
     telegram,
     intro_video,
     description,
     course_chapter,
-    target_audience
+    target_audience,
+    course_category: { image: courseCategoryImage }
   } = course;
 
   const handleNextMaterial = async (): Promise<void> => {
@@ -174,25 +178,35 @@ export default function Course({
         closeModal={closeOnboardingModal}
       />
       <Toaster position='bottom-center' />
-      <section className='bg-primary-blue-50'>
+      <section className='relative bg-primary-blue-50'>
         <div className='layout grid gap-4 py-4'>
           <BackButton href='/courses' label='Kelas Lainnya' />
-          <div className='grid gap-2 lg:max-w-xl'>
-            <CourseStats details course={course} />
-            <a
-              className='clickable mr-auto flex items-center gap-4 rounded-high
-                         bg-primary-alert-success px-6 py-2 text-white'
-              href={telegram}
-              target='_blank'
-            >
-              Join Group Telegram
-              <SiTelegram />
-            </a>
+          <div className='flex items-center gap-8'>
+            <div className='grid w-full shrink-0 gap-2 lg:max-w-xl'>
+              <CourseStats details course={course} />
+              <a
+                className='clickable mr-auto flex items-center gap-4 rounded-high
+                           bg-primary-alert-success px-6 py-2 text-white'
+                href={telegram}
+                target='_blank'
+              >
+                Join Group Telegram
+                <SiTelegram />
+              </a>
+            </div>
+            <ImagePreview
+              wrapperClassName='w-full hidden lg:grid'
+              className='h-52 w-full object-cover'
+              src={image ?? courseCategoryImage}
+              alt={name}
+              width={320}
+              height={208}
+            />
           </div>
         </div>
       </section>
-      <section className='layout grid w-full gap-6 py-8 lg:grid-cols-2'>
-        <section className='order-1 grid w-full gap-6 lg:max-w-xl'>
+      <section className='layout relative grid w-full gap-x-8 gap-y-6 py-8 lg:grid-cols-[576px,1fr]'>
+        <section className='order-1 grid w-full shrink-0 gap-6 lg:max-w-xl'>
           {user ? (
             <VideoPlayer src={selectedVideo}>
               <div
@@ -229,7 +243,7 @@ export default function Course({
             </div>
           )}
         </section>
-        <section className='order-2 grid gap-4 lg:-mt-64 lg:max-w-lg'>
+        <section className='order-2 grid gap-4 lg:absolute lg:left-4 lg:top-96 lg:max-w-lg'>
           <div className='grid gap-2'>
             <h2 className='text-xl font-bold'>Tentang Kelas</h2>
             <p className='whitespace-pre-line'>{description}</p>

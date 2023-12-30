@@ -107,13 +107,16 @@ export function CourseDetailsSkeleton(): JSX.Element {
       <section className='bg-primary-blue-50'>
         <div className='layout grid gap-4 py-4'>
           <BackButton href='/courses' label='Kelas Lainnya' />
-          <div className='grid gap-2 lg:max-w-xl'>
-            <CourseStatsSkeleton details />
-            <div className='h-6 w-32 rounded-high bg-gray-200' />
+          <div className='flex items-center gap-8'>
+            <div className='grid w-full shrink-0 gap-2 lg:max-w-xl'>
+              <CourseStatsSkeleton details />
+              <div className='h-6 w-32 rounded-high bg-gray-200' />
+            </div>
+            <div className='hidden h-52 w-full animate-pulse rounded-medium bg-gray-200 lg:block' />
           </div>
         </div>
       </section>
-      <section className='layout grid w-full gap-6 py-8 lg:grid-cols-2'>
+      <section className='layout grid w-full gap-x-8 gap-y-6 py-8 lg:grid-cols-[576px,1fr]'>
         <section className='order-1 grid w-full gap-6 lg:max-w-xl'>
           <VideoPlayerSkeleton />
         </section>
