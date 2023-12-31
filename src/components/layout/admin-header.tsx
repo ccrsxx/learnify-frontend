@@ -10,7 +10,7 @@ export function AdminHeader(): JSX.Element {
   const { name } = user!;
 
   return (
-    <header className='sticky top-0 bg-primary-blue-500'>
+    <header className='sticky top-0 z-10 bg-primary-blue-500'>
       <div className='layout flex items-center justify-between gap-4 p-4 text-white'>
         <div className='flex items-center gap-4'>
           <Logo clickable noText />
