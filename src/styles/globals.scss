@@ -5,12 +5,6 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    // ! use important as a workaround for nextjs@13.1.0 bug that prevents smooth scroll
-    // * remove it when the bug is fixed
-    scroll-behavior: smooth !important;
-  }
-
   body {
     @apply bg-white text-white;
   }
