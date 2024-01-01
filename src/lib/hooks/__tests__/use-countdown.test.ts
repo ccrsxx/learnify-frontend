@@ -19,7 +19,7 @@ describe('useCountdown', () => {
   it('should reset countdown correctly', () => {
     const { result } = renderHook(() => useCountdown(5));
 
-    act(() => jest.advanceTimersByTime(2000));
+    act(() => jest.advanceTimersByTime(1000));
 
     expect(result.current.seconds).toBe(4);
 

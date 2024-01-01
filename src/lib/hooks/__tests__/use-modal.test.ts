@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { useModal } from '../use-modal';
 
-describe('use-modal', () => {
+describe('useModal', () => {
   it('should be able to import use-modal', () => {
     expect(() => import('../use-modal')).not.toThrow();
   });
