@@ -32,12 +32,17 @@ export function Notification(): JSX.Element {
         <>
           <Menu.Button className='smooth-tab relative flex items-center rounded-full text-white'>
             {!!totalUnreadNotifications && (
-              <span className='absolute -right-1 top-0 flex h-3 w-3'>
+              <span className='absolute -right-1 top-0 flex h-4 w-4'>
                 <span
-                  className='absolute inline-flex h-full w-full animate-ping 
-                             rounded-full bg-sky-400 opacity-75'
+                  className='absolute inline-block h-full w-full animate-ping 
+                             rounded-full bg-primary-blue-300 opacity-75'
                 />
-                <span className='relative inline-flex h-3 w-3 rounded-full bg-primary-blue-300' />
+                <span
+                  className='relative inline-flex h-full w-full items-center justify-center rounded-full
+                             bg-primary-alert-error text-center text-xs'
+                >
+                  {totalUnreadNotifications}
+                </span>
               </span>
             )}
             <MdNotifications className='text-4xl' />
