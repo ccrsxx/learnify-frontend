@@ -7,6 +7,7 @@ const createJestConfig = nextJest({
 
 // Add any custom config to be passed to Jest
 const customJestConfig = {
+  verbose: true,
   testEnvironment: 'jest-environment-jsdom'
 };
 
