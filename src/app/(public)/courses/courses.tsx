@@ -141,7 +141,7 @@ export default function Courses<T extends boolean>({
       <div className='layout grid gap-4 py-8 lg:gap-8'>
         <section className='flex flex-col justify-between gap-4 lg:flex-row lg:items-center'>
           <h1 className='text-2xl font-bold text-primary-blue-500'>
-            {userCourses ? 'Kelas Berlajan' : 'Topik Kelas'}
+            {userCourses ? 'Kelas Berjalan' : 'Topik Kelas'}
           </h1>
           <SearchBar
             small
