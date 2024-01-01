@@ -2,7 +2,6 @@
 
 import { z } from 'zod';
 import { toast } from 'react-hot-toast';
-import { clsx } from 'clsx';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -12,6 +11,7 @@ import { passwordSchema } from '@/lib/validation';
 import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/env';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Loading } from '@/components/ui/loading';
 import type { SubmitHandler } from 'react-hook-form';
 import type { APIResponse } from '@/lib/types/api';
 
@@ -117,17 +117,23 @@ export default function PasswordResetToken({
     }
   };
 
+  if (validationLoading)
+    return (
+      <div className='grid place-items-center gap-6'>
+        <h1 className='text-2xl font-bold text-primary-blue-500'>
+          Reset Password
+        </h1>
+        <Loading />
+        <p>Sedang memvalidasi tautan...</p>
+      </div>
+    );
+
   return (
-    <div
-      className={clsx(
-        'mx-auto grid w-full max-w-lg gap-6',
-        validationLoading && 'pointer-events-none animate-pulse'
-      )}
-    >
+    <div className='mx-auto grid w-full max-w-lg gap-6'>
       <h1 className='text-2xl font-bold text-primary-blue-500'>
         Reset Password
       </h1>
-      <form className={clsx('grid gap-6')} onSubmit={handleSubmit(onSubmit)}>
+      <form className='grid gap-6' onSubmit={handleSubmit(onSubmit)}>
         <section className='grid gap-4'>
           <Input
             id='password'
