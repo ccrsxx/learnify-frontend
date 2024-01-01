@@ -1,7 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['vercel.com', 'res.cloudinary.com']
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'vercel.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com'
+      }
+    ]
   }
 };
 
