@@ -25,12 +25,18 @@ describe('format', () => {
   });
 
   it('should be able to format date', async () => {
+    global.process.env.TZ = 'UTC';
+
     const { formatDate } = await import('../format');
 
     const value = new Date('2021-01-01T00:00:00.000Z');
     const result = formatDate(value);
 
-    const expected = '1 Jan 2021, 07.00';
+    const offsetHours = Math.abs(value.getTimezoneOffset() / 60)
+      .toString()
+      .padStart(2, '0');
+
+    const expected = `1 Jan 2021, ${offsetHours}.00`;
 
     expect(result).toEqual(expected);
   });
