@@ -25,7 +25,7 @@ export function HeaderProfile(): JSX.Element {
                 className='h-8 w-8 rounded-full object-cover shadow-low hover:shadow-high'
                 width={32}
                 height={32}
-                src={image ?? `https://vercel.com/api/www/avatar?u=${name}`}
+                src={image ?? '/assets/user.png'}
                 alt={name}
               />
             </Menu.Button>
@@ -39,8 +39,12 @@ export function HeaderProfile(): JSX.Element {
                   {...menuVariants}
                 >
                   <div className='px-4 py-2'>
-                    <p className='text-black'>{name}</p>
-                    <p className='text-sm text-gray-500'>{email}</p>
+                    <p className='truncate text-black' title={name}>
+                      {name}
+                    </p>
+                    <p className='truncate text-sm text-gray-500' title={email}>
+                      {email}
+                    </p>
                   </div>
                   <hr />
                   {admin && <NavItem name='Dashboard' href='/dashboard' />}

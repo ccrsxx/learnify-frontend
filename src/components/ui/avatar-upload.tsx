@@ -34,10 +34,8 @@ export function AvatarUpload({
         className='h-40 w-40 !rounded-full object-cover shadow-low hover:shadow-high'
         width={160}
         height={160}
-        src={
-          selectedImage ?? `https://vercel.com/api/www/avatar?u=${user?.name}`
-        }
-        alt='Emilia'
+        src={selectedImage ?? '/assets/user.png'}
+        alt={user?.name as string}
       >
         <Button
           className='bg-black-25 group absolute left-1/2 top-1/2 -translate-x-1/2
