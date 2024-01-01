@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { TYPES, DIFFICULTIES } from '../types/enum';
+import { TYPES, DIFFICULTIES } from '../../../../lib/types/enum';
 
 export const courseTypes = TYPES.map((type) => ({
   id: type,

@@ -1,7 +1,10 @@
 import { Controller, useFieldArray } from 'react-hook-form';
 import { useState } from 'react';
-import { courseTypes, difficultyTypes } from '@/lib/form/schema';
 import { useCategories } from '@/lib/hooks/query/use-categories';
+import {
+  courseTypes,
+  difficultyTypes
+} from '@/app/(dashboard)/dashboard/courses/schema';
 import { Input } from '../ui/input';
 import { Select } from '../ui/select';
 import { Accordion } from '../ui/accordion';
@@ -9,7 +12,7 @@ import { ArrayInput } from '../dashboard/array-input';
 import { CourseChapterInput } from './course-chapter-input';
 import type { PropsWithChildren } from 'react';
 import type { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import type { CourseSchema } from '@/lib/form/schema';
+import type { CourseSchema } from '@/app/(dashboard)/dashboard/courses/schema';
 
 type CourseFormProps = PropsWithChildren<{
   form: UseFormReturn<CourseSchema>;

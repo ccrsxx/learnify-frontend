@@ -5,7 +5,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { variant } from './array-input';
 import type { UseFormReturn } from 'react-hook-form';
-import type { CourseSchema } from '@/lib/form/schema';
+import type { CourseSchema } from '@/app/(dashboard)/dashboard/courses/schema';
 
 type CourseMaterialInputProps = {
   form: UseFormReturn<CourseSchema>;

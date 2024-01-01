@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/lib/context/auth-context';
 import { getImagesData } from '@/lib/image';
 import { useCrudCourses } from '@/lib/hooks/mutation/use-crud-courses';
-import { courseSchema } from '@/lib/form/schema';
+import { courseSchema } from '@/app/(dashboard)/dashboard/courses/schema';
 import { Button } from '../ui/button';
 import { ImageUpload } from '../dashboard/image-upload';
 import { CourseForm } from '../dashboard/course-form';
@@ -17,7 +17,7 @@ import type { DefaultValues, SubmitHandler } from 'react-hook-form';
 import type { Entries } from '@/lib/types/helper';
 import type { ImageData } from '@/lib/types/file';
 import type { Course } from '@/lib/types/schema';
-import type { CourseSchema } from '@/lib/form/schema';
+import type { CourseSchema } from '@/app/(dashboard)/dashboard/courses/schema';
 
 type NewCourseModalProps = {
   open: boolean;
