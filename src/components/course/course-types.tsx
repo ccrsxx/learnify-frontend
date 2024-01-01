@@ -19,8 +19,8 @@ export function CourseTypes<T extends boolean>({
 
   return (
     <section
-      className='flex grid-cols-12 gap-4 overflow-x-auto text-black
-                 md:grid md:overflow-x-visible'
+      className='flex grid-cols-12 gap-4 overflow-x-auto p-0.5
+                 text-black md:grid md:overflow-x-visible'
     >
       {targetCourseTypes.map(({ id, label }, i) => (
         <CourseTag

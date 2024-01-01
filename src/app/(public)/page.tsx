@@ -130,7 +130,7 @@ export default function Home(): JSX.Element {
             Lihat Semua
           </Link>
         </section>
-        <section className='item-center flex gap-4 overflow-x-auto'>
+        <section className='item-center flex gap-4 overflow-x-auto p-0.5'>
           {categoriesLoading
             ? Array.from({ length: 6 }).map((_, i) => (
                 <CategoryTagSkeleton key={i} />
