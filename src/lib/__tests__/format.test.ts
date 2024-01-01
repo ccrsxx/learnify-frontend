@@ -25,8 +25,6 @@ describe('format', () => {
   });
 
   it('should be able to format date', async () => {
-    global.process.env.TZ = 'UTC';
-
     const { formatDate } = await import('../format');
 
     const value = new Date('2021-01-01T00:00:00.000Z');
