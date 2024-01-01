@@ -28,7 +28,7 @@ export default function Layout({
 }
 
 export const metadata: Metadata = {
-  title: 'Learnify',
+  title: 'Learnify | Tempat Belajar Yang Menyenangkan',
   metadataBase: new URL('https://learnify.risalamin.com'),
   description: 'Tempat belajar yang menyenangkan.',
   authors: { name: 'Risal Amin', url: 'https://risalamin.com' },

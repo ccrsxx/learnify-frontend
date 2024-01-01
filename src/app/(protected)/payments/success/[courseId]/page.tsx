@@ -1,8 +1,7 @@
-'use client';
-
 import Link from 'next/link';
 import { Alert } from '@/components/ui/alert';
 import { LazyImage } from '@/components/ui/lazy-image';
+import type { Metadata } from 'next';
 
 export default function Success({
   params: { courseId }
@@ -53,3 +52,7 @@ export default function Success({
     </main>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Pembayaran Berhasil | Learnify'
+};
