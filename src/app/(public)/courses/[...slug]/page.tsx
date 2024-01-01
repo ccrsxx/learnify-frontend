@@ -243,7 +243,7 @@ export default function Course({
             </div>
           )}
         </section>
-        <section className='order-2 grid gap-4 lg:absolute lg:left-4 lg:top-96 lg:max-w-lg'>
+        <section className='order-2 grid gap-4 lg:absolute lg:left-4 lg:top-96 lg:max-w-lg lg:pb-8'>
           <div className='grid gap-2'>
             <h2 className='text-xl font-bold'>Tentang Kelas</h2>
             <p className='whitespace-pre-line'>{description}</p>
