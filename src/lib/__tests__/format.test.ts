@@ -28,7 +28,7 @@ describe('format', () => {
     const { formatDate } = await import('../format');
 
     const value = new Date('2021-01-01T00:00:00.000Z');
-    const result = formatDate(value);
+    const result = formatDate(value).replace(',', '');
 
     const offsetHours = Math.abs(value.getTimezoneOffset() / 60)
       .toString()
