@@ -34,7 +34,7 @@ describe('format', () => {
       .toString()
       .padStart(2, '0');
 
-    const expected = `1 Jan 2021, ${offsetHours}.00`;
+    const expected = `1 Jan 2021 ${offsetHours}.00`;
 
     expect(result).toEqual(expected);
   });
