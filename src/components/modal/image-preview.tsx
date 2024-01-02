@@ -37,7 +37,8 @@ export function ImagePreview({
         <div className='relative'>
           <div className='group relative max-w-6xl'>
             <Image
-              {...rest}
+              width={1920}
+              height={1080}
               className='max-h-[70vh] w-fit rounded-medium object-contain'
               src={src}
               alt={alt}
