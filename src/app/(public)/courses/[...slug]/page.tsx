@@ -1,15 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast, Toaster } from 'react-hot-toast';
 import { SiTelegram } from 'react-icons/si';
-import { MdWarning } from 'react-icons/md';
 import { useModal } from '@/lib/hooks/use-modal';
 import { useCourse } from '@/lib/hooks/query/use-course';
 import { useMaterialStatus } from '@/lib/hooks/mutation/use-material-status';
-import { useAuth } from '@/lib/context/auth-context';
 import { CourseStats } from '@/components/course/course-stats';
 import { VideoPlayer } from '@/components/ui/video-player';
 import { CourseStudyCard } from '@/components/course/course-study-card';
@@ -17,7 +14,6 @@ import { CourseDetailsSkeleton } from '@/components/common/skeleton';
 import { BackButton } from '@/components/ui/back-arrow';
 import { PurchaseCourseModal } from '@/components/modal/purchase-course-modal';
 import { EnrollCourseModal } from '@/components/modal/enroll-course-modal';
-import { Button } from '@/components/ui/button';
 import { OnboardingModal } from '@/components/modal/onboarding-modal';
 import { ImagePreview } from '@/components/modal/image-preview';
 import type { Course, CourseMaterial } from '@/lib/types/schema';
@@ -28,8 +24,6 @@ export default function Course({
   params: { slug: string[] };
 }): JSX.Element {
   const router = useRouter();
-
-  const { user } = useAuth();
 
   const [courseId, materialId] = slug;
 
@@ -66,9 +60,15 @@ export default function Course({
     if (!course || !materialId) return;
 
     const newCurrentMaterialId = getCourseMaterialById(course, materialId);
+    const videoExistsOnMaterial = newCurrentMaterialId?.video;
+
+    if (!videoExistsOnMaterial) {
+      router.push(`/courses/${courseId}`, { scroll: false });
+      return;
+    }
 
     setCurrentMaterial(newCurrentMaterialId);
-  }, [course, materialId]);
+  }, [course, courseId, materialId, router]);
 
   useEffect(() => {
     if (!course || !courseEnrolled) return;
@@ -206,44 +206,15 @@ export default function Course({
         </div>
       </section>
       <section className='layout relative grid w-full gap-x-8 gap-y-6 py-8 lg:grid-cols-[576px,1fr]'>
-        <section className='order-1 grid w-full shrink-0 gap-6 lg:max-w-xl'>
-          {user ? (
-            <VideoPlayer src={selectedVideo}>
-              <div
-                className='absolute bottom-0 right-0 flex gap-3 p-4
-                           opacity-0 transition-opacity group-hover:opacity-100'
-              >
-                <Link
-                  href='/courses'
-                  className='clickable bg-primary-blue-50 px-4 py-2 text-primary-blue-300'
-                >
-                  Kelas lainnya
-                </Link>
-                <Button
-                  className='clickable bg-primary-blue-500 px-4 py-2 text-white'
-                  loading={updateMaterialStatusMutation.isPending}
-                  onClick={handleNextMaterial}
-                >
-                  Next
-                </Button>
-              </div>
-            </VideoPlayer>
-          ) : (
-            <div
-              className='grid h-80 w-full content-center justify-items-center
-                         gap-4 rounded-medium bg-gray-200'
-            >
-              <MdWarning className='text-5xl text-primary-alert-warning' />
-              <Link
-                className='clickable bg-primary-blue-500 px-4 py-2 text-white'
-                href={`/login?redirect=/courses/${courseId}`}
-              >
-                Login untuk melihat video
-              </Link>
-            </div>
-          )}
+        <section className='order-1 lg:max-w-xl'>
+          <VideoPlayer
+            src={selectedVideo}
+            courseId={courseId}
+            updateMaterialStatusMutation={updateMaterialStatusMutation}
+            onNextMaterial={handleNextMaterial}
+          />
         </section>
-        <section className='order-2 grid gap-4 lg:absolute lg:left-4 lg:top-96 lg:max-w-lg lg:pb-8'>
+        <section className='order-2 grid gap-4 lg:absolute lg:left-4 lg:top-[448px] lg:max-w-lg lg:pb-8'>
           <div className='grid gap-2'>
             <h2 className='text-xl font-bold'>Tentang Kelas</h2>
             <p className='whitespace-pre-line'>{description}</p>

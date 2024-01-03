@@ -11,7 +11,7 @@ import type { QueryClient } from '@tanstack/react-query';
 
 type MaterialStatusResponse = APIResponse<CourseMaterialStatus>;
 
-type MaterialStatus = {
+export type MaterialStatus = {
   queryClient: QueryClient;
   updateMaterialStatusMutation: MutationResult<string, MaterialStatusResponse>;
 };

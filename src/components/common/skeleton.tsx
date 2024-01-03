@@ -67,8 +67,14 @@ export function CategoryTagSkeleton(): JSX.Element {
 
 export function VideoPlayerSkeleton(): JSX.Element {
   return (
-    <div className='grid h-64 w-full animate-pulse place-items-center rounded-medium bg-gray-200 md:h-80'>
-      <MdPlayArrow className='text-5xl text-white' />
+    <div className='grid h-72 grid-rows-[1fr,auto] md:h-96'>
+      <div className='grid h-full w-full animate-pulse place-items-center rounded-t-medium bg-gray-200'>
+        <MdPlayArrow className='text-5xl text-white' />
+      </div>
+      <div className='flex justify-end gap-3 rounded-b-medium bg-primary-blue-50 p-3'>
+        <div className='h-8 w-16 animate-pulse rounded-medium bg-gray-200' />
+        <div className='h-8 w-16 animate-pulse rounded-medium bg-gray-200' />
+      </div>
     </div>
   );
 }
@@ -116,11 +122,11 @@ export function CourseDetailsSkeleton(): JSX.Element {
           </div>
         </div>
       </section>
-      <section className='layout grid w-full gap-x-8 gap-y-6 py-8 lg:grid-cols-[576px,1fr]'>
-        <section className='order-1 grid w-full gap-6 lg:max-w-xl'>
+      <section className='layout relative grid w-full gap-x-8 gap-y-6 py-8 lg:grid-cols-[576px,1fr]'>
+        <section className='order-1 lg:max-w-xl'>
           <VideoPlayerSkeleton />
         </section>
-        <section className='order-2 grid gap-4 lg:-mt-24 lg:max-w-lg'>
+        <section className='order-2 grid gap-4 lg:-mt-6 lg:max-w-lg'>
           <div className='grid gap-3'>
             <div className='h-6 w-1/3 animate-pulse rounded-medium bg-gray-200' />
             <div className='grid gap-3'>
