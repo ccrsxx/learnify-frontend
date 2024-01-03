@@ -67,4 +67,4 @@ const variants: MotionProps[] = [
   }
 ];
 
-const [backdrop, modal] = variants;
+export const [backdrop, modal] = variants;
