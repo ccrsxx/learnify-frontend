@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { SiTelegram } from 'react-icons/si';
 import { useModal } from '@/lib/hooks/use-modal';
 import { useCourse } from '@/lib/hooks/query/use-course';
@@ -60,9 +60,8 @@ export default function Course({
     if (!course || !materialId) return;
 
     const newCurrentMaterialId = getCourseMaterialById(course, materialId);
-    const videoExistsOnMaterial = newCurrentMaterialId?.video;
 
-    if (!videoExistsOnMaterial) {
+    if (!newCurrentMaterialId) {
       router.push(`/courses/${courseId}`, { scroll: false });
       return;
     }
@@ -79,7 +78,7 @@ export default function Course({
 
     openOnboardingModal();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [course, courseEnrolled]);
+  }, [course?.id, courseEnrolled]);
 
   if (courseLoading) return <CourseDetailsSkeleton />;
 
@@ -177,7 +176,6 @@ export default function Course({
         course={course}
         closeModal={closeOnboardingModal}
       />
-      <Toaster position='bottom-center' />
       <section className='relative bg-primary-blue-50'>
         <div className='layout grid gap-4 py-4'>
           <BackButton href='/courses' label='Kelas Lainnya' />
@@ -251,8 +249,9 @@ function getCourseMaterialById(
 
   for (const { course_material } of course.course_chapter!) {
     const material = course_material.find(({ id }) => id === materialId);
+    const materialVideoExists = material?.video;
 
-    if (material) {
+    if (materialVideoExists) {
       selectedMaterial = material;
       break;
     }

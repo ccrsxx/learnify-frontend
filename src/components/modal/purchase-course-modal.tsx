@@ -63,6 +63,10 @@ export function PurchaseCourseModal({
 
       await sleep(1000);
 
+      toast.dismiss();
+
+      await sleep(2000);
+
       router.push(`/payments/${data.data?.id}`);
     } catch (err) {
       // eslint-disable-next-line no-console

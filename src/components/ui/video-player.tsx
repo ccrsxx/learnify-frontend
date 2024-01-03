@@ -6,7 +6,7 @@ import { Button } from './button';
 import type { MaterialStatus } from '@/lib/hooks/mutation/use-material-status';
 
 type VideoPlayerProps = {
-  src: string;
+  src: string | undefined;
   courseId: string;
   onNextMaterial?: () => Promise<void>;
 } & Pick<MaterialStatus, 'updateMaterialStatusMutation'>;

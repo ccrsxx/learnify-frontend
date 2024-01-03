@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { MdLock, MdPlayCircle } from 'react-icons/md';
 import { clsx } from 'clsx';
+import { useAuth } from '@/lib/context/auth-context';
 import type { MouseEvent } from 'react';
 import type { Course, CourseMaterial } from '@/lib/types/schema';
 
@@ -21,7 +22,10 @@ export function CourseMaterial({
   selectedMaterialId,
   openPurchaseCourseModal
 }: CourseMaterialProps): JSX.Element {
+  const { user } = useAuth();
+
   const { id: courseId, premium } = course;
+
   const {
     id: materialId,
     name,
@@ -33,7 +37,7 @@ export function CourseMaterial({
 
   const handleMaterialClick =
     (_materialId: string) => (e: MouseEvent<HTMLAnchorElement>) => {
-      if (needsToPurchase) {
+      if (user && needsToPurchase) {
         e.preventDefault();
         openPurchaseCourseModal();
       }
@@ -43,9 +47,11 @@ export function CourseMaterial({
 
   const targetLink = `/courses/${courseId}/${materialId}`;
 
-  const parsedLink = isMaterialSelected
-    ? targetLink.split('/').slice(0, -1).join('/')
-    : targetLink;
+  const parsedLink = user
+    ? isMaterialSelected
+      ? targetLink.split('/').slice(0, -1).join('/')
+      : targetLink
+    : `/login?redirect=/courses/${course.id}`;
 
   return (
     <li>

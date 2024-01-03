@@ -81,7 +81,7 @@ export type Course = BaseRecord & {
   telegram: string;
   difficulty: Difficulty;
   description: string;
-  intro_video: string;
+  intro_video?: string;
   user_course?: UserCourse[];
   total_duration: number;
   course_chapter?: CourseChapter[];

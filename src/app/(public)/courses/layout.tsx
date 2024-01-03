@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
 
@@ -6,7 +7,12 @@ export default function Layout({
 }: {
   children: ReactNode;
 }): ReactNode {
-  return children;
+  return (
+    <>
+      <Toaster position='bottom-center' />
+      {children}
+    </>
+  );
 }
 
 export const metadata: Metadata = {

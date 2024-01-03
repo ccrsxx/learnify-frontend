@@ -24,7 +24,9 @@ export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function getYoutubeVideoId(url: string): string | null {
+export function getYoutubeVideoId(url: string | undefined): string | null {
+  if (!url) return null;
+
   const regex =
     /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|&v(?:i)?=))([^#&?]*).*/;
 
