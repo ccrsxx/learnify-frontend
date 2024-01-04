@@ -17,7 +17,7 @@ export function CourseProgressBar({
     <div className='flex items-center gap-1'>
       <MdCheckCircle className='text-xl text-primary-alert-success' />
       <div className='relative w-full rounded-medium bg-gray-200 md:w-48'>
-        <p className='relative z-10 px-2 py-0.5 text-xs text-white'>
+        <p className='relative z-[5] px-2 py-0.5 text-xs text-white'>
           {percentage}% complete
         </p>
         <div
