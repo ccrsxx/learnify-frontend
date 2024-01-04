@@ -56,7 +56,7 @@ const restSchema = z.object({
           .min(1, { message: 'Target audience tidak boleh kosong' })
       })
     )
-    .max(5, { message: 'Target audience tidak boleh lebih dari 3' }),
+    .max(5, { message: 'Target audience tidak boleh lebih dari 5' }),
   course_chapter: z.array(
     z.object({
       _id: z.string().optional(),
@@ -94,6 +94,15 @@ const restSchema = z.object({
     .min(1, { message: 'Onboarding text tidak boleh kosong' })
 });
 
-export const courseSchema = z.intersection(refinedSchema, restSchema);
+export const courseSchema = z
+  .intersection(refinedSchema, restSchema)
+  .refine(
+    ({ type, course_chapter }) =>
+      type === 'FREE' ? true : course_chapter.length > 1,
+    {
+      message: 'Chapter harus lebih dari 1',
+      path: ['course_chapter']
+    }
+  );
 
 export type CourseSchema = z.infer<typeof courseSchema>;

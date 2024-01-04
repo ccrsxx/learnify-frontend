@@ -2,6 +2,7 @@ import { useFieldArray } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MdAdd, MdDelete } from 'react-icons/md';
 import { Input } from '../ui/input';
+import { Alert } from '../ui/alert';
 import { Button } from '../ui/button';
 import { CourseMaterialInput } from './course-material-input';
 import { variant } from './array-input';
@@ -27,6 +28,9 @@ export function CourseChapterInput({
     name: 'course_chapter',
     control: control
   });
+
+  const chapterErrorMessage =
+    fields.length === 1 && form.formState.errors.course_chapter?.root?.message;
 
   return (
     <ul className='grid gap-4'>
@@ -97,6 +101,9 @@ export function CourseChapterInput({
                 loading={loading}
                 chapterIndex={index}
               />
+              {chapterErrorMessage && (
+                <Alert variant='error' message={chapterErrorMessage} />
+              )}
             </motion.li>
           );
         })}
