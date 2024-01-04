@@ -36,7 +36,7 @@ export default function DashboardLayout({
     },
     {
       id: 'premium-courses',
-      label: 'Premium Class',
+      label: 'Premium Courses',
       color: 'bg-primary-blue-500',
       value: premium_courses ?? 0
     }
