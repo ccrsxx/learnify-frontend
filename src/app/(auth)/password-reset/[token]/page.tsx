@@ -58,8 +58,6 @@ export default function PasswordResetToken({
 
         if (!response.ok) throw new Error(data.message);
 
-        await sleep(3000);
-
         setValidationLoading(false);
       } catch (err) {
         // eslint-disable-next-line no-console
