@@ -17,7 +17,7 @@ export function Checkbox({
     <Switch.Group className='flex items-center gap-2' as='div'>
       <Switch
         className={clsx(
-          'smooth-tab h-5 w-5 rounded-low border',
+          'smooth-tab grid h-5 w-5 place-content-center rounded-low border',
           checked ? 'bg-primary-blue-500' : 'bg-primary-blue-50'
         )}
         onClick={onClick}
